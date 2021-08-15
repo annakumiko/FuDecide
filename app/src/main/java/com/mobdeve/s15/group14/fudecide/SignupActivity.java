@@ -3,7 +3,6 @@ package com.mobdeve.s15.group14.fudecide;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.auth.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,8 +53,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private void registerUser() {
         String name = et_name.getText().toString().trim();
         String email = et_signup_email.getText().toString().trim();
-        String password = et_signup_password.getText().toString();
-        String password2 = et_signup_password2.getText().toString();
+        String password = et_signup_password.getText().toString().trim();
+        String password2 = et_signup_password2.getText().toString().trim();
 
         if (name.isEmpty()) {
             et_name.setError("Please enter a name.");
@@ -97,8 +95,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             et_signup_password2.setError("Passwords don't match.");
             et_signup_password2.requestFocus();
         }
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
