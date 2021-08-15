@@ -29,47 +29,47 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toast.makeText(MainActivity.this, "Firebase loaded successfully", Toast.LENGTH_LONG).show();
-
-        firebaseFirestore = firebaseFirestore.getInstance();
-        restaurantList = findViewById(R.id.restaurant_list);
-
-        Query query = firebaseFirestore.collection("restaurants");
-        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
-                .setQuery(query, RestaurantsModel.class)
-                .build();
-
-        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
-
-            @NonNull
-            @Override
-            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurantview, parent, false);
-                return new RestViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
-                holder.restName.setText(model.getRestName());
-                holder.desc.setText(model.getDesc());
-            }
-        };
-
-        restaurantList.setHasFixedSize(true);
-        restaurantList.setLayoutManager(new LinearLayoutManager(this));
-        restaurantList.setAdapter(adapter);
+        setContentView(R.layout.activity_landing);
+//        Toast.makeText(MainActivity.this, "Firebase loaded successfully", Toast.LENGTH_LONG).show();
+//
+//        firebaseFirestore = firebaseFirestore.getInstance();
+//        restaurantList = findViewById(R.id.restaurant_list);
+//
+//        Query query = firebaseFirestore.collection("restaurants");
+//        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
+//                .setQuery(query, RestaurantsModel.class)
+//                .build();
+//
+//        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
+//
+//            @NonNull
+//            @Override
+//            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurantview, parent, false);
+//                return new RestViewHolder(view);
+//            }
+//
+//            @Override
+//            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
+//                holder.restName.setText(model.getRestName());
+//                holder.desc.setText(model.getDesc());
+//            }
+//        };
+//
+//        restaurantList.setHasFixedSize(true);
+//        restaurantList.setLayoutManager(new LinearLayoutManager(this));
+//        restaurantList.setAdapter(adapter);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        adapter.startListening();
+//    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        adapter.stopListening();
+//    }
 }
