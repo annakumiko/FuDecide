@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FuDecide">
-        <activity android:name=".HomeListviewActivity"></activity>
+        <activity android:name=".HomeMapActivity"></activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".LandingActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".HomeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

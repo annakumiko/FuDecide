@@ -29,12 +29,20 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/raleway"
             android:gravity="center"
             android:text="Profile"
             android:textColor="#48D8BF"
             android:textSize="18dp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logout" />
+
     </LinearLayout>
 
     <TextView
