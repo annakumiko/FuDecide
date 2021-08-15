@@ -3,7 +3,6 @@ package com.mobdeve.s15.group14.fudecide;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.auth.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,19 +32,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         mAuth = FirebaseAuth.getInstance();
 
-        registerUser = (Button) findViewById(R.id.btn_signup);
+        registerUser = (Button) findViewById(R.id.btn_login);
         registerUser.setOnClickListener(this);
 
         et_name = (EditText) findViewById(R.id.et_name);
-        et_signup_email = (EditText) findViewById(R.id.et_signup_email);
-        et_signup_password = (EditText) findViewById(R.id.et_signup_password);
+        et_signup_email = (EditText) findViewById(R.id.et_login_email);
+        et_signup_password = (EditText) findViewById(R.id.et_login_password);
         et_signup_password2 = (EditText) findViewById(R.id.et_signup_password2);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_signup:
+            case R.id.btn_login:
                 registerUser();
                 break;
         }
