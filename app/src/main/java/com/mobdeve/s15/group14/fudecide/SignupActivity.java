@@ -32,19 +32,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         mAuth = FirebaseAuth.getInstance();
 
-        registerUser = (Button) findViewById(R.id.btn_signup);
+        registerUser = (Button) findViewById(R.id.btn_login);
         registerUser.setOnClickListener(this);
 
         et_name = (EditText) findViewById(R.id.et_name);
-        et_signup_email = (EditText) findViewById(R.id.et_signup_email);
-        et_signup_password = (EditText) findViewById(R.id.et_signup_password);
+        et_signup_email = (EditText) findViewById(R.id.et_login_email);
+        et_signup_password = (EditText) findViewById(R.id.et_login_password);
         et_signup_password2 = (EditText) findViewById(R.id.et_signup_password2);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_signup:
+            case R.id.btn_login:
                 registerUser();
                 break;
         }
