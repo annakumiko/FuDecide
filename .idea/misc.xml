@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_home_map.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_profile.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_signup.xml" value="0.15" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
