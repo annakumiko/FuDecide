@@ -12,6 +12,4 @@ public class HomeMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_main);
     }
 
-    // test commit n push - kayla
-    //asdasd
 }

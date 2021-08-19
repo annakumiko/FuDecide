@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FuDecide">
-        <activity android:name=".EditReviewActivity"></activity>
+        <!-- AddRestaurant activity will be deleted afterwards -->
+        <activity android:name=".AddRestaurant"></activity>
+        <activity android:name=".EditReviewActivity" />
         <activity android:name=".AddReviewActivity" />
         <activity android:name=".AllReviewsActivity" />
         <activity android:name=".RestaurantPageActivity" />

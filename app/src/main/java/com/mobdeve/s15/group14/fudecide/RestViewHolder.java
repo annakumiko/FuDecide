@@ -15,6 +15,11 @@ public class RestViewHolder extends RecyclerView.ViewHolder {
         super(ItemView);
         restName = ItemView.findViewById(R.id.restName);
         desc = ItemView.findViewById(R.id.desc);
+        // overall rating
+        // open hours
+        // location
+        // reviews [ ]
+        // menu [ ]
     }
 
 }
