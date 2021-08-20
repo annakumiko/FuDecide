@@ -15,6 +15,17 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
+        <fragment
+            android:id="@+id/mapView"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            tools:context=".HomeMapActivity" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
@@ -29,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/btn_profile2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/profile" />
@@ -86,10 +97,10 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/btn_map_view"
+                android:id="@+id/btn_list_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/map_view" />
+                app:srcCompat="@drawable/list_view" />
 
         </LinearLayout>
 
@@ -159,14 +170,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <fragment
-        android:id="@+id/mapView"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="405dp"
-        android:layout_height="458dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:context=".HomeMapActivity" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
