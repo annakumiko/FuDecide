@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:background="@drawable/rounded_corner"
+    android:background="#FFFFFF"
     android:elevation="4dp"
     android:padding="24dp">
 
@@ -21,7 +20,7 @@
         app:cornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+        app:layout_constraintTop_toBottomOf="@+id/cb_high" />
 
     <TextView
         android:id="@+id/textView33"
@@ -36,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView21"
+        android:id="@+id/btn_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +44,7 @@
         app:tint="#48D8BF" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/cb_nearby"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -56,24 +55,24 @@
         app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/cb_high"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/karla"
         android:text="Highly rated"
         android:textColor="#333333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
+        app:layout_constraintTop_toBottomOf="@+id/cb_fav" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/cb_fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/karla"
         android:text="My favorites"
         android:textColor="#333333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/cb_nearby" />
 
     <TextView
         android:id="@+id/textView34"

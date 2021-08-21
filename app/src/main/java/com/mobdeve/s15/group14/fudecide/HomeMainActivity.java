@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -33,6 +36,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     private ImageView map_view, profile;
 
+    private Dialog roulette_popup;
+    private FloatingActionButton roulette;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +49,11 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
         profile = (ImageView) findViewById(R.id.btn_profile);
         profile.setOnClickListener(this);
+
+        roulette_popup = new Dialog(this);
+
+        roulette = (FloatingActionButton) findViewById(R.id.btn_roulette);
+        roulette.setOnClickListener(this);
 //        Toast.makeText(MainActivity.this, "Firebase loaded successfully", Toast.LENGTH_LONG).show();
 //
 //        firebaseFirestore = firebaseFirestore.getInstance();
@@ -74,6 +85,31 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 //        restaurantList.setAdapter(adapter);
     }
 
+    // Helper function to show the popup window for the roulette
+    public void show_popup(View v) {
+        ImageView close;
+        CheckBox nearby, fav, high;
+        Button spin;
+
+        roulette_popup.setContentView(R.layout.roulette_popup);
+
+        close = (ImageView) roulette_popup.findViewById(R.id.btn_close);
+        nearby = (CheckBox) roulette_popup.findViewById(R.id.cb_nearby);
+        fav = (CheckBox) roulette_popup.findViewById(R.id.cb_fav);
+        high = (CheckBox) roulette_popup.findViewById(R.id.cb_high);
+        spin = (Button) roulette_popup.findViewById(R.id.btn_spin);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                roulette_popup.dismiss();
+            }
+        });
+
+        roulette_popup.show();
+    }
+
+    // onClick functions
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -82,6 +118,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btn_profile:
                 startActivity(new Intent(this, ProfileActivity.class));
+                break;
+            case R.id.btn_roulette:
+                show_popup(v);
                 break;
         }
     }
