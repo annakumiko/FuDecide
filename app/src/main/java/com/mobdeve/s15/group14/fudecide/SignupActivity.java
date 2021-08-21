@@ -32,7 +32,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         mAuth = FirebaseAuth.getInstance();
 
-        registerUser = (Button) findViewById(R.id.btn_login);
+        registerUser = (Button) findViewById(R.id.btn_signup);
         registerUser.setOnClickListener(this);
 
         et_name = (EditText) findViewById(R.id.et_name);
@@ -53,8 +53,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private void registerUser() {
         String name = et_name.getText().toString().trim();
         String email = et_signup_email.getText().toString().trim();
-        String password = et_signup_password.getText().toString();
-        String password2 = et_signup_password2.getText().toString();
+        String password = et_signup_password.getText().toString().trim();
+        String password2 = et_signup_password2.getText().toString().trim();
 
         if (name.isEmpty()) {
             et_name.setError("Please enter a name.");
@@ -95,8 +95,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             et_signup_password2.setError("Passwords don't match.");
             et_signup_password2.requestFocus();
         }
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
