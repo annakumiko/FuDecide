@@ -30,12 +30,10 @@ import org.jetbrains.annotations.NotNull;
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseFirestore firebaseFirestore;
-    private RecyclerView restaurantList;
-
     private FirestoreRecyclerAdapter adapter;
 
+    private RecyclerView restaurantList;
     private ImageView map_view, profile;
-
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
 
@@ -54,35 +52,41 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette);
         roulette.setOnClickListener(this);
-//        Toast.makeText(MainActivity.this, "Firebase loaded successfully", Toast.LENGTH_LONG).show();
-//
-//        firebaseFirestore = firebaseFirestore.getInstance();
-//        restaurantList = findViewById(R.id.restaurant_list);
-//
-//        Query query = firebaseFirestore.collection("restaurants");
-//        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
-//                .setQuery(query, RestaurantsModel.class)
-//                .build();
-//
-//        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
-//
-//            @NonNull
-//            @Override
-//            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurantview, parent, false);
-//                return new RestViewHolder(view);
-//            }
-//
-//            @Override
-//            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
-//                holder.restName.setText(model.getRestName());
-//                holder.desc.setText(model.getDesc());
-//            }
-//        };
-//
-//        restaurantList.setHasFixedSize(true);
-//        restaurantList.setLayoutManager(new LinearLayoutManager(this));
-//        restaurantList.setAdapter(adapter);
+
+        // Toast.makeText(HomeMainActivity.this, "Firebase loaded successfully", Toast.LENGTH_LONG).show();
+
+        // Declare Database Instance
+        firebaseFirestore = firebaseFirestore.getInstance();
+        restaurantList = findViewById(R.id.restaurant_list);
+
+        // Get the collection, connect to model
+        Query query = firebaseFirestore.collection("restaurants");
+        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
+                .setQuery(query, RestaurantsModel.class)
+                .build();
+
+        // Connect Recyclerview and Model
+        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
+
+            @NonNull
+            @Override
+            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_item, parent, false);
+                return new RestViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
+                holder.resto_name.setText(model.getRestoName());
+                holder.resto_rating.setText(model.getOverallRating());
+                holder.resto_time.setText(model.getOpenHour() + "to" + model.getCloseHour());
+                holder.resto_loc.setText(model.getLatitude() + "," + model.getLongitude());
+            }
+        };
+
+        restaurantList.setHasFixedSize(true);
+        restaurantList.setLayoutManager(new LinearLayoutManager(this));
+        restaurantList.setAdapter(adapter);
     }
 
     // Helper function to show the popup window for the roulette
@@ -125,15 +129,15 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        adapter.startListening();
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        adapter.stopListening();
-//    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

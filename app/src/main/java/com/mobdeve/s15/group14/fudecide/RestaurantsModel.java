@@ -1,30 +1,56 @@
 package com.mobdeve.s15.group14.fudecide;
 
+import com.google.type.DateTime;
+
 public class RestaurantsModel {
-    private String restName;
-    private String desc;
+    private DateTime closeHour, openHour;
+    private int latitude, longitude, overallRating;
+    private String restoName, restoDescription, restoPhoto;
+    // menu
 
     private RestaurantsModel() {}
 
-    private RestaurantsModel(String restName, String desc) {
-        this.restName = restName;
-        this.desc = desc;
+    public RestaurantsModel(DateTime closeHour, DateTime openHour, int latitude, int longitude, int overallRating, String restoName, String restoDescription, String restoPhoto) {
+        this.closeHour = closeHour;
+        this.openHour = openHour;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.overallRating = overallRating;
+        this.restoName = restoName;
+        this.restoDescription = restoDescription;
+        this.restoPhoto = restoPhoto;
     }
 
-    public String getRestName() {
-        return restName;
+    public DateTime getCloseHour() {
+        return closeHour;
     }
 
-    public void setRestName(String restName) {
-        this.restName = restName;
+    public DateTime getOpenHour() {
+        return openHour;
     }
 
-    public String getDesc() {
-        return desc;
+    public int getLatitude() {
+        return latitude;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public int getLongitude() {
+        return longitude;
+    }
+
+    public int getOverallRating() {
+        return overallRating;
+    }
+
+    public String getRestoName() {
+        return restoName;
+    }
+
+    public String getRestoDescription() {
+        return restoDescription;
+    }
+
+    public String getRestoPhoto() {
+        return restoPhoto;
     }
 }
 
