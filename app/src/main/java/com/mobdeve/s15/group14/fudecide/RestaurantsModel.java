@@ -2,31 +2,32 @@ package com.mobdeve.s15.group14.fudecide;
 
 import com.google.type.DateTime;
 
+import java.util.ArrayList;
+
 public class RestaurantsModel {
-    private DateTime closeHour, openHour;
-    private int latitude, longitude, overallRating;
-    private String restoName, restoDescription, restoPhoto;
-    // menu
+    private DateTime closeHour;
+    private int latitude, longitude;
+    private MenuModel menu[];
+    private DateTime openHour;
+    private int overallRating;
+    private String restoDescription, restoName, restoPhoto;
 
     private RestaurantsModel() {}
 
-    public RestaurantsModel(DateTime closeHour, DateTime openHour, int latitude, int longitude, int overallRating, String restoName, String restoDescription, String restoPhoto) {
+    public RestaurantsModel(DateTime closeHour, int latitude, int longitude, MenuModel[] menu, DateTime openHour, int overallRating, String restoDescription, String restoName, String restoPhoto) {
         this.closeHour = closeHour;
-        this.openHour = openHour;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.menu = menu;
+        this.openHour = openHour;
         this.overallRating = overallRating;
-        this.restoName = restoName;
         this.restoDescription = restoDescription;
+        this.restoName = restoName;
         this.restoPhoto = restoPhoto;
     }
 
     public DateTime getCloseHour() {
         return closeHour;
-    }
-
-    public DateTime getOpenHour() {
-        return openHour;
     }
 
     public int getLatitude() {
@@ -37,20 +38,27 @@ public class RestaurantsModel {
         return longitude;
     }
 
-    public int getOverallRating() {
-        return overallRating;
+    public MenuModel[] getMenu() {
+        return menu;
     }
 
-    public String getRestoName() {
-        return restoName;
+    public DateTime getOpenHour() {
+        return openHour;
+    }
+
+    public int getOverallRating() {
+        return overallRating;
     }
 
     public String getRestoDescription() {
         return restoDescription;
     }
 
+    public String getRestoName() {
+        return restoName;
+    }
+
     public String getRestoPhoto() {
         return restoPhoto;
     }
 }
-
