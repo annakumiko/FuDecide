@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class RestViewHolder extends RecyclerView.ViewHolder {
     public TextView resto_name, resto_rating, resto_time, resto_loc;
-    public Image resto_photo;
+    public ImageView resto_photo;
 
     public RestViewHolder(@NonNull View ItemView) {
         super(ItemView);
@@ -19,7 +19,8 @@ public class RestViewHolder extends RecyclerView.ViewHolder {
         resto_rating = ItemView.findViewById(R.id.resto_rating);
         resto_time = ItemView.findViewById(R.id.resto_time);
         resto_loc = ItemView.findViewById(R.id.resto_loc);
-//        resto_photo = ImageView
+        resto_photo = ItemView.findViewById(R.id.resto_photo);
     }
+
 
 }

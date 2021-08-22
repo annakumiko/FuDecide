@@ -42,5 +42,17 @@ public class RestaurantsModel {
     public DateTime getCloseHour() { return closeHour; }
 
     public MenuModel[] getMenu() { return menu; }
+
+    public void setRestoName() { this.restoName = restoName; }
+    public void setRestoDescription() { this.restoDescription = restoDescription; }
+    public void setRestoPhoto() {this.restoPhoto = restoPhoto; }
+
+    public void setOverallRating() { this.overallRating = overallRating; }
+    public void setLatitude() { this.latitude = latitude; }
+    public void setLongitude() { this.longitude = longitude; }
+
+    // datetime
+
+    // menu
 }
 
