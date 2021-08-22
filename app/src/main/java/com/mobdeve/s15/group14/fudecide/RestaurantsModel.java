@@ -5,7 +5,7 @@ import com.google.type.DateTime;
 public class RestaurantsModel {
     private String restoName, restoDescription, restoPhoto;
     private int overallRating, latitude, longitude;
-    private DateTime openHour, closeHour; // no idea how to work with these yet
+    private DateTime openHour, closeHour;
     private MenuModel menu[];
 
     private RestaurantsModel() {}
