@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,14 +32,16 @@ import java.util.List;
 
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private FirebaseFirestore firebaseFirestore;
-    private RecyclerView restaurantList;
+    public static String TAG = "HomeMainActivity";
 
+    // Component declarations
+    private RecyclerView restaurantList;
     private ImageView map_view, profile;
 
-//    List<RestaurantsModel> data;
+    // Database declarations
+    private FirebaseAuth mAuth; // Firebase authentication
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirestoreRecyclerAdapter adapter;
-//    DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,41 +54,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         profile = (ImageView) findViewById(R.id.btn_profile);
         profile.setOnClickListener(this);
 
-//        Toast.makeText(HomeMainActivity.this, "Firebase loaded successfully", Toast.LENGTH_LONG).show();
-
-        firebaseFirestore = firebaseFirestore.getInstance();
-        restaurantList = findViewById(R.id.restaurantList);
-//        restaurantList = setLayoutManager(new LinearLayoutManager(this));
-
-//        firebaseDatabase = firebaseDatabase.getInstance();
-//        dbRef = firebaseDatabase.getReference("restaurants");
-
-//        Query query = firebaseFirestore.collection("restaurants");
-//        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
-//                .setQuery(query, RestaurantsModel.class)
-//                .build();
-//
-//        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
-//
-//            @NonNull
-//            @Override
-//            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_item, parent, false);
-//                return new RestViewHolder(view);
-//            }
-//
-//            @Override
-//            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
-//                holder.resto_name.setText(model.getRestoName());
-//                holder.resto_rating.setText(model.getOverallRating());
-////                holder.resto_time.setText(model.getOpenHour()); // don't know how to do this again
-//                holder.resto_loc.setText(model.getLatitude() + "," + model.getLongitude());
-//            }
-//        };
-//
-//        restaurantList.setHasFixedSize(true);
-//        restaurantList.setLayoutManager(new LinearLayoutManager(this));
-//        restaurantList.setAdapter(adapter);
+        mAuth = FirebaseAuth.getInstance();
+        // get current user
 
     }
 
@@ -101,63 +71,15 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Query query = firebaseFirestore.collection("restaurants");
-
-        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
-                .setQuery(query, RestaurantsModel.class)
-                .build();
-
-        FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder> adapter =
-                new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
-                        holder.resto_name.setText(model.getRestoName());
-                    }
-
-                    @NonNull
-                    @Override
-                    public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.restaurant_item, parent, false);
-
-                        return new RestViewHolder(view);
-                    }
-                };
-
-
-//        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        adapter.startListening();
+//    }
 //
-//            @NonNull
-//            @Override
-//            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext())
-//                        .inflate(R.layout.restaurant_item, parent, false);
-//                return new RestViewHolder(view);
-//            }
-//
-//            @Override
-//            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
-//                holder.setResto_name(model.getRestoName());
-//                holder.resto_rating.setText(model.getOverallRating());
-////                holder.resto_time.setText(model.getOpenHour()); // don't know how to do this again
-//                holder.resto_loc.setText(model.getLatitude() + "," + model.getLongitude());
-//            }
-//        };
-
-        adapter.startListening();
-        restaurantList.setHasFixedSize(true);
-        restaurantList.setLayoutManager(new LinearLayoutManager(this));
-        restaurantList.setAdapter(adapter);
-
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        adapter.stopListening();
+//    }
 }
