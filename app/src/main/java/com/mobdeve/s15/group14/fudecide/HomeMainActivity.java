@@ -39,8 +39,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private ImageView map_view, profile;
 
     // Database declarations
-    private FirebaseAuth mAuth; // Firebase authentication
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+//    private FirebaseAuth mAuth; // Firebase authentication
+//    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore firebaseFirestore;
     private FirestoreRecyclerAdapter adapter;
 
     @Override
@@ -54,8 +55,31 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         profile = (ImageView) findViewById(R.id.btn_profile);
         profile.setOnClickListener(this);
 
-        mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
         // get current user
+
+        firebaseFirestore = firebaseFirestore.getInstance();
+        restaurantList = findViewById(R.id.restaurantList);
+
+        Query query = firebaseFirestore.collection("restaurants");
+        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
+                .setQuery(query, RestaurantsModel.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
+
+            }
+
+            @NonNull
+            @Override
+            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_item, parent, false);
+
+                return new RestViewHolder(view);
+            }
+        };
 
     }
 

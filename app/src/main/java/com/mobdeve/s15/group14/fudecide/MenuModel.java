@@ -1,8 +1,6 @@
 package com.mobdeve.s15.group14.fudecide;
 
 public class MenuModel {
-    private MenuModel() {}; //wait need ba ng semi-colon dito...
-
     private String itemName, itemDescription, itemPhoto;
     private int itemPrice;
 
@@ -17,4 +15,9 @@ public class MenuModel {
     public String getItemDescription() { return itemDescription; }
     public String getItemPhoto() { return itemPhoto; }
     public int getItemPrice() { return itemPrice; }
+
+    public void setItemName() { this.itemName = itemName; }
+    public void setItemDescription() { this.itemDescription = itemDescription; }
+    public void setItemPhoto() { this.itemPhoto = itemPhoto; }
+    public void setItemPrice() { this.itemPrice = itemPrice; }
 }
