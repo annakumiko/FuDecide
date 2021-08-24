@@ -38,12 +38,12 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private FloatingActionButton roulette;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance(); // Get DB instance
-    private ArrayList<RestaurantsModel> restaurants = new ArrayList<>(); // Restaurants
+//    private ArrayList<RestaurantsModel> restaurants = new ArrayList<>(); // Restaurants
 
     // RecyclerView stuff
-    private ArrayList<MenuModel> menu;
-    private RecyclerView restaurant_list;
-    private RestaurantsAdapter resto_adapter;
+//    private ArrayList<MenuModel> menu;
+//    private RecyclerView restaurant_list;
+//    private RestaurantsAdapter resto_adapter;
 
 
     @Override
@@ -62,11 +62,12 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette);
         roulette.setOnClickListener(this);
 
-        // Restaurants RecyclerView stuff
-        this.restaurant_list = findViewById(R.id.restaurant_list);
-        this.resto_adapter = new RestaurantsAdapter(restaurants);
-        this.restaurant_list.setAdapter(resto_adapter);
-        this.restaurant_list.setLayoutManager(new LinearLayoutManager(this));
+//        // Restaurants RecyclerView stuff
+//        this.restaurant_list = findViewById(R.id.restaurant_list);
+//        this.resto_adapter = new RestaurantsAdapter(restaurants);
+//        this.restaurant_list.setAdapter(resto_adapter);
+//        this.restaurant_list.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     // Helper function to show the popup window for the roulette
@@ -109,22 +110,22 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // get restaurants from firestore
-        db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            // When the query is complete
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                restaurants.clear();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    restaurants.add(document.toObject(RestaurantsModel.class));
-                }
-            }
-        });
-
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        // get restaurants from firestore
+//        db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            // When the query is complete
+//
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                restaurants.clear();
+//                for (QueryDocumentSnapshot document : task.getResult()) {
+//                    restaurants.add(document.toObject(RestaurantsModel.class));
+//                }
+//            }
+//        });
+//
+//    }
 }

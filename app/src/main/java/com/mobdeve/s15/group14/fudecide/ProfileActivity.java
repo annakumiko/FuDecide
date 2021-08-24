@@ -72,8 +72,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(new Intent(this, HomeMainActivity.class));
                 break;
             case R.id.btn_logout:
-                FirebaseAuth.getInstance().signOut();
                 Toast.makeText(ProfileActivity.this, "Signing out", Toast.LENGTH_LONG).show();
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this, LandingActivity.class));
                 break;
         }
