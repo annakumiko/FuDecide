@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1076202257799",
+    "project_id": "fudecide",
+    "storage_bucket": "fudecide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076202257799:android:0dfbd4ea936c055c6de722",
+        "android_client_info": {
+          "package_name": "com.mobdeve.s15.group14.fudecide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076202257799-nufge4icfbrqemdf5ogcu2mhrvct46hg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp_WOXfE3u73_159aZgymkgHjEftUk1OY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076202257799-nufge4icfbrqemdf5ogcu2mhrvct46hg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
