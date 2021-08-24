@@ -7,14 +7,14 @@ import java.util.ArrayList;
 public class RestaurantsModel {
     private DateTime closeHour;
     private int latitude, longitude;
-    private MenuModel menu[];
+    private ArrayList<MenuModel> menu;
     private DateTime openHour;
     private int overallRating;
     private String restoDescription, restoName, restoPhoto;
 
     private RestaurantsModel() {}
 
-    public RestaurantsModel(DateTime closeHour, int latitude, int longitude, MenuModel[] menu, DateTime openHour, int overallRating, String restoDescription, String restoName, String restoPhoto) {
+    public RestaurantsModel(DateTime closeHour, int latitude, int longitude, ArrayList menu, DateTime openHour, int overallRating, String restoDescription, String restoName, String restoPhoto) {
         this.closeHour = closeHour;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -38,7 +38,7 @@ public class RestaurantsModel {
         return longitude;
     }
 
-    public MenuModel[] getMenu() {
+    public ArrayList<MenuModel> getMenu() {
         return menu;
     }
 

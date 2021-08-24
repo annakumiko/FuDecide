@@ -15,27 +15,36 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
-public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
 
-    private FirebaseFirestore firebaseFirestore;
-    private FirestoreRecyclerAdapter adapter;
+public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView restaurantList;
     private ImageView map_view, profile;
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance(); // Get DB instance
+    private ArrayList<RestaurantsModel> restaurants = new ArrayList<>(); // Restaurants
+
+    // RecyclerView stuff
+    private ArrayList<MenuModel> menu;
+    private RecyclerView restaurant_list;
+    private RestaurantsAdapter resto_adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,40 +62,11 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette);
         roulette.setOnClickListener(this);
 
-        // Toast.makeText(HomeMainActivity.this, "Firebase loaded successfully", Toast.LENGTH_LONG).show();
-
-        // Declare Database Instance
-        firebaseFirestore = firebaseFirestore.getInstance();
-        restaurantList = findViewById(R.id.restaurant_list);
-
-        // Get the collection, connect to model
-        Query query = firebaseFirestore.collection("restaurants");
-        FirestoreRecyclerOptions<RestaurantsModel> options = new FirestoreRecyclerOptions.Builder<RestaurantsModel>()
-                .setQuery(query, RestaurantsModel.class)
-                .build();
-
-        // Connect Recyclerview and Model
-        adapter = new FirestoreRecyclerAdapter<RestaurantsModel, RestViewHolder>(options) {
-
-            @NonNull
-            @Override
-            public RestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_item, parent, false);
-                return new RestViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull RestViewHolder holder, int position, @NonNull RestaurantsModel model) {
-                holder.resto_name.setText(model.getRestoName());
-                holder.resto_rating.setText(model.getOverallRating());
-                holder.resto_time.setText(model.getOpenHour() + "to" + model.getCloseHour());
-                holder.resto_loc.setText(model.getLatitude() + "," + model.getLongitude());
-            }
-        };
-
-        restaurantList.setHasFixedSize(true);
-        restaurantList.setLayoutManager(new LinearLayoutManager(this));
-        restaurantList.setAdapter(adapter);
+        // Restaurants RecyclerView stuff
+        this.restaurant_list = findViewById(R.id.restaurant_list);
+        this.resto_adapter = new RestaurantsAdapter(restaurants);
+        this.restaurant_list.setAdapter(resto_adapter);
+        this.restaurant_list.setLayoutManager(new LinearLayoutManager(this));
     }
 
     // Helper function to show the popup window for the roulette
@@ -130,14 +110,21 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        adapter.startListening();
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
+        // get restaurants from firestore
+        db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            // When the query is complete
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                restaurants.clear();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    restaurants.add(document.toObject(RestaurantsModel.class));
+                }
+            }
+        });
+
     }
 }
