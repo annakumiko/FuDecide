@@ -10,12 +10,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/ic_sample_logo"
+        android:label="FuDecide"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FuDecide">
-        <activity android:name=".EditReviewActivity"></activity>
+        <!-- AddRestaurant activity will be deleted afterwards -->
+        <activity android:name=".AddRestaurant"></activity>
+        <activity android:name=".EditReviewActivity" />
         <activity android:name=".AddReviewActivity" />
         <activity android:name=".AllReviewsActivity" />
         <activity android:name=".RestaurantPageActivity" />
