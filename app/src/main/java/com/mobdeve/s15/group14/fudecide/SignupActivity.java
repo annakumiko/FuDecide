@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     private EditText et_name, et_signup_email, et_signup_password, et_signup_password2;
     private Button registerUser;
+    private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
 
@@ -39,6 +41,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         et_signup_email = (EditText) findViewById(R.id.et_signup_email);
         et_signup_password = (EditText) findViewById(R.id.et_signup_password);
         et_signup_password2 = (EditText) findViewById(R.id.et_signup_password2);
+
+        progressBar = (ProgressBar) findViewById(R.id.signup_loading);
     }
 
     @Override
@@ -99,6 +103,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            progressBar.setVisibility(View.VISIBLE);
                             UserModel user = new UserModel(name, email);
 
                             FirebaseDatabase.getInstance().getReference("Users")
@@ -108,9 +113,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                 public void onComplete(@NonNull @NotNull Task<Void> task) {
 
                                     if(task.isSuccessful()){
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(SignupActivity.this, "User registered.", Toast.LENGTH_LONG).show();
                                         finish();
                                     }else{
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(SignupActivity.this, "Failed to register.", Toast.LENGTH_LONG).show();
                                     }
                                 }

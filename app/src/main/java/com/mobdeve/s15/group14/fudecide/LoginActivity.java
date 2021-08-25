@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText et_login_email, et_login_password;
     private Button btn_login, btn_login_google;
+    private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
 
@@ -41,6 +43,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         et_login_email = (EditText) findViewById(R.id.et_login_email);
         et_login_password = (EditText) findViewById(R.id.et_login_password);
+
+        progressBar = (ProgressBar) findViewById(R.id.login_loading);
     }
 
     @Override
@@ -81,10 +85,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    progressBar.setVisibility(View.VISIBLE);
                     Toast.makeText(LoginActivity.this, "Logged in.", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(LoginActivity.this, HomeMainActivity.class));
                 } else {
                     Toast.makeText(LoginActivity.this, "Failed to login. Please re-check your login credentials.", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });
