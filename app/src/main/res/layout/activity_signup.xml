@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <Button
-            android:id="@+id/btn_login_google"
+            android:id="@+id/google_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
