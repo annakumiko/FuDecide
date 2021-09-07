@@ -2,6 +2,7 @@ package com.mobdeve.s15.group14.fudecide;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +16,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -37,19 +42,18 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance(); // Get DB instance
-//    private ArrayList<RestaurantsModel> restaurants = new ArrayList<>(); // Restaurants
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    // RecyclerView stuff
-//    private ArrayList<MenuModel> menu;
-//    private RecyclerView restaurant_list;
-//    private RestaurantsAdapter resto_adapter;
+    private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
+
 
         map_view = (ImageView) findViewById(R.id.btn_map_view);
         map_view.setOnClickListener(this);
@@ -62,11 +66,10 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette);
         roulette.setOnClickListener(this);
 
-//        // Restaurants RecyclerView stuff
-//        this.restaurant_list = findViewById(R.id.restaurant_list);
-//        this.resto_adapter = new RestaurantsAdapter(restaurants);
-//        this.restaurant_list.setAdapter(resto_adapter);
-//        this.restaurant_list.setLayoutManager(new LinearLayoutManager(this));
+        restaurantList = findViewById(R.id.restaurant_list);
+
+        setRestaurantData();
+
 
     }
 
@@ -110,22 +113,44 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        // get restaurants from firestore
-//        db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            // When the query is complete
-//
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                restaurants.clear();
-//                for (QueryDocumentSnapshot document : task.getResult()) {
-//                    restaurants.add(document.toObject(RestaurantsModel.class));
-//                }
-//            }
-//        });
-//
-//    }
+
+    private void setRestaurantData() {
+        // Get restaurants from Firestore db
+        db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                // If there are results
+                if (task.isSuccessful()) {
+                    // Add each restaurant to the restaurant ArrayList
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        String inHours = document.getString("openHours");
+                        double latitude = document.getDouble("latitude");
+                        double longitude = document.getDouble("longitude");
+                        String rating = document.get("overallRating").toString();
+                        String description = document.getString("restoDescription");
+                        String name = document.getString("restoName");
+                        String photo = document.getString("restoPhoto");
+
+                        restaurants.add(new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo));
+                    }
+                } else
+                    Log.d("query", "No Restaurants");
+                setAdapter();
+            }
+        });
+    }
+
+    // Set adapter
+    private void setAdapter(){
+        RestaurantsAdapter adapter = new RestaurantsAdapter(restaurants);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        restaurantList.setLayoutManager(layoutManager);
+        restaurantList.setItemAnimator(new DefaultItemAnimator());
+        restaurantList.setAdapter(adapter);
+    }
+
+    public static ArrayList<RestaurantsModel> getRestaurants() {
+        return restaurants;
+    }
 }
