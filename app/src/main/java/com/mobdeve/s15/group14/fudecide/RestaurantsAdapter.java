@@ -1,5 +1,7 @@
 package com.mobdeve.s15.group14.fudecide;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,14 @@ import java.util.ArrayList;
 // define adapter and viewholder
 class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHolder> {
 
-    private ArrayList<RestaurantsModel> restaurants;
+    private static final String TAG = "RestaurantsAdapter";
 
-    public RestaurantsAdapter(ArrayList<RestaurantsModel> restaurants) {
+    private ArrayList<RestaurantsModel> restaurants;
+    private Context context;
+
+    public RestaurantsAdapter(Context context, ArrayList<RestaurantsModel> restaurants) {
         this.restaurants = restaurants;
+        this.context = context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -35,6 +41,9 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
             resto_name = view.findViewById(R.id.resto_name);
             resto_rating = view.findViewById(R.id.resto_rating);
             resto_time = view.findViewById(R.id.resto_time);
+            //location
+//            resto_photo = view.findViewById(R.id.resto_photo);
+            resto_item = view.findViewById(R.id.resto_item);
         }
 
     }
@@ -61,6 +70,14 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
 
        String resto_time = restaurants.get(position).getOpenHours();
        holder.resto_time.setText(resto_time);
+
+       // display distance from current location
+
+        holder.resto_item.setOnClickListener(v -> {
+            Intent intent = new Intent(this.context, RestaurantPageActivity.class);
+            intent.putExtra("restoNameTv", resto_name);
+            this.context.startActivity(intent);
+        });
     }
 
     @Override

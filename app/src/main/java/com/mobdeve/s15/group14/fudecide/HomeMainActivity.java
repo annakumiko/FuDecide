@@ -41,6 +41,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private ImageView map_view, profile;
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
+    private RestaurantsAdapter restoAdapter;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -67,17 +68,21 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette.setOnClickListener(this);
 
         restaurantList = findViewById(R.id.restaurant_list);
+//        restoAdapter = new RestaurantsAdapter(restaurants);
+//        RecyclerView.LayoutManager restoLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        restaurantList.setLayoutManager(restoLayoutManager);
+//        restaurantList.setItemAnimator(new DefaultItemAnimator());
+//        restaurantList.setAdapter(restoAdapter);
 
-        addResto = findViewById(R.id.addRestoBtn);
-        addResto.setOnClickListener(this);
-
-        // create better logic so resto data will be fetched only once
+       // create better logic so resto data will be fetched only once
         if (logged == 1) {
             setRestaurantData();
             logged++;
             Log.d("query", "Logged value: " + logged);
         }
 
+        addResto = findViewById(R.id.addRestoBtn);
+        addResto.setOnClickListener(this);
     }
 
     // Helper function to show the popup window for the roulette
@@ -154,7 +159,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     // Set adapter
     private void setAdapter(){
-        RestaurantsAdapter adapter = new RestaurantsAdapter(restaurants);
+        RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         restaurantList.setLayoutManager(layoutManager);
         restaurantList.setItemAnimator(new DefaultItemAnimator());
