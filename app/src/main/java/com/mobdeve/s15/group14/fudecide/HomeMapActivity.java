@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,9 +58,17 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
     private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ArrayList<RestaurantsModel> troy = (ArrayList<RestaurantsModel>) getIntent().getSerializableExtra("key");
+        this.restaurants = troy;
+        Log.d("query-robert", restaurants.get(0).getRestoName());
+        Log.d("query-robert", restaurants.get(1).getRestoName());
+        Log.d("query-robert", restaurants.get(2).getRestoName());
 
         binding = ActivityHomeMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -77,6 +89,8 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette2);
         roulette.setOnClickListener(this);
 
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
@@ -94,23 +108,28 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         mMap.setMyLocationEnabled(true);
         currentLocation = mMap.getMyLocation();
+//        double currLat = mMap.getMyLocation().getLatitude();
+//        double currLong = mMap.getMyLocation().getLongitude();
+//        Log.d("query-current", mMap.getMyLocation().getLatitude() + mMap.getMyLocation().getLongitude() + "");
 
-        for (RestaurantsModel restaurants : restaurants) {
-            LatLng point = new LatLng(restaurants.getLatitude(), restaurants.getLongitude());
+        Log.d("query-frommapready", restaurants.size() + "");
+
+        for (RestaurantsModel restaurant : restaurants) {
+            LatLng point = new LatLng(restaurant.getLatitude(), restaurant.getLongitude());
 
             // Computes the distance of the restaurant to the user
             float[] results = new float[1];
-            Location.distanceBetween(restaurants.getLatitude(), restaurants.getLongitude(), currentLocation.getLatitude(), currentLocation.getLongitude(), results);
+            Location.distanceBetween(restaurant.getLatitude(), restaurant.getLongitude(), 14.4445, 120.9938, results);
             if (distance == 0 || results[0] < distance) {
                 distance = results[0];
-                closestResto = restaurants;
+                closestResto = restaurant;
             }
 
             // Add a marker to the map
             googleMap.addMarker(
                     new MarkerOptions()
                             .position(point)
-                            .title(restaurants.getRestoName()));
+                            .title(restaurant.getRestoName()));
         }
     }
 
@@ -150,9 +169,25 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
             case R.id.btn_roulette2:
                 show_popup(v);
                 Log.d("query-zz", "Latitude = " + mMap.getMyLocation().getLatitude() + "Longitude = " + mMap.getMyLocation().getLongitude());
-                Log.d("query-zz", "Restaurants size = " + restaurants.size());
+                double userLat = getUserLat();
+                double userLong = getUserLong();
+                Log.d("query-zzz", "Lat = " + userLat + " Long = " + userLong);
                 break;
         }
+    }
+
+    public double getUserLat(){
+        double currLat = 0;
+
+        currLat = mMap.getMyLocation().getLatitude();
+        return currLat;
+    }
+
+    public double getUserLong(){
+        double currLong = 0;
+
+        currLong = mMap.getMyLocation().getLongitude();
+        return currLong;
     }
 
 

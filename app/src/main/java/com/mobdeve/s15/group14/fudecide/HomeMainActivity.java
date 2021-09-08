@@ -46,9 +46,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +99,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_map_view:
-                startActivity(new Intent(this, HomeMapActivity.class));
+                Intent intent = new Intent(HomeMainActivity.this, HomeMapActivity.class);
+                intent.putExtra("key", restaurants);
+                startActivity(intent);
                 break;
             case R.id.btn_profile:
                 startActivity(new Intent(this, ProfileActivity.class));
