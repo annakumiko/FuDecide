@@ -41,7 +41,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private ImageView map_view, profile;
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
-    private RestaurantsAdapter restoAdapter;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -68,11 +67,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette.setOnClickListener(this);
 
         restaurantList = findViewById(R.id.restaurant_list);
-//        restoAdapter = new RestaurantsAdapter(restaurants);
-//        RecyclerView.LayoutManager restoLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        restaurantList.setLayoutManager(restoLayoutManager);
-//        restaurantList.setItemAnimator(new DefaultItemAnimator());
-//        restaurantList.setAdapter(restoAdapter);
 
        // create better logic so resto data will be fetched only once
         if (logged == 1) {

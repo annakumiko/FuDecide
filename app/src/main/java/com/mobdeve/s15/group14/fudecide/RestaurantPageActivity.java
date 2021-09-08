@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 /*
     TASKS:
-        [ ] Pass intent from HomeMainActivity (recycler view item to solo page)
+        [/] Pass intent from HomeMainActivity (recycler view item to solo page)
         [ ] Print all data properly
         [ ] Fetch and print menu items
         [ ] Fetch and print reviews

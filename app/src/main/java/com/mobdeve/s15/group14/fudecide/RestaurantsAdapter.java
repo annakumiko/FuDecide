@@ -71,13 +71,12 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
        String resto_time = restaurants.get(position).getOpenHours();
        holder.resto_time.setText(resto_time);
 
-       // display distance from current location
-
-        holder.resto_item.setOnClickListener(v -> {
+       //pass data of restaurant item to restaurant page
+       holder.resto_item.setOnClickListener(v -> {
             Intent intent = new Intent(this.context, RestaurantPageActivity.class);
             intent.putExtra("restoNameTv", resto_name);
             this.context.startActivity(intent);
-        });
+       });
     }
 
     @Override
