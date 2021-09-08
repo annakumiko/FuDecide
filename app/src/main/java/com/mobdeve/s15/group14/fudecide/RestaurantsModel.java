@@ -10,7 +10,7 @@ public class RestaurantsModel {
     private ArrayList<MenuModel> menu;
     private String overallRating;
     private String restoDescription, restoName, restoPhoto;
-    private ArrayList<ReviewsModel> reviews;
+//    private ArrayList<ReviewsModel> reviews;
 
     public RestaurantsModel() { }
 
@@ -89,7 +89,7 @@ public class RestaurantsModel {
         this.restoPhoto = restoPhoto;
     }
 
-    public ArrayList<ReviewsModel> getReviews(){
-        return reviews;
-    }
+//    public ArrayList<ReviewsModel> getReviews(){
+//        return reviews;
+//    }
 }

@@ -46,14 +46,13 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
 
-
-
+    // dummy
+    private int logged = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
-
 
         map_view = (ImageView) findViewById(R.id.btn_map_view);
         map_view.setOnClickListener(this);
@@ -68,8 +67,12 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
         restaurantList = findViewById(R.id.restaurant_list);
 
-        setRestaurantData();
-
+        // create better logic so resto data will be fetched only once
+        if (logged == 1) {
+            setRestaurantData();
+            logged++;
+            Log.d("query", "Logged value: " + logged);
+        }
 
     }
 
@@ -113,7 +116,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
     private void setRestaurantData() {
         // Get restaurants from Firestore db
         db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -125,6 +127,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         String inHours = document.getString("openHours");
+                        // compute distance from current location
                         double latitude = document.getDouble("latitude");
                         double longitude = document.getDouble("longitude");
                         String rating = document.get("overallRating").toString();
