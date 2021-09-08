@@ -6,7 +6,8 @@
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2046875" />
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2046875" />
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/drawable/ic_sample_logo_background.xml" value="0.2046875" />
-        <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_home_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_add_restaurant.xml" value="0.35104166666666664" />
+        <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_home_main.xml" value="0.33" />
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_home_map.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_landing.xml" value="0.33" />
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_login.xml" value="0.18840579710144928" />
@@ -16,38 +17,10 @@
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/restaurantview.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/layout/review_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Kumiko/AndroidStudioProjects/FuDecide/app/src/main/res/mipmap-anydpi-v26/ic_sample_logo.xml" value="0.2046875" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.20729166666666668" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20729166666666668" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/drawable/rounded_corner.xml" value="0.20729166666666668" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_add_review.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_all_reviews.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_edit_review.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_home_main.xml" value="0.4106753812636166" />
         <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_home_map.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_login.xml" value="0.3292572463768116" />
         <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_profile.xml" value="0.33" />
         <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_signup.xml" value="0.15" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_profile.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_restaurant_page.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/activity_signup.xml" value="0.5" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/menu_item.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/restaurant_item.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/restaurantview.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/layout/review_item.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/joshd/AndroidStudioProjects/FuDecide/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22135416666666666" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/drawable/rounded_corner.xml" value="0.3880208333333333" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/activity_home_main.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/activity_home_map.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/activity_landing.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/activity_login.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/activity_profile.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/activity_restaurant_page.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/activity_signup.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/restaurant_item.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/restaurantview.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/roulette_popup.xml" value="0.371875" />
-        <entry key="..\:/Users/zldlffk/Documents/school/mobdeve/FuDecide/app/src/main/res/layout/roulette_result.xml" value="0.371875" />
       </map>
     </option>
   </component>

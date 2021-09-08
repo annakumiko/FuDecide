@@ -48,6 +48,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     // dummy
     private int logged = 1;
+    private Button addResto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette.setOnClickListener(this);
 
         restaurantList = findViewById(R.id.restaurant_list);
+
+        addResto = findViewById(R.id.addRestoBtn);
+        addResto.setOnClickListener(this);
 
         // create better logic so resto data will be fetched only once
         if (logged == 1) {
@@ -112,6 +116,10 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btn_roulette:
                 show_popup(v);
+                break;
+            // for adding restaurants -- delete after populating db
+            case R.id.addRestoBtn:
+                startActivity(new Intent(this, AddRestaurant.class));
                 break;
         }
     }
