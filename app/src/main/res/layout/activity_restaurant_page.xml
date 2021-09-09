@@ -71,7 +71,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/karla"
-                android:text="00 AM to 00 PM"
                 android:textColor="#2C2C2C" />
 
             <TextView
@@ -80,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/karla"
-                android:text="00.00 KM"
                 android:textColor="#2C2C2C" />
 
             <TextView
@@ -89,7 +87,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/karla"
-                android:text="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
                 android:textColor="#2C2C2C" />
         </LinearLayout>
 

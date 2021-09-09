@@ -31,8 +31,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
 
         // components for each row
         private LinearLayout resto_item;
-        private TextView resto_name, resto_rating, resto_time, resto_loc, resto_desc;
-        private ImageView resto_photo;
+        private TextView resto_name, resto_rating, resto_time, resto_loc;
 
         // constructor
         public ViewHolder(final View view) {
@@ -71,25 +70,13 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
        String resto_time = restaurants.get(position).getOpenHours();
        holder.resto_time.setText(resto_time);
 
-       String resto_desc = restaurants.get(position).getRestoDescription();
-       holder.resto_desc.setText(resto_desc);
-
         //location
-
-//       String resto_photo = restaurants.get(position).getRestoPhoto();
-//       holder.resto_photo.setImageURI(resto_photo);
 
        //pass data of restaurant item to restaurant page
        holder.resto_item.setOnClickListener(v -> {
             Intent intent = new Intent(this.context, RestaurantPageActivity.class);
             intent.putExtra("restoNameTv", resto_name);
-            intent.putExtra("ratingTv", resto_rating);
-            intent.putExtra("openHoursTv", resto_time);
-            intent.putExtra("descTv", resto_desc);
-//            intent.putExtra("distanceTv", resto_loc);
-//            intent.putExtra("restoImg", resto_photo);
-
-           this.context.startActivity(intent);
+            this.context.startActivity(intent);
        });
     }
 

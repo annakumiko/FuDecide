@@ -22,12 +22,14 @@ import java.util.ArrayList;
 /*
     TASKS:
         [/] Pass intent from HomeMainActivity (recycler view item to solo page)
-        [ ] Print all data properly
+        [/] Print all restaurant details properly
         [ ] Fetch and print menu items
         [ ] Fetch and print reviews
         [ ] Compute distance from current location
         [ ] Compute overall rating
-        [ ] Check if store is open/closed
+        [ ] Go back to HomeMain/HomeMap --> necessary?
+        [ ] Add Review button
+        [ ] See More reviews button
  */
 public class RestaurantPageActivity extends AppCompatActivity {
 
@@ -36,6 +38,7 @@ public class RestaurantPageActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private RecyclerView menuList;
     private static ArrayList<MenuModel> menu = new ArrayList<>();
+//    private static Object currResto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,8 @@ public class RestaurantPageActivity extends AppCompatActivity {
 
         menuList = findViewById(R.id.rv_menu);
 
-        getIncomingIntent();
-//        collectMenu();
+        getIncomingIntent(); // get resto name from selected row
+        findRestaurant(); // match resto name from db and collect details
     }
 
     private void getIncomingIntent(){
@@ -55,52 +58,61 @@ public class RestaurantPageActivity extends AppCompatActivity {
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
             String restoNameTv = getIntent().getStringExtra("restoNameTv");
-            String ratingTv = getIntent().getStringExtra("ratingTv");
-            String openHoursTv = getIntent().getStringExtra("openHoursTv");
-            String descTv = getIntent().getStringExtra("descTv");
-            // location
-            // photo
-
-            setDetails(restoNameTv, ratingTv, openHoursTv, descTv);
+            setName(restoNameTv);
         }
     }
 
-    private void setDetails(String restoNameTv, String ratingTv, String openHoursTv, String descTv){
+    private void setName(String restoNameTv){
         Log.d(TAG, "setDetails: setting restaurant details");
 
         TextView restoName = findViewById(R.id.restoNameTv);
         restoName.setText(restoNameTv);
-
-        TextView rating = findViewById(R.id.ratingTv);
-        rating.setText(ratingTv);
-
-        TextView openHours = findViewById(R.id.openHoursTv);
-        openHours.setText(openHoursTv);
-
-        TextView desc = findViewById(R.id.descTv);
-        desc.setText(descTv);
-
-        // location
-        // photo
     }
 
-    private void collectMenu() {
-        // Get remaining restaurant data from db
+    private void findRestaurant() {
         String restoName = getIntent().getStringExtra("restoNameTv");
+        // Get remaining restaurant data from db
         db.collection("restaurants").whereEqualTo("restoName", restoName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for(QueryDocumentSnapshot document : task.getResult()){
+                        String inHours = document.getString("openHours");
+                        // compute distance from current location
+                        double latitude = document.getDouble("latitude");
+                        double longitude = document.getDouble("longitude");
+                        String rating = document.get("overallRating").toString();
+                        String description = document.getString("restoDescription");
+                        String name = document.getString("restoName");
+                        String photo = document.getString("restoPhoto");
 
-                        menu.add(new MenuModel());
+                        setDetails(rating, inHours, description);
+
+//                        ArrayList menuItems = document.get
+
+//                        currResto = new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo);
                     }
                 }
-                else Log.d(TAG, "No menu items");
+                else Log.d(TAG, "Restaurant not found");
 
-                setAdapter();
+//                setAdapter();
             }
         });
+    }
+
+    private void setDetails(String rating, String inHours, String description){
+        Log.d(TAG, "setDetails: setting restaurant details");
+
+        TextView rate = findViewById(R.id.ratingTv);
+        rate.setText(rating);
+
+        TextView openHours = findViewById(R.id.openHoursTv);
+        openHours.setText(inHours);
+
+        // location
+
+        TextView desc = findViewById(R.id.descTv);
+        desc.setText(description);
     }
 
     // Set adapter
