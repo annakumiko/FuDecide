@@ -40,7 +40,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
             resto_name = view.findViewById(R.id.resto_name);
             resto_rating = view.findViewById(R.id.resto_rating);
             resto_time = view.findViewById(R.id.resto_time);
-            //location
+            resto_loc = view.findViewById(R.id.resto_loc);
 
             resto_item = view.findViewById(R.id.resto_item);
         }

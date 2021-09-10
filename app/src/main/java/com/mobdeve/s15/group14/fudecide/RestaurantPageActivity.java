@@ -18,6 +18,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
     TASKS:
@@ -86,16 +87,18 @@ public class RestaurantPageActivity extends AppCompatActivity {
                         String name = document.getString("restoName");
                         String photo = document.getString("restoPhoto");
 
-                        setDetails(rating, inHours, description);
+                        //collect menu
+//                        List<menu> menu = [];
 
-//                        ArrayList menuItems = document.get
+
+                        setDetails(rating, inHours, description);
 
 //                        currResto = new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo);
                     }
                 }
                 else Log.d(TAG, "Restaurant not found");
 
-//                setAdapter();
+                setAdapter();
             }
         });
     }
@@ -117,10 +120,10 @@ public class RestaurantPageActivity extends AppCompatActivity {
 
     // Set adapter
     private void setAdapter(){
-//        MenuAdapter adapter = new MenuAdapter(this, menu);
+        MenuAdapter adapter = new MenuAdapter(this, menu);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         menuList.setLayoutManager(layoutManager);
         menuList.setItemAnimator(new DefaultItemAnimator());
-//        menuList.setAdapter(adapter);
+        menuList.setAdapter(adapter);
     }
 }
