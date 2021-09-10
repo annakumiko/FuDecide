@@ -1,16 +1,18 @@
 package com.mobdeve.s15.group14.fudecide;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,11 +22,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -34,6 +33,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView home, logout;
+    private TextView userNameTextView, userBio, edit_bio;
+    private Dialog bio_popup;
+
     private FirebaseUser user;
     private DatabaseReference dbRef;
 
@@ -66,11 +68,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         logout = (ImageView) findViewById(R.id.btn_logout);
         logout.setOnClickListener(this);
 
+        edit_bio = (TextView) findViewById(R.id.tv_editbio);
+        edit_bio.setOnClickListener(this);
+
+        bio_popup = new Dialog(this);
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         dbRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        final TextView userNameTextView = (TextView) findViewById(R.id.tv_user);
-        final TextView bioTextView = (TextView) findViewById(R.id.tv_bio);
+        userNameTextView = (TextView) findViewById(R.id.tv_user);
+        userBio = (TextView) findViewById(R.id.tv_bio);
 
 
         // OnCreate if Firebase Auth is used
@@ -81,7 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                     userNameTextView.setText("Hello, " + documentSnapshot.getString("name"));
-                    bioTextView.setText(documentSnapshot.getString("bio"));
+                    userBio.setText(documentSnapshot.getString("bio"));
                 }
             });
 
@@ -101,6 +108,26 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    // Helper function to show the popup window for the bio
+    public void show_popup(View v) {
+        ImageView close;
+        Button save;
+
+        bio_popup.setContentView(R.layout.bio_popup);
+
+        close = (ImageView) bio_popup.findViewById(R.id.btn_close2);
+        save = (Button) bio_popup.findViewById(R.id.btn_save);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bio_popup.dismiss();
+            }
+        });
+
+        bio_popup.show();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -110,6 +137,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_logout:
                 Toast.makeText(ProfileActivity.this, "Signing out", Toast.LENGTH_LONG).show();
                 signOut();
+            case R.id.tv_editbio:
+                show_popup(v);
+
         }
     }
 

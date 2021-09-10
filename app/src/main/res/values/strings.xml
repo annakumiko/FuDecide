@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" />
+    <string name="maps_api_key">AIzaSyD08Fa_YIFV8of5Hz1AX7NSWtj4ErAPnSo</string>
 </resources>
