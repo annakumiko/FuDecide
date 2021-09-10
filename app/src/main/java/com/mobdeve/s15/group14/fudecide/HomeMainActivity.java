@@ -45,12 +45,12 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
+    private static ArrayList<RestaurantsModel> sortedRestaurants = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
-
 
         map_view = (ImageView) findViewById(R.id.btn_map_view);
         map_view.setOnClickListener(this);
@@ -66,8 +66,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         restaurantList = findViewById(R.id.restaurant_list);
 
         setRestaurantData();
-
-
     }
 
     // Helper function to show the popup window for the roulette
@@ -120,6 +118,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 // If there are results
                 if (task.isSuccessful()) {
+                    restaurants.clear();
                     // Add each restaurant to the restaurant ArrayList
                     for (QueryDocumentSnapshot document : task.getResult()) {
 

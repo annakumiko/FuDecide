@@ -59,23 +59,17 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
 
-    private LocationRequest locationRequest;
-
-    public static Location currentLocation;
-    private float distance;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private boolean firstRun;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
+    private LocationRequest locationRequest;
+    private double latitude;
+    private double longitude;
+    private float distance;
+    private boolean firstRun;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private RestaurantsModel closestResto;
     private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
-
-    private double latitude;
-    private double longitude;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +117,9 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         mMap = googleMap;
         distance = 0;
         closestResto = new RestaurantsModel();
+        LatLng currPoint = new LatLng(latitude, longitude);
 
-//        double currLat = mMap.getMyLocation().getLatitude();
-//        double currLong = mMap.getMyLocation().getLongitude();
-//        Log.d("query-current", mMap.getMyLocation().getLatitude() + mMap.getMyLocation().getLongitude() + "");
-
-        Log.d("query-frommapready", restaurants.size() + "");
-
+        Log.d("query-resto-size", restaurants.size() + "");
 
         for (RestaurantsModel restaurant : restaurants) {
             LatLng point = new LatLng(restaurant.getLatitude(), restaurant.getLongitude());
@@ -149,6 +139,8 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                             .position(point)
                             .title(restaurant.getRestoName()));
         }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 10));
     }
 
     private void turnOnGPS() {
@@ -188,48 +180,6 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-    }
-
-
-    // Helper function to show the popup window for the roulette
-    public void show_popup(View v) {
-        ImageView close;
-        CheckBox nearby, fav, high;
-        Button spin;
-
-        roulette_popup.setContentView(R.layout.roulette_popup);
-
-        close = (ImageView) roulette_popup.findViewById(R.id.btn_close);
-        nearby = (CheckBox) roulette_popup.findViewById(R.id.cb_nearby);
-        fav = (CheckBox) roulette_popup.findViewById(R.id.cb_fav);
-        high = (CheckBox) roulette_popup.findViewById(R.id.cb_high);
-        spin = (Button) roulette_popup.findViewById(R.id.btn_spin);
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                roulette_popup.dismiss();
-            }
-        });
-
-        roulette_popup.show();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_list_view:
-                startActivity(new Intent(this, HomeMainActivity.class));
-                break;
-            case R.id.btn_profile2:
-                startActivity(new Intent(this, ProfileActivity.class));
-                break;
-            case R.id.btn_roulette2:
-                show_popup(v);
-                Log.d("query-zz", "Latitude = " + mMap.getMyLocation().getLatitude() + "Longitude = " + mMap.getMyLocation().getLongitude());
-                Log.d("query-zzz", "Lat = " + latitude + " Long = " + longitude);
-                break;
-        }
     }
 
     private boolean isGPSEnabled() {
@@ -280,6 +230,46 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
             } else {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
+        }
+    }
+
+    // Helper function to show the popup window for the roulette
+    public void show_popup(View v) {
+        ImageView close;
+        CheckBox nearby, fav, high;
+        Button spin;
+
+        roulette_popup.setContentView(R.layout.roulette_popup);
+
+        close = (ImageView) roulette_popup.findViewById(R.id.btn_close);
+        nearby = (CheckBox) roulette_popup.findViewById(R.id.cb_nearby);
+        fav = (CheckBox) roulette_popup.findViewById(R.id.cb_fav);
+        high = (CheckBox) roulette_popup.findViewById(R.id.cb_high);
+        spin = (Button) roulette_popup.findViewById(R.id.btn_spin);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                roulette_popup.dismiss();
+            }
+        });
+
+        roulette_popup.show();
+    }
+
+    // onclick functions
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_list_view:
+                startActivity(new Intent(this, HomeMainActivity.class));
+                break;
+            case R.id.btn_profile2:
+                startActivity(new Intent(this, ProfileActivity.class));
+                break;
+            case R.id.btn_roulette2:
+                show_popup(v);
+                break;
         }
     }
 
