@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/review_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,12 +13,11 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/userName"
             android:layout_width="395dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/karla"
-            android:text="Full Name"
             android:textColor="#333333"
             android:textStyle="bold" />
 
@@ -43,21 +43,19 @@
             app:srcCompat="@drawable/star" />
 
         <TextView
-            android:id="@+id/textView31"
+            android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/karla"
-            android:text="5.0"
             android:textColor="#333333" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView30"
+        android:id="@+id/reviewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/karla"
-        android:text="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
         android:textColor="#333333" />
 
     <View

@@ -23,7 +23,7 @@
         app:cornerRadius="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/rv_reviews" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -189,7 +189,7 @@
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rv_reviews"
         android:layout_width="0dp"
         android:layout_height="130dp"
         android:layout_marginStart="16dp"
