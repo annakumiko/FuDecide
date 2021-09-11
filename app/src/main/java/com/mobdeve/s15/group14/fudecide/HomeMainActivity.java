@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -46,8 +49,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
 
+    Intent gi;
+
     // dummy
-    private int logged = 1;
     private Button addResto;
 
     @Override
@@ -67,13 +71,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette.setOnClickListener(this);
 
         restaurantList = findViewById(R.id.restaurant_list);
-
-       // create better logic so resto data will be fetched only once
-        if (logged == 1) {
-            setRestaurantData();
-            logged++;
-            Log.d("query", "Logged value: " + logged);
-        }
 
         addResto = findViewById(R.id.addRestoBtn);
         addResto.setOnClickListener(this);
@@ -101,6 +98,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         });
 
         roulette_popup.show();
+
+        gi = getIntent();
     }
 
     // onClick functions
@@ -121,6 +120,16 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(this, AddRestaurant.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+//        double latitude = gi.getDoubleExtra(HomeMapActivity.)
+
+        // pass latitude and longitude
+        setRestaurantData();
     }
 
     private void setRestaurantData() {
@@ -160,7 +169,5 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         restaurantList.setAdapter(adapter);
     }
 
-    public static ArrayList<RestaurantsModel> getRestaurants() {
-        return restaurants;
-    }
+    public static ArrayList<RestaurantsModel> getRestaurants() { return restaurants; }
 }

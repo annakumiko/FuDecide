@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,7 +27,7 @@ import java.util.List;
 /*
     TASKS:
         [/] Pass intent from HomeMainActivity (recycler view item to solo page)
-        [/] Print all restaurant details properly
+        [/] Print all restaurant details progeperly
         [ ] Fetch and print menu items
         [ ] Fetch and print reviews
         [ ] Compute distance from current location
@@ -32,7 +36,7 @@ import java.util.List;
         [ ] Add Review button
         [ ] See More reviews button
  */
-public class RestaurantPageActivity extends AppCompatActivity {
+public class RestaurantPageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RestaurantPage";
 
@@ -41,12 +45,50 @@ public class RestaurantPageActivity extends AppCompatActivity {
     private static ArrayList<MenuModel> menu = new ArrayList<>();
 //    private static Object currResto;
 
+    private ImageView iv_home, iv_liked;
+    private Button btn_see_more, btn_add_review;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_page);
 
         menuList = findViewById(R.id.rv_menu);
+
+        this.iv_home = findViewById(R.id.iv_home);
+        iv_home.setOnClickListener(this);
+
+        this.iv_liked = findViewById(R.id.iv_liked);
+        iv_liked.setOnClickListener(this);
+
+        this.btn_see_more = findViewById(R.id.btn_see_more);
+        btn_see_more.setOnClickListener(this);
+
+        this.btn_add_review = findViewById(R.id.btn_add_review);
+        btn_add_review.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_add_review:
+                startActivity(new Intent(this, AddReviewActivity.class));
+                break;
+            case R.id.btn_see_more:
+                startActivity(new Intent(this, AllReviewsActivity.class));
+                break;
+            case R.id.iv_home:
+                startActivity(new Intent(this, HomeMainActivity.class));
+                break;
+            case R.id.iv_liked:
+                likeRestaurant();
+                break;
+        }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
 
         getIncomingIntent(); // get resto name from selected row
         findRestaurant(); // match resto name from db and collect details
@@ -118,6 +160,23 @@ public class RestaurantPageActivity extends AppCompatActivity {
         desc.setText(description);
     }
 
+    // show menu
+
+    // show reviews
+
+    private void likeRestaurant() {
+        Boolean liked = false; // empty by default
+
+        if(!liked){ // when empty heart is clicked
+            iv_liked.setImageResource(R.drawable.liked);
+            // save to db
+        }
+        else{
+            iv_liked.setImageResource(R.drawable.not_liked);
+            // save to db
+        }
+    }
+
     // Set adapter
     private void setAdapter(){
         MenuAdapter adapter = new MenuAdapter(this, menu);
@@ -126,4 +185,7 @@ public class RestaurantPageActivity extends AppCompatActivity {
         menuList.setItemAnimator(new DefaultItemAnimator());
         menuList.setAdapter(adapter);
     }
+
+    public static ArrayList<MenuModel> getMenu() { return menu; }
+
 }
