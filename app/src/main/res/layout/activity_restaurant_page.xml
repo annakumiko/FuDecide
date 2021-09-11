@@ -71,7 +71,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/karla"
-                android:text="00 AM to 00 PM"
                 android:textColor="#2C2C2C" />
 
             <TextView
@@ -80,23 +79,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/karla"
-                android:text="00.00 KM"
                 android:textColor="#2C2C2C" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/descTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/karla"
-                android:text="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
                 android:textColor="#2C2C2C" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/restoImg"
         android:layout_width="wrap_content"
         android:layout_height="128dp"
         android:adjustViewBounds="false"
@@ -108,7 +105,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"

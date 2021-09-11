@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -46,11 +49,15 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
 
+    Intent gi;
+
+    // dummy
+    private Button addResto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
-
 
         map_view = (ImageView) findViewById(R.id.btn_map_view);
         map_view.setOnClickListener(this);
@@ -65,9 +72,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
         restaurantList = findViewById(R.id.restaurant_list);
 
-        setRestaurantData();
-
-
+        addResto = findViewById(R.id.addRestoBtn);
+        addResto.setOnClickListener(this);
     }
 
     // Helper function to show the popup window for the roulette
@@ -92,6 +98,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         });
 
         roulette_popup.show();
+
+        gi = getIntent();
     }
 
     // onClick functions
@@ -99,9 +107,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_map_view:
-                Intent intent = new Intent(HomeMainActivity.this, HomeMapActivity.class);
-                intent.putExtra("key", restaurants);
-                startActivity(intent);
+                startActivity(new Intent(this, HomeMapActivity.class));
                 break;
             case R.id.btn_profile:
                 startActivity(new Intent(this, ProfileActivity.class));
@@ -109,9 +115,22 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_roulette:
                 show_popup(v);
                 break;
+            // for adding restaurants -- delete after populating db
+            case R.id.addRestoBtn:
+                startActivity(new Intent(this, AddRestaurant.class));
+                break;
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+//        double latitude = gi.getDoubleExtra(HomeMapActivity.)
+
+        // pass latitude and longitude
+        setRestaurantData();
+    }
 
     private void setRestaurantData() {
         // Get restaurants from Firestore db
@@ -124,6 +143,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         String inHours = document.getString("openHours");
+                        // compute distance from current location
                         double latitude = document.getDouble("latitude");
                         double longitude = document.getDouble("longitude");
                         String rating = document.get("overallRating").toString();
@@ -142,14 +162,12 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     // Set adapter
     private void setAdapter(){
-        RestaurantsAdapter adapter = new RestaurantsAdapter(restaurants);
+        RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         restaurantList.setLayoutManager(layoutManager);
         restaurantList.setItemAnimator(new DefaultItemAnimator());
         restaurantList.setAdapter(adapter);
     }
 
-    public static ArrayList<RestaurantsModel> getRestaurants() {
-        return restaurants;
-    }
+    public static ArrayList<RestaurantsModel> getRestaurants() { return restaurants; }
 }
