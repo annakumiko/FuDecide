@@ -1,22 +1,22 @@
 package com.mobdeve.s15.group14.fudecide;
 
 public class ReviewModel {
-    private String userName, restoName, reviewText, datePosted;
+    private String name, restoName, reviewText, datePosted;
     private double rating;
 
     public ReviewModel() { }
 
-    public ReviewModel(String userName, String restoName, String reviewText, String datePosted, double rating) {
-        this.userName = userName;
+    public ReviewModel(String name, String restoName, String reviewText, String datePosted, double rating) {
+        this.name = name;
         this.restoName = restoName;
         this.reviewText = reviewText;
         this.datePosted = datePosted;
         this.rating = rating;
     }
 
-    public String getUserName() { return userName; }
+    public String getName() { return name; }
 
-    public void setUserName(String userName) { this.userName = userName; }
+    public void setName(String name) { this.name = name; }
 
     public String getRestoName() { return restoName; }
 

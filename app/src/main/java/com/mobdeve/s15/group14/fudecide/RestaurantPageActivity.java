@@ -48,13 +48,15 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private RecyclerView menuList, reviewList;
-    private static ArrayList<MenuModel> menu = new ArrayList<>();
-    private static ArrayList<ReviewModel> reviews = new ArrayList<>();
-//    private static Object currResto;
 
+    private RecyclerView menuList, reviewList;
     private ImageView iv_home, iv_liked;
     private Button btn_see_more, btn_add_review;
+
+    private static ArrayList<MenuModel> menu = new ArrayList<>();
+    private static ArrayList<ReviewModel> reviews = new ArrayList<>();
+
+//    private static Object currResto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,12 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
         this.btn_add_review = findViewById(R.id.btn_add_review);
         btn_add_review.setOnClickListener(this);
+
+        String restoName = getIntent().getStringExtra("restoNameTv");
+
+        getIncomingIntent(); // get resto name from selected row
+        findRestaurant(restoName); // match resto name from db and collect details
+        getRestoReviews(restoName); // get reviews of selected restaurant
     }
 
     @Override
@@ -90,19 +98,9 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                 startActivity(new Intent(this, HomeMainActivity.class));
                 break;
             case R.id.iv_liked:
-                likeRestaurant(); // temporary; logic: see if current user likes selected resto
+                likeRestaurant();
                 break;
         }
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        String restoName = getIntent().getStringExtra("restoNameTv");
-
-        getIncomingIntent(); // get resto name from selected row
-        findRestaurant(restoName); // match resto name from db and collect details
-        getRestoReviews(restoName); // get reviews of selected restaurant
     }
 
     private void getIncomingIntent(){
@@ -117,8 +115,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void setName(String restoNameTv){
-//        Log.d(TAG, "setDetails: setting restaurant name");
-
         TextView restoName = findViewById(R.id.restoNameTv);
         restoName.setText(restoNameTv);
     }
@@ -129,9 +125,11 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
+                    menu.clear();
+                    reviews.clear();
+
                     for(QueryDocumentSnapshot document : task.getResult()){
                         String inHours = document.getString("openHours");
-                        // compute distance from current location
                         double latitude = document.getDouble("latitude");
                         double longitude = document.getDouble("longitude");
                         String rating = document.get("overallRating").toString();
@@ -141,7 +139,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
                         //collect menu
 //                        List<menu> menu = [];
-
 
                         setDetails(rating, inHours, description, photo);
 
@@ -156,21 +153,20 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void getRestoReviews(String restoName){
-        String uname = "Ann"; // dummy
-
-        db.collection("reviews").whereEqualTo("restoName", restoName).whereEqualTo("userName", uname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // Collect resto reviews
+        db.collection("reviews").whereEqualTo("restoName", restoName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for(QueryDocumentSnapshot document : task.getResult()){
-                        String uname = document.getString("userName");
-                        String restoName = document.getString("restoName");
+                        String uname = document.getString("name");
+                        String rName = document.getString("restoName");
                         String reviewText = document.getString("reviewText");
                         String datePosted = document.getString("datePosted");
                         double rating = document.getDouble("rating");
 
-                        reviews.add(new ReviewModel(uname, restoName, reviewText, datePosted, rating));
-                        Log.d(TAG, "Review: " + uname + restoName + reviewText + datePosted + rating);
+                        reviews.add(new ReviewModel(uname, rName, reviewText, datePosted, rating));
+//                        Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
                     }
                 } else
                     Log.d(TAG, "No reviews");

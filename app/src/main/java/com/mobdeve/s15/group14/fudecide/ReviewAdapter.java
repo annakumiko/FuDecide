@@ -52,7 +52,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String uname = reviews.get(position).getUserName();
+        String uname = reviews.get(position).getName();
         holder.userName.setText(uname);
 
         String reviewTxt = reviews.get(position).getReviewText();

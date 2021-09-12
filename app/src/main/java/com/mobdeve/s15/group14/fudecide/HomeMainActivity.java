@@ -71,8 +71,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
     private static ArrayList<RestaurantsModel> sortedRestaurants = new ArrayList<>();
 
-    Intent gi;
-
     // location
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
@@ -81,6 +79,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private double longitude;
     private boolean firstRun;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
     // dummy
     private Button addResto;
 
@@ -104,6 +103,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
         addResto = findViewById(R.id.addRestoBtn);
         addResto.setOnClickListener(this);
+
         setRestaurantData();
 
         locationRequest = LocationRequest.create();
@@ -232,8 +232,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         });
 
         roulette_popup.show();
-
-        gi = getIntent();
     }
 
     // onClick functions
@@ -260,18 +258,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-//        double latitude = gi.getDoubleExtra(HomeMapActivity.)
-
-        // pass latitude and longitude
-        setRestaurantData();
-    }
-
     private void setRestaurantData() {
-        // Get restaurants from Firestore db
+        // Get restaurants from Firebase db
         db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -282,7 +270,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         String inHours = document.getString("openHours");
-                        // compute distance from current location
                         double latitude = document.getDouble("latitude");
                         double longitude = document.getDouble("longitude");
                         String rating = document.get("overallRating").toString();
