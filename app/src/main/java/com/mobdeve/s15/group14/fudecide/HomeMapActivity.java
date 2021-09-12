@@ -4,30 +4,46 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mobdeve.s15.group14.fudecide.databinding.ActivityHomeMapBinding;
 
@@ -37,26 +53,31 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
     private GoogleMap mMap;
     private ActivityHomeMapBinding binding;
+    private float distance;
+    private double latitude, longitude;
 
     private ImageView list_view, profile;
 
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
 
-    public static Location currentLocation;
-    private float distance;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private boolean firstRun;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback locationCallback;
-
     private RestaurantsModel closestResto;
     private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get restaurants
+        ArrayList<RestaurantsModel> restaurants_key = (ArrayList<RestaurantsModel>) getIntent().getSerializableExtra("RESTAURANTS_KEY");
+        this.restaurants = restaurants_key;
+
+        // get current location
+        this.latitude = (Double) getIntent().getSerializableExtra("LATITUDE_KEY");
+        this.longitude = (Double) getIntent().getSerializableExtra("LONGITUDE_KEY");
+
+        Log.d("query-main", "Lat = " + latitude);
+        Log.d("query-main", "Long = " + longitude);
 
         binding = ActivityHomeMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -76,42 +97,38 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette2);
         roulette.setOnClickListener(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-        } else {
-            firstRun = true;
-        }
-
     }
-
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         distance = 0;
         closestResto = new RestaurantsModel();
+        // LatLng currPoint = new LatLng(latitude, longitude);
 
+        Log.d("query-resto-size", restaurants.size() + "");
         mMap.setMyLocationEnabled(true);
-        currentLocation = mMap.getMyLocation();
 
-        for (RestaurantsModel restaurants : restaurants) {
-            LatLng point = new LatLng(restaurants.getLatitude(), restaurants.getLongitude());
+        for (RestaurantsModel restaurant : restaurants) {
+            LatLng point = new LatLng(restaurant.getLatitude(), restaurant.getLongitude());
 
             // Computes the distance of the restaurant to the user
             float[] results = new float[1];
-            Location.distanceBetween(restaurants.getLatitude(), restaurants.getLongitude(), currentLocation.getLatitude(), currentLocation.getLongitude(), results);
+            Location.distanceBetween(restaurant.getLatitude(), restaurant.getLongitude(), latitude, longitude, results);
             if (distance == 0 || results[0] < distance) {
                 distance = results[0];
-                closestResto = restaurants;
+                closestResto = restaurant;
+                Log.d("query-zz", closestResto.getRestoName() + "");
             }
 
             // Add a marker to the map
             googleMap.addMarker(
                     new MarkerOptions()
                             .position(point)
-                            .title(restaurants.getRestoName()));
+                            .title(restaurant.getRestoName()));
         }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
     }
 
     // Helper function to show the popup window for the roulette
@@ -138,6 +155,7 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         roulette_popup.show();
     }
 
+    // onclick functions
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -149,8 +167,6 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 break;
             case R.id.btn_roulette2:
                 show_popup(v);
-                Log.d("query-zz", "Latitude = " + mMap.getMyLocation().getLatitude() + "Longitude = " + mMap.getMyLocation().getLongitude());
-                Log.d("query-zz", "Restaurants size = " + restaurants.size());
                 break;
         }
     }

@@ -1,10 +1,10 @@
 package com.mobdeve.s15.group14.fudecide;
 
-import com.google.type.DateTime;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 
-public class RestaurantsModel {
+public class RestaurantsModel implements Serializable{
     private String openHours;
     private double latitude, longitude;
     private ArrayList<MenuModel> menu;
