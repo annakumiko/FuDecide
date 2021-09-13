@@ -53,43 +53,31 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
     private GoogleMap mMap;
     private ActivityHomeMapBinding binding;
+    private float distance;
+    private double latitude, longitude;
 
     private ImageView list_view, profile;
 
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
 
-    private LocationRequest locationRequest;
-
-    public static Location currentLocation;
-    private float distance;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private boolean firstRun;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback locationCallback;
-
     private RestaurantsModel closestResto;
     private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
-
-    private double latitude;
-    private double longitude;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<RestaurantsModel> troy = (ArrayList<RestaurantsModel>) getIntent().getSerializableExtra("key");
-        this.restaurants = troy;
+        // get restaurants
+        ArrayList<RestaurantsModel> restaurants_key = (ArrayList<RestaurantsModel>) getIntent().getSerializableExtra("RESTAURANTS_KEY");
+        this.restaurants = restaurants_key;
 
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(2000);
+        // get current location
+        this.latitude = (Double) getIntent().getSerializableExtra("LATITUDE_KEY");
+        this.longitude = (Double) getIntent().getSerializableExtra("LONGITUDE_KEY");
 
-        getCurrentLocation();
+        Log.d("query-main", "Lat = " + latitude);
+        Log.d("query-main", "Long = " + longitude);
 
         binding = ActivityHomeMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -109,13 +97,6 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette2);
         roulette.setOnClickListener(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-        } else {
-            firstRun = true;
-        }
-
     }
 
     @Override
@@ -123,13 +104,10 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         mMap = googleMap;
         distance = 0;
         closestResto = new RestaurantsModel();
+        // LatLng currPoint = new LatLng(latitude, longitude);
 
-//        double currLat = mMap.getMyLocation().getLatitude();
-//        double currLong = mMap.getMyLocation().getLongitude();
-//        Log.d("query-current", mMap.getMyLocation().getLatitude() + mMap.getMyLocation().getLongitude() + "");
-
-        Log.d("query-frommapready", restaurants.size() + "");
-
+        Log.d("query-resto-size", restaurants.size() + "");
+        mMap.setMyLocationEnabled(true);
 
         for (RestaurantsModel restaurant : restaurants) {
             LatLng point = new LatLng(restaurant.getLatitude(), restaurant.getLongitude());
@@ -149,47 +127,9 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                             .position(point)
                             .title(restaurant.getRestoName()));
         }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
     }
-
-    private void turnOnGPS() {
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
-        builder.setAlwaysShow(true);
-
-        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
-                .checkLocationSettings(builder.build());
-
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(HomeMapActivity.this, "GPS is already turned on", Toast.LENGTH_SHORT).show();
-
-                } catch (ApiException e) {
-
-                    switch (e.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-
-                            try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                                resolvableApiException.startResolutionForResult(HomeMapActivity.this, 2);
-                            } catch (IntentSender.SendIntentException ex) {
-                                ex.printStackTrace();
-                            }
-                            break;
-
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            //Device does not have location
-                            break;
-                    }
-                }
-            }
-        });
-
-    }
-
 
     // Helper function to show the popup window for the roulette
     public void show_popup(View v) {
@@ -215,6 +155,7 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         roulette_popup.show();
     }
 
+    // onclick functions
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -226,60 +167,7 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 break;
             case R.id.btn_roulette2:
                 show_popup(v);
-                Log.d("query-zz", "Latitude = " + mMap.getMyLocation().getLatitude() + "Longitude = " + mMap.getMyLocation().getLongitude());
-                Log.d("query-zzz", "Lat = " + latitude + " Long = " + longitude);
                 break;
-        }
-    }
-
-    private boolean isGPSEnabled() {
-        LocationManager locationManager = null;
-        boolean isEnabled = false;
-
-        if(locationManager == null) {
-            locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        }
-
-        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        return isEnabled;
-    }
-
-
-    @SuppressLint("MissingPermission")
-    private void getCurrentLocation(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(HomeMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                if (isGPSEnabled()) {
-
-                    LocationServices.getFusedLocationProviderClient(HomeMapActivity.this)
-                            .requestLocationUpdates(locationRequest, new LocationCallback() {
-                                @Override
-                                public void onLocationResult(@NonNull LocationResult locationResult) {
-                                    super.onLocationResult(locationResult);
-
-                                    LocationServices.getFusedLocationProviderClient(HomeMapActivity.this)
-                                            .removeLocationUpdates(this);
-
-                                    if (locationResult != null && locationResult.getLocations().size() >0){
-
-                                        int index = locationResult.getLocations().size() - 1;
-                                        latitude = locationResult.getLocations().get(index).getLatitude();
-                                        longitude = locationResult.getLocations().get(index).getLongitude();
-
-                                        Log.d("query-zzz", "Lat = " + latitude);
-                                        Log.d("query-zzz", "Long = " + longitude);
-                                    }
-                                }
-                            }, Looper.getMainLooper());
-
-                } else {
-                    turnOnGPS();
-                }
-
-            } else {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }
         }
     }
 
