@@ -141,14 +141,13 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void findRestaurant(String restoName) {
+        menu.clear();
+        reviews.clear();
         // Get remaining restaurant data from db
         db.collection("restaurants").whereEqualTo("restoName", restoName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    menu.clear();
-                    reviews.clear();
-
                     for(QueryDocumentSnapshot document : task.getResult()){
                         String inHours = document.getString("openHours");
                         double latitude = document.getDouble("latitude");
@@ -174,6 +173,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void getRestoReviews(String restoName){
+        reviews.clear();
+
         // Collect resto reviews
         db.collection("reviews").whereEqualTo("restoName", restoName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
