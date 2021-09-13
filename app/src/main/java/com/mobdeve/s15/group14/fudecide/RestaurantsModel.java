@@ -10,7 +10,7 @@ public class RestaurantsModel implements Serializable{
     private ArrayList<MenuModel> menu;
     private String overallRating;
     private String restoDescription, restoName, restoPhoto;
-    private ArrayList<ReviewsModel> reviews;
+//    private ArrayList<ReviewsModel> reviews;
 
     public RestaurantsModel() { }
 
@@ -18,7 +18,7 @@ public class RestaurantsModel implements Serializable{
         this.openHours = openHours;
         this.latitude = latitude;
         this.longitude = longitude;
-        //this.menu = menu;
+//        this.menu = menu;
         this.overallRating = overallRating;
         this.restoDescription = restoDescription;
         this.restoName = restoName;
@@ -89,7 +89,7 @@ public class RestaurantsModel implements Serializable{
         this.restoPhoto = restoPhoto;
     }
 
-    public ArrayList<ReviewsModel> getReviews(){
-        return reviews;
-    }
+//    public ArrayList<ReviewsModel> getReviews(){
+//        return reviews;
+//    }
 }

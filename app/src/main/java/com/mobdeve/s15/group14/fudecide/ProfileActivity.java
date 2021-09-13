@@ -15,6 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -33,6 +36,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private TextView userNameTextView, userBio, edit_bio;
     private Dialog bio_popup;
     private Button save;
+    private RecyclerView favoritesList, reviewsList;
 
     private FirebaseUser user;
     private DatabaseReference dbRef;
@@ -55,6 +63,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private FirebaseAuth mAuth;
     private FirebaseFirestore fs;
 
+    private ArrayList<RestaurantsModel> favoriteRestaurants = new ArrayList<>();
+    private ArrayList<ReviewModel> reviews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +95,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         userBio = (TextView) findViewById(R.id.tv_bio);
         save = (Button) bio_popup.findViewById(R.id.btn_save);
 
+        reviewsList = findViewById(R.id.rv_user_reviews);
+
+        ArrayList<RestaurantsModel> FAVORITES_KEY = (ArrayList<RestaurantsModel>) getIntent().getSerializableExtra("FAVORITES_KEY");
+        this.favoriteRestaurants = FAVORITES_KEY;
+        favoritesList = (RecyclerView) findViewById(R.id.rv_favorites);
+        Log.d("query-zz", "Favorite restaurants size = " + favoriteRestaurants.size() + "");
+        Log.d("query-zz", "FAVORITE_KEY size = " + FAVORITES_KEY.size() + "");
+        setFavoritesAdapter();
 
         // OnCreate if Firebase Auth is used
         if (googleSignIn == 0){
@@ -103,6 +121,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (acct != null) {
                 String name = acct.getGivenName();
                 userNameTextView.setText("Hello, " + name);
+                getRestoReviews(name); // get reviews of current user
             }
         }
     }
@@ -117,11 +136,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     if (document.exists()) {
                         userNameTextView.setText("Hello, " + document.getString("name"));
                         userBio.setText(document.getString("bio"));
+
+                        getRestoReviews(document.getString("name")); // get reviews of current user
                     } else {
                         Log.d("query-zz", "No such document");
                     }
                 } else {
-                    Log.d("query-zz", "get failed with ", task.getException());
+                    Log.d("query-zz", "failed");
                 }
             }
         });
@@ -171,6 +192,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_home:
                 startActivity(new Intent(this, HomeMainActivity.class));
+                finish();
                 break;
             case R.id.btn_logout:
                 Toast.makeText(ProfileActivity.this, "Signing out", Toast.LENGTH_LONG).show();
@@ -229,4 +251,49 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     });
         }
     }
+
+    private void getRestoReviews(String name){
+        Log.d("TAG", "Name: " + name);
+        reviews.clear();
+
+        // Collect resto reviews
+        fs.collection("reviews").whereEqualTo("name", name).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        String uname = document.getString("name");
+                        String rName = document.getString("restoName");
+                        String reviewText = document.getString("reviewText");
+                        String datePosted = document.getString("datePosted");
+                        double rating = document.getDouble("rating");
+
+                        reviews.add(new ReviewModel(uname, rName, reviewText, datePosted, rating));
+//                        Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
+                    }
+                } else
+                    Log.d("TAG", "No reviews");
+
+                setReviewAdapter();
+            }
+        });
+    }
+
+    private void setFavoritesAdapter(){
+        FavoritesAdapter adapter = new FavoritesAdapter(this, favoriteRestaurants);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        favoritesList.setLayoutManager(layoutManager);
+        favoritesList.setItemAnimator(new DefaultItemAnimator());
+        favoritesList.setAdapter(adapter);
+    }
+
+    private void setReviewAdapter(){
+        ReviewAdapter adapter = new ReviewAdapter(this, reviews);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        reviewsList.setLayoutManager(layoutManager);
+        reviewsList.setItemAnimator(new DefaultItemAnimator());
+        reviewsList.setAdapter(adapter);
+    }
+
+    public ArrayList<ReviewModel> getReviews() { return reviews; }
 }
