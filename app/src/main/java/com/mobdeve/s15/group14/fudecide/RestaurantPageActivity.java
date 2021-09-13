@@ -1,6 +1,7 @@
 package com.mobdeve.s15.group14.fudecide;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +21,13 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -28,7 +35,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
     TASKS:
@@ -58,10 +67,22 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
 //    private static Object currResto;
 
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore fs;
+    private String userID;
+    private String restoID;
+
+    private Boolean liked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_page);
+
+        mAuth = FirebaseAuth.getInstance();
+        fs = FirebaseFirestore.getInstance();
+
+        userID = mAuth.getCurrentUser().getUid();
 
         menuList = findViewById(R.id.rv_menu);
         reviewList = findViewById(R.id.rv_reviews);
@@ -174,7 +195,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                 setReviewAdapter();
             }
         });
-
     }
 
     private void setDetails(String rating, String inHours, String description, String photo){
@@ -207,15 +227,28 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     // show reviews
 
     private void likeRestaurant() {
-        Boolean liked = false; // replace with user data
 
-        if(!liked){ // when empty heart is clicked
+        if(liked == false){
             iv_liked.setImageResource(R.drawable.liked);
-            // save to current user document
+
+            String restoName = getIntent().getStringExtra("restoNameTv");
+
+            DocumentReference documentReference = fs.collection("users").document(userID);
+            documentReference.update("favorites", FieldValue.arrayUnion(restoName));
+
+            Log.d("query-zz", "Adding " + restoName + "into favorites of " + userID);
+            liked = true;
         }
-        else {
+        else{
             iv_liked.setImageResource(R.drawable.not_liked);
-            // save to current user document
+
+            String restoName = getIntent().getStringExtra("restoNameTv");
+
+            DocumentReference documentReference = fs.collection("users").document(userID);
+            documentReference.update("favorites", FieldValue.arrayRemove(restoName));
+
+            Log.d("query-zz", "Removing " + restoName + "from favorites of " + userID);
+            liked = false;
         }
     }
 
