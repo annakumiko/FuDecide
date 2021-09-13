@@ -1,12 +1,5 @@
 package com.mobdeve.s15.group14.fudecide;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -14,22 +7,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,21 +36,16 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,8 +56,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
-    private static ArrayList<RestaurantsModel> sortedRestaurants = new ArrayList<>();
+    private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> sortedRestaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> restaurantDistArray = new ArrayList<>();
 
     // location
     private FusedLocationProviderClient fusedLocationClient;
@@ -94,8 +86,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette.setOnClickListener(this);
 
         restaurantList = findViewById(R.id.restaurant_list);
-
-        setRestaurantData();
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -187,10 +177,11 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
                                         Log.d("query-map", "Lat = " + latitude);
                                         Log.d("query-map", "Long = " + longitude);
+
+                                        setRestaurantData();
                                     }
                                 }
                             }, Looper.getMainLooper());
-
                 } else {
                     turnOnGPS();
                 }
@@ -199,6 +190,16 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
+    }
+
+    // Computes distance of current location to the restaurants
+    public void computeDist(RestaurantsModel restaurant) {
+        float[] results = new float[1];
+        Log.d("LATLNG", "lat = " + latitude + ", long = " + longitude);
+        Location.distanceBetween(restaurant.getLatitude(), restaurant.getLongitude(), latitude, longitude, results);
+
+        RestaurantDist restroomDist = new RestaurantDist(results[0], restaurant);
+        restaurantDistArray.add(restroomDist);
     }
 
     // Helper function to show the popup window for the roulette
@@ -247,6 +248,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
 
     private void setRestaurantData() {
+
         // Get restaurants from Firestore db
         db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -254,36 +256,60 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 // If there are results
                 if (task.isSuccessful()) {
                     restaurants.clear();
+                    sortedRestaurants.clear();
                     // Add each restaurant to the restaurant ArrayList
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         String inHours = document.getString("openHours");
-                        double latitude = document.getDouble("latitude");
-                        double longitude = document.getDouble("longitude");
+                        double restoLat = document.getDouble("latitude");
+                        double restoLong = document.getDouble("longitude");
                         String rating = document.get("overallRating").toString();
                         String description = document.getString("restoDescription");
                         String name = document.getString("restoName");
                         String photo = document.getString("restoPhoto");
 
-                        restaurants.add(new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo));
+                        // add each restaurant to restaurants array
+                        restaurants.add(new RestaurantsModel(inHours, restoLat, restoLong, rating, description, name, photo));
+                        Log.d("query-not-sorted", "Restaurants: " + name);
                     }
+
+                    // compute the distance for each restaurant
+                    for (RestaurantsModel restaurant : restaurants) {
+                        computeDist(restaurant);
+                    }
+
+                    // check distance
+                    for (RestaurantDist r : restaurantDistArray)
+                        Log.d("query-resto-dist",  "Results: name - " + r.getRestaurant().getRestoName() + "// dist - " + r.getDistance());
+
+                    // sort the restaurants according to distance
+
+                    Collections.sort(restaurantDistArray, new Comparator<RestaurantDist>() {
+                        @Override
+                        public int compare(RestaurantDist o1, RestaurantDist o2) {
+                            return Float.compare(o1.getDistance(), o2.getDistance());
+                        }
+                    });
+
+                    for (RestaurantDist r : restaurantDistArray)
+                        Log.d("query-resto-sorted", "Results: name - " + r.getRestaurant().getRestoName());
+
                 } else
                     Log.d("query", "No Restaurants");
                 setAdapter();
             }
         });
+
+
+
     }
 
     // Set adapter
     private void setAdapter(){
-        RestaurantsAdapter adapter = new RestaurantsAdapter(restaurants);
+        RestaurantsAdapter adapter = new RestaurantsAdapter(restaurantDistArray);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         restaurantList.setLayoutManager(layoutManager);
         restaurantList.setItemAnimator(new DefaultItemAnimator());
         restaurantList.setAdapter(adapter);
-    }
-
-    public static ArrayList<RestaurantsModel> getRestaurants() {
-        return restaurants;
     }
 }

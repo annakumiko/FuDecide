@@ -131,6 +131,7 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
     }
 
+
     // Helper function to show the popup window for the roulette
     public void show_popup(View v) {
         ImageView close;

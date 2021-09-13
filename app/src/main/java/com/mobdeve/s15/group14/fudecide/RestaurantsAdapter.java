@@ -10,14 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 // define adapter and viewholder
 class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHolder> {
 
-    private ArrayList<RestaurantsModel> restaurants;
+    private ArrayList<RestaurantDist> restaurants;
 
-    public RestaurantsAdapter(ArrayList<RestaurantsModel> restaurants) {
+    public RestaurantsAdapter(ArrayList<RestaurantDist> restaurants) {
         this.restaurants = restaurants;
     }
 
@@ -35,6 +36,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
             resto_name = view.findViewById(R.id.resto_name);
             resto_rating = view.findViewById(R.id.resto_rating);
             resto_time = view.findViewById(R.id.resto_time);
+            resto_loc = view.findViewById(R.id.resto_loc);
         }
 
     }
@@ -53,14 +55,20 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-       String resto_name = restaurants.get(position).getRestoName();
+       String resto_name = restaurants.get(position).getRestaurant().getRestoName();
        holder.resto_name.setText(resto_name);
 
-       String resto_rating = restaurants.get(position).getOverallRating();
+       String resto_rating = restaurants.get(position).getRestaurant().getOverallRating();
        holder.resto_rating.setText(resto_rating);
 
-       String resto_time = restaurants.get(position).getOpenHours();
+       String resto_time = restaurants.get(position).getRestaurant().getOpenHours();
        holder.resto_time.setText(resto_time);
+
+       Float dist = restaurants.get(position).getDistance(); // get distance
+       // dist = dist/1000; // convert to kilometers
+       DecimalFormat df2 = new DecimalFormat("#.##"); // limit decimal places to 2
+       String resto_loc = df2.format(dist) + " meters";
+       holder.resto_loc.setText(resto_loc);
     }
 
     @Override
