@@ -65,9 +65,8 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
        holder.resto_time.setText(resto_time);
 
        Float dist = restaurants.get(position).getDistance(); // get distance
-       // dist = dist/1000; // convert to kilometers
        DecimalFormat df2 = new DecimalFormat("#.##"); // limit decimal places to 2
-       String resto_loc = df2.format(dist) + " meters";
+       String resto_loc = df2.format(dist) + "m";
        holder.resto_loc.setText(resto_loc);
     }
 

@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private FirebaseAuth mAuth;
     private FirebaseFirestore fs;
 
-    private ArrayList<RestaurantsModel> favoriteRestaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> favoriteRestaurants = new ArrayList<>();
     private ArrayList<ReviewModel> reviews = new ArrayList<>();
 
     @Override
@@ -97,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         reviewsList = findViewById(R.id.rv_user_reviews);
 
-        ArrayList<RestaurantsModel> FAVORITES_KEY = (ArrayList<RestaurantsModel>) getIntent().getSerializableExtra("FAVORITES_KEY");
+        ArrayList<RestaurantDist> FAVORITES_KEY = (ArrayList<RestaurantDist>) getIntent().getSerializableExtra("FAVORITES_KEY");
         this.favoriteRestaurants = FAVORITES_KEY;
         favoritesList = (RecyclerView) findViewById(R.id.rv_favorites);
         Log.d("query-zz", "Favorite restaurants size = " + favoriteRestaurants.size() + "");

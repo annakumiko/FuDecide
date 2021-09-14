@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,6 +59,7 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
     private double latitude, longitude;
 
     private ImageView list_view, profile;
+    private TextView tab_nearby, tab_favorites;
 
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
@@ -92,6 +95,12 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         profile = (ImageView) findViewById(R.id.btn_profile2);
         profile.setOnClickListener(this);
+
+        tab_nearby = (TextView) findViewById(R.id.btn_nearby2);
+        tab_nearby.setOnClickListener(this);
+
+        tab_favorites = (TextView) findViewById(R.id.btn_favorites2);
+        tab_favorites.setOnClickListener(this);
 
         roulette_popup = new Dialog(this);
 
@@ -156,7 +165,7 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         roulette_popup.show();
     }
 
-    // onclick functions
+    // onClick functions from Home Map
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -168,6 +177,18 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 break;
             case R.id.btn_roulette2:
                 show_popup(v);
+                break;
+            case R.id.btn_favorites2:
+                // change ui
+                tab_favorites.setTextColor(Color.parseColor("#48D8BF"));
+                tab_nearby.setTextColor(Color.parseColor("#333333"));
+
+                break;
+            case R.id.btn_nearby2:
+                // change ui
+                tab_nearby.setTextColor(Color.parseColor("#48D8BF"));
+                tab_favorites.setTextColor(Color.parseColor("#333333"));
+
                 break;
         }
     }

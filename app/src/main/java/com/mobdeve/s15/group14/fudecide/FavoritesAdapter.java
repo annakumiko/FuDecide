@@ -12,15 +12,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
 
 
-    private ArrayList<RestaurantsModel> restaurants;
+    private ArrayList<RestaurantDist> restaurants;
     private Context context;
 
-    public FavoritesAdapter(Context context, ArrayList<RestaurantsModel> restaurants) {
+    public FavoritesAdapter(Context context, ArrayList<RestaurantDist> restaurants) {
         this.restaurants = restaurants;
         this.context = context;
     }
@@ -59,16 +60,20 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull FavoritesAdapter.ViewHolder holder, int position) {
-        String resto_name = restaurants.get(position).getRestoName();
+        String resto_name = restaurants.get(position).getRestaurant().getRestoName();
         holder.resto_name.setText(resto_name);
 
-        String resto_rating = restaurants.get(position).getOverallRating();
+        String resto_rating = restaurants.get(position).getRestaurant().getOverallRating();
         holder.resto_rating.setText(resto_rating);
 
-        String resto_time = restaurants.get(position).getOpenHours();
+        String resto_time = restaurants.get(position).getRestaurant().getOpenHours();
         holder.resto_time.setText(resto_time);
 
         //location
+        Float dist = restaurants.get(position).getDistance(); // get distance
+        DecimalFormat df2 = new DecimalFormat("#.##"); // limit decimal places to 2
+        String resto_loc = df2.format(dist) + "m";
+        holder.resto_loc.setText(resto_loc);
     }
 
     @Override
