@@ -1,12 +1,5 @@
 package com.mobdeve.s15.group14.fudecide;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -14,24 +7,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.pm.ProviderInfo;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,26 +36,16 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,15 +54,11 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
 
-    private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String userID;
 
-    private static ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
-    private static ArrayList<RestaurantsModel> sortedRestaurants = new ArrayList<>();
-    private static ArrayList<RestaurantsModel> favoriteRestaurants = new ArrayList<>();
-
-    private ArrayList<String> favorites;
+    private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> sortedRestaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> restaurantDistArray = new ArrayList<>();
 
     // location
     private FusedLocationProviderClient fusedLocationClient;
@@ -89,15 +69,10 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private boolean firstRun;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    // dummy
-    private Button addResto;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
-
-        mAuth = FirebaseAuth.getInstance();
 
         map_view = (ImageView) findViewById(R.id.btn_map_view);
         map_view.setOnClickListener(this);
@@ -112,76 +87,18 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
         restaurantList = findViewById(R.id.restaurant_list);
 
-        addResto = findViewById(R.id.addRestoBtn);
-        addResto.setOnClickListener(this);
-
-        setRestaurantData();
-
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
 
         getCurrentLocation();
-        getStringFavorites();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
             firstRun = true;
         }
-    }
-
-    private void getActualFavorites(ArrayList<String> favorites) {
-        favoriteRestaurants.clear();
-        for (int i = 0; i < favorites.size(); i++) {
-            Query favoritedRestaurants = db.collection("restaurants").whereEqualTo("restoName", favorites.get(i));
-            Log.d("query-zzz", "Inside " + favorites.get(i));
-            db.collection("restaurants").whereEqualTo("restoName", favorites.get(i)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d("query-zzz", document.getId() + " => " + document.getData());
-
-                            String inHours = document.getString("openHours");
-                            double latitude = document.getDouble("latitude");
-                            double longitude = document.getDouble("longitude");
-                            String rating = document.get("overallRating").toString();
-                            String description = document.getString("restoDescription");
-                            String name = document.getString("restoName");
-                            String photo = document.getString("restoPhoto");
-
-                            favoriteRestaurants.add(new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo));
-                            Log.d("query-zzz", "Actual favorites size = " + favoriteRestaurants.size());
-                        }
-                    } else {
-                        Log.d("query-zzz", "No favorites.", task.getException());
-                    }
-                }
-            });
-        }
-    }
-
-    private void getStringFavorites() {
-        userID = mAuth.getCurrentUser().getUid();
-
-        DocumentReference documentReference = db.collection("users").document(userID);
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if(document.exists()) {
-                        favorites = (ArrayList<String>) document.get("favorites");
-                        Log.d("query-zz", "favorites = " + favorites.toString());
-                        getActualFavorites(favorites);
-                    }
-                } else {
-                    Log.d("query-zz", "no document exists");
-                }
-            }
-        });
     }
 
     private void turnOnGPS() {
@@ -260,10 +177,11 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
                                         Log.d("query-map", "Lat = " + latitude);
                                         Log.d("query-map", "Long = " + longitude);
+
+                                        setRestaurantData();
                                     }
                                 }
                             }, Looper.getMainLooper());
-
                 } else {
                     turnOnGPS();
                 }
@@ -272,6 +190,16 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
+    }
+
+    // Computes distance of current location to the restaurants
+    public void computeDist(RestaurantsModel restaurant) {
+        float[] results = new float[1];
+        Log.d("LATLNG", "lat = " + latitude + ", long = " + longitude);
+        Location.distanceBetween(restaurant.getLatitude(), restaurant.getLongitude(), latitude, longitude, results);
+
+        RestaurantDist restroomDist = new RestaurantDist(results[0], restaurant);
+        restaurantDistArray.add(restroomDist);
     }
 
     // Helper function to show the popup window for the roulette
@@ -310,58 +238,78 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.btn_profile:
-                Intent intent2 = new Intent(HomeMainActivity.this, ProfileActivity.class);
-                intent2.putExtra("FAVORITES_KEY", favoriteRestaurants);
-                startActivity(intent2);
+                startActivity(new Intent(this, ProfileActivity.class));
                 break;
             case R.id.btn_roulette:
                 show_popup(v);
                 break;
-            // for adding restaurants -- delete after populating db
-            case R.id.addRestoBtn:
-                startActivity(new Intent(this, AddRestaurant.class));
-                break;
         }
     }
 
+
     private void setRestaurantData() {
-        // Get restaurants from Firebase db
+
+        // Get restaurants from Firestore db
         db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 // If there are results
                 if (task.isSuccessful()) {
                     restaurants.clear();
+                    sortedRestaurants.clear();
                     // Add each restaurant to the restaurant ArrayList
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         String inHours = document.getString("openHours");
-                        double latitude = document.getDouble("latitude");
-                        double longitude = document.getDouble("longitude");
+                        double restoLat = document.getDouble("latitude");
+                        double restoLong = document.getDouble("longitude");
                         String rating = document.get("overallRating").toString();
                         String description = document.getString("restoDescription");
                         String name = document.getString("restoName");
                         String photo = document.getString("restoPhoto");
 
-                        restaurants.add(new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo));
+                        // add each restaurant to restaurants array
+                        restaurants.add(new RestaurantsModel(inHours, restoLat, restoLong, rating, description, name, photo));
+                        Log.d("query-not-sorted", "Restaurants: " + name);
                     }
+
+                    // compute the distance for each restaurant
+                    for (RestaurantsModel restaurant : restaurants) {
+                        computeDist(restaurant);
+                    }
+
+                    // check distance
+                    for (RestaurantDist r : restaurantDistArray)
+                        Log.d("query-resto-dist",  "Results: name - " + r.getRestaurant().getRestoName() + "// dist - " + r.getDistance());
+
+                    // sort the restaurants according to distance
+
+                    Collections.sort(restaurantDistArray, new Comparator<RestaurantDist>() {
+                        @Override
+                        public int compare(RestaurantDist o1, RestaurantDist o2) {
+                            return Float.compare(o1.getDistance(), o2.getDistance());
+                        }
+                    });
+
+                    for (RestaurantDist r : restaurantDistArray)
+                        Log.d("query-resto-sorted", "Results: name - " + r.getRestaurant().getRestoName());
+
                 } else
                     Log.d("query", "No Restaurants");
                 setAdapter();
             }
         });
+
+
+
     }
 
     // Set adapter
     private void setAdapter(){
-        RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
+        RestaurantsAdapter adapter = new RestaurantsAdapter(restaurantDistArray);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         restaurantList.setLayoutManager(layoutManager);
         restaurantList.setItemAnimator(new DefaultItemAnimator());
         restaurantList.setAdapter(adapter);
-    }
-
-    public static ArrayList<RestaurantsModel> getRestaurants() {
-        return restaurants;
     }
 }
