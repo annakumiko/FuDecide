@@ -41,6 +41,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -129,6 +130,19 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                String markerTitle = marker.getTitle();
+                Log.d("query-map", "Clicked on " + markerTitle);
+
+                Intent intent = new Intent(HomeMapActivity.this, RestaurantPageActivity.class);
+                intent.putExtra("restoNameTv", markerTitle);
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
 

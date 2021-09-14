@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
@@ -30,6 +32,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         // components for each row
         private LinearLayout resto_item;
         private TextView resto_name, resto_rating, resto_time, resto_loc;
+        private ImageView resto_photo;
 
         // constructor
         public ViewHolder(final View view) {
@@ -39,6 +42,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             resto_rating = view.findViewById(R.id.resto_rating);
             resto_time = view.findViewById(R.id.resto_time);
             resto_loc = view.findViewById(R.id.resto_loc);
+            resto_photo = view.findViewById(R.id.resto_photo);
 
             resto_item = view.findViewById(R.id.resto_item);
         }
@@ -67,6 +71,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
         String resto_time = restaurants.get(position).getOpenHours();
         holder.resto_time.setText(resto_time);
+
+        String resto_url = restaurants.get(position).getRestoPhoto();
+        Picasso.get().load(resto_url).into(holder.resto_photo);
 
         //location
     }

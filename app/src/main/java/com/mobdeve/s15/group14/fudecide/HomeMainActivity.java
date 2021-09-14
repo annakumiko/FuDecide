@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,11 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -53,12 +58,18 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private ImageView map_view, profile;
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
+    private ProgressBar progressBar;
 
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String userID;
 
     private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
     private ArrayList<RestaurantDist> sortedRestaurants = new ArrayList<>();
     private ArrayList<RestaurantDist> restaurantDistArray = new ArrayList<>();
+    private static ArrayList<RestaurantsModel> favoriteRestaurants = new ArrayList<>();
+
+    private ArrayList<String> favorites;
 
     // location
     private FusedLocationProviderClient fusedLocationClient;
@@ -73,6 +84,11 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
+
+        progressBar = (ProgressBar) findViewById(R.id.main_loading);
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth = FirebaseAuth.getInstance();
 
         map_view = (ImageView) findViewById(R.id.btn_map_view);
         map_view.setOnClickListener(this);
@@ -93,6 +109,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         locationRequest.setFastestInterval(2000);
 
         getCurrentLocation();
+        getStringFavorites();
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
@@ -238,7 +256,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.btn_profile:
-                startActivity(new Intent(this, ProfileActivity.class));
+                Intent intent2 = new Intent(HomeMainActivity.this, ProfileActivity.class);
+                intent2.putExtra("FAVORITES_KEY", favoriteRestaurants);
+                startActivity(intent2);
                 break;
             case R.id.btn_roulette:
                 show_popup(v);
@@ -297,6 +317,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 } else
                     Log.d("query", "No Restaurants");
                 setAdapter();
+                progressBar = (ProgressBar) findViewById(R.id.main_loading);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -304,9 +326,61 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private void getActualFavorites(ArrayList<String> favorites) {
+        favoriteRestaurants.clear();
+        for (int i = 0; i < favorites.size(); i++) {
+            Query favoritedRestaurants = db.collection("restaurants").whereEqualTo("restoName", favorites.get(i));
+            Log.d("query-zzz", "Inside " + favorites.get(i));
+            db.collection("restaurants").whereEqualTo("restoName", favorites.get(i)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d("query-zzz", document.getId() + " => " + document.getData());
+
+                            String inHours = document.getString("openHours");
+                            double latitude = document.getDouble("latitude");
+                            double longitude = document.getDouble("longitude");
+                            String rating = document.get("overallRating").toString();
+                            String description = document.getString("restoDescription");
+                            String name = document.getString("restoName");
+                            String photo = document.getString("restoPhoto");
+
+                            favoriteRestaurants.add(new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo));
+                            Log.d("query-zzz", "Actual favorites size = " + favoriteRestaurants.size());
+                        }
+                    } else {
+                        Log.d("query-zzz", "No favorites.", task.getException());
+                    }
+                }
+            });
+        }
+    }
+
+    private void getStringFavorites() {
+        userID = mAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = db.collection("users").document(userID);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()) {
+                        favorites = (ArrayList<String>) document.get("favorites");
+                        Log.d("query-zz", "favorites = " + favorites.toString());
+                        getActualFavorites(favorites);
+                    }
+                } else {
+                    Log.d("query-zz", "no document exists");
+                }
+            }
+        });
+    }
+
     // Set adapter
     private void setAdapter(){
-        RestaurantsAdapter adapter = new RestaurantsAdapter(restaurantDistArray);
+        RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurantDistArray);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         restaurantList.setLayoutManager(layoutManager);
         restaurantList.setItemAnimator(new DefaultItemAnimator());

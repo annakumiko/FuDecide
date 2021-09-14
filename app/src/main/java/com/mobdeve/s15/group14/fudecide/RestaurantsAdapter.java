@@ -1,5 +1,7 @@
 package com.mobdeve.s15.group14.fudecide;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -17,9 +21,11 @@ import java.util.ArrayList;
 class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHolder> {
 
     private ArrayList<RestaurantDist> restaurants;
+    private Context context;
 
-    public RestaurantsAdapter(ArrayList<RestaurantDist> restaurants) {
+    public RestaurantsAdapter(Context context, ArrayList<RestaurantDist> restaurants) {
         this.restaurants = restaurants;
+        this.context = context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -37,6 +43,9 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
             resto_rating = view.findViewById(R.id.resto_rating);
             resto_time = view.findViewById(R.id.resto_time);
             resto_loc = view.findViewById(R.id.resto_loc);
+            resto_photo = view.findViewById(R.id.resto_photo);
+
+            resto_item = view.findViewById(R.id.resto_item);
         }
 
     }
@@ -64,11 +73,21 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
        String resto_time = restaurants.get(position).getRestaurant().getOpenHours();
        holder.resto_time.setText(resto_time);
 
+       String resto_url = restaurants.get(position).getRestaurant().getRestoPhoto();
+       Picasso.get().load(resto_url).into(holder.resto_photo);
+
        Float dist = restaurants.get(position).getDistance(); // get distance
        // dist = dist/1000; // convert to kilometers
        DecimalFormat df2 = new DecimalFormat("#.##"); // limit decimal places to 2
        String resto_loc = df2.format(dist) + " meters";
        holder.resto_loc.setText(resto_loc);
+
+        //pass data of restaurant item to restaurant page
+        holder.resto_item.setOnClickListener(v -> {
+            Intent intent = new Intent(this.context, RestaurantPageActivity.class);
+            intent.putExtra("restoNameTv", resto_name);
+            this.context.startActivity(intent);
+        });
     }
 
     @Override
