@@ -1,43 +1,22 @@
 package com.mobdeve.s15.group14.fudecide;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,8 +24,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mobdeve.s15.group14.fudecide.databinding.ActivityHomeMapBinding;
 
@@ -65,16 +42,22 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
 
-    private RestaurantsModel closestResto;
-    private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> restaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> favorites = new ArrayList<>();
+    private ArrayList<RestaurantDist> data = new ArrayList<>(); // data to be passed for markers
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // get restaurants
-        ArrayList<RestaurantsModel> restaurants_key = (ArrayList<RestaurantsModel>) getIntent().getSerializableExtra("RESTAURANTS_KEY");
+        ArrayList<RestaurantDist> restaurants_key = (ArrayList<RestaurantDist>) getIntent().getSerializableExtra("RESTAURANTS_DIST_KEY");
         this.restaurants = restaurants_key;
+        this.data.addAll(restaurants);
+
+        // get favorites
+        ArrayList<RestaurantDist> favorites_key = (ArrayList<RestaurantDist>) getIntent().getSerializableExtra("FAVORITES_KEY");
+        this.favorites = favorites_key;
 
         // get current location
         this.latitude = (Double) getIntent().getSerializableExtra("LATITUDE_KEY");
@@ -109,34 +92,17 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         roulette.setOnClickListener(this);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         distance = 0;
-        closestResto = new RestaurantsModel();
         // LatLng currPoint = new LatLng(latitude, longitude);
 
-        Log.d("query-resto-size", restaurants.size() + "");
+        // Log.d("query-resto-size", restaurants.size() + "");
         mMap.setMyLocationEnabled(true);
 
-        for (RestaurantsModel restaurant : restaurants) {
-            LatLng point = new LatLng(restaurant.getLatitude(), restaurant.getLongitude());
-
-            // Computes the distance of the restaurant to the user
-            float[] results = new float[1];
-            Location.distanceBetween(restaurant.getLatitude(), restaurant.getLongitude(), latitude, longitude, results);
-            if (distance == 0 || results[0] < distance) {
-                distance = results[0];
-                closestResto = restaurant;
-                Log.d("query-zz", closestResto.getRestoName() + "");
-            }
-
-            // Add a marker to the map
-            googleMap.addMarker(
-                    new MarkerOptions()
-                            .position(point)
-                            .title(restaurant.getRestoName()));
-        }
+        setMapData(googleMap);
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
 
@@ -152,6 +118,42 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 return false;
             }
         });
+    }
+
+    private void setUpMapIfNeeded() {
+        if (mMap == null) {
+
+            Log.d("MyMap", "setUpMapIfNeeded");
+            ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView))
+                    .getMapAsync(this);
+        }
+    }
+
+    private void setMapData(@NonNull GoogleMap googleMap) {
+        for (RestaurantDist restaurant : data) {
+            LatLng point = new LatLng(restaurant.getRestaurant().getLatitude(), restaurant.getRestaurant().getLongitude());
+
+            // Computes the distance of the restaurant to the user
+            float[] results = new float[1];
+            Location.distanceBetween(restaurant.getRestaurant().getLatitude(), restaurant.getRestaurant().getLongitude(), latitude, longitude, results);
+            if (distance == 0 || results[0] < distance) {
+                distance = results[0];
+            }
+
+            // Add a marker to the map
+            googleMap.addMarker(
+                    new MarkerOptions()
+                            .position(point)
+                            .title(restaurant.getRestaurant().getRestoName()));
+        }
+    }
+
+    public void updateMarkers(ArrayList<RestaurantDist> r) {
+        mMap.clear();
+        data.clear();
+        data.addAll(r);
+        setUpMapIfNeeded();
+        setMapData(mMap);
     }
 
 
@@ -197,15 +199,17 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 tab_favorites.setTextColor(Color.parseColor("#48D8BF"));
                 tab_nearby.setTextColor(Color.parseColor("#333333"));
 
+                // change markers
+                updateMarkers(favorites);
                 break;
             case R.id.btn_nearby2:
                 // change ui
                 tab_nearby.setTextColor(Color.parseColor("#48D8BF"));
                 tab_favorites.setTextColor(Color.parseColor("#333333"));
 
+                // change markers
+                updateMarkers(restaurants);
                 break;
         }
     }
-
-
 }

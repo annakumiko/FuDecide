@@ -374,7 +374,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.btn_map_view:
                 Intent intent = new Intent(HomeMainActivity.this, HomeMapActivity.class);
-                intent.putExtra("RESTAURANTS_KEY", restaurants);
+                intent.putExtra("RESTAURANTS_DIST_KEY", restaurantDistArray);
+                intent.putExtra("FAVORITES_KEY", favoriteRestaurants);
                 intent.putExtra("LATITUDE_KEY", latitude);
                 intent.putExtra("LONGITUDE_KEY", longitude);
                 startActivity(intent);
@@ -421,7 +422,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     // Set adapter upon initial loading
     private void setAdapter(){
         data.addAll(restaurantDistArray);
-        adapter = new RestaurantsAdapter(data);
+        adapter = new RestaurantsAdapter(this, data);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         restaurantList.setLayoutManager(layoutManager);
         restaurantList.setItemAnimator(new DefaultItemAnimator());
