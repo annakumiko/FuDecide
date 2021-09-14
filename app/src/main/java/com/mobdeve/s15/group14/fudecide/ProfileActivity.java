@@ -100,8 +100,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         ArrayList<RestaurantDist> FAVORITES_KEY = (ArrayList<RestaurantDist>) getIntent().getSerializableExtra("FAVORITES_KEY");
         this.favoriteRestaurants = FAVORITES_KEY;
         favoritesList = (RecyclerView) findViewById(R.id.rv_favorites);
-        Log.d("query-zz", "Favorite restaurants size = " + favoriteRestaurants.size() + "");
-        Log.d("query-zz", "FAVORITE_KEY size = " + FAVORITES_KEY.size() + "");
         setFavoritesAdapter();
 
         // OnCreate if Firebase Auth is used

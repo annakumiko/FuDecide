@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -60,6 +63,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private TextView tab_nearby, tab_favorites;
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
+    private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -89,6 +93,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
+
+        progressBar = (ProgressBar) findViewById(R.id.main_loading);
+        progressBar.setVisibility(View.VISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -256,6 +263,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 // If there are results
                 if (task.isSuccessful()) {
                     restaurants.clear();
+                    restaurantDistArray.clear();
                     // Add each restaurant to the restaurant ArrayList
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -295,6 +303,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 } else
                     Log.d("query", "No Restaurants");
                 setAdapter();
+                progressBar = (ProgressBar) findViewById(R.id.main_loading);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -358,7 +368,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
             }
         });
     }
-
     // onClick functions from Home Main
     @Override
     public void onClick(View v) {
@@ -382,7 +391,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 // change ui
                 tab_favorites.setTextColor(Color.parseColor("#48D8BF"));
                 tab_nearby.setTextColor(Color.parseColor("#333333"));
-
                 // change list
                 updateAdapterFavorites();
                 break;
@@ -390,7 +398,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 // change ui
                 tab_nearby.setTextColor(Color.parseColor("#48D8BF"));
                 tab_favorites.setTextColor(Color.parseColor("#333333"));
-
                 // change list
                 updateAdapterNearby();
                 break;
