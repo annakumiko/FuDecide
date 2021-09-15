@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +51,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,6 +63,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private TextView tab_nearby, tab_favorites;
     private Dialog roulette_popup;
     private FloatingActionButton roulette;
+    private SearchView search;
     private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
@@ -117,8 +117,11 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         roulette = (FloatingActionButton) findViewById(R.id.btn_roulette);
         roulette.setOnClickListener(this);
 
+        search = (SearchView) findViewById(R.id.sv_search);
+
         restaurantList = findViewById(R.id.restaurant_list);
 
+        // location
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
@@ -131,6 +134,20 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         } else {
             firstRun = true;
         }
+
+        // search
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
     private void turnOnGPS() {
@@ -236,8 +253,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     public void show_popup(View v) {
         ImageView close;
         Button spin;
-
-        // Boolean n_checked, f_checked, h_checked;
 
         roulette_popup.setContentView(R.layout.roulette_popup);
 

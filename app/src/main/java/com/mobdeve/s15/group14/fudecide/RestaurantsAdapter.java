@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,16 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 // define adapter and viewholder
-class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHolder> {
+class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHolder> implements Filterable {
 
     private ArrayList<RestaurantDist> restaurants;
+    private ArrayList<RestaurantDist> restaurantsFull;
     private Context context;
 
     public RestaurantsAdapter(Context context, ArrayList<RestaurantDist> restaurants) {
         this.restaurants = restaurants;
         this.context = context;
+
+        restaurantsFull = new ArrayList<>(restaurants);  // used for search view
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -93,4 +99,41 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
     public int getItemCount() {
         return restaurants.size();
     }
+
+
+    @Override
+    public Filter getFilter() {
+        return restaurantFilter;
+    }
+
+    private Filter restaurantFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<RestaurantDist> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) { // if input field is empty
+                filteredList.addAll(restaurantsFull);
+            } else {
+                String key = constraint.toString().toLowerCase().trim();
+
+                for (RestaurantDist resto : restaurantsFull) {
+                    if (resto.getRestaurant().getRestoName().toLowerCase().contains(key)) {
+                        filteredList.add(resto);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            restaurants.clear();
+            restaurants.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
