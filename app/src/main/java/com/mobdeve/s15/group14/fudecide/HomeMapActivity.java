@@ -39,9 +39,6 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
     private ImageView list_view, profile;
     private TextView tab_nearby, tab_favorites;
 
-    private Dialog roulette_popup;
-    private FloatingActionButton roulette;
-
     private ArrayList<RestaurantDist> restaurants = new ArrayList<>();
     private ArrayList<RestaurantDist> favorites = new ArrayList<>();
     private ArrayList<RestaurantDist> data = new ArrayList<>(); // data to be passed for markers
@@ -85,11 +82,6 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         tab_favorites = (TextView) findViewById(R.id.btn_favorites2);
         tab_favorites.setOnClickListener(this);
-
-        roulette_popup = new Dialog(this);
-
-        roulette = (FloatingActionButton) findViewById(R.id.btn_roulette2);
-        roulette.setOnClickListener(this);
     }
 
     @SuppressLint("MissingPermission")
@@ -97,12 +89,10 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         distance = 0;
-        // LatLng currPoint = new LatLng(latitude, longitude);
 
-        // Log.d("query-resto-size", restaurants.size() + "");
         mMap.setMyLocationEnabled(true);
 
-        setMapData(googleMap);
+        setMapData(googleMap); // puts markers on map
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
 
@@ -156,31 +146,6 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         setMapData(mMap);
     }
 
-
-    // Helper function to show the popup window for the roulette
-    public void show_popup(View v) {
-        ImageView close;
-        CheckBox nearby, fav, high;
-        Button spin;
-
-        roulette_popup.setContentView(R.layout.roulette_popup);
-
-        close = (ImageView) roulette_popup.findViewById(R.id.btn_close);
-        nearby = (CheckBox) roulette_popup.findViewById(R.id.cb_nearby);
-        fav = (CheckBox) roulette_popup.findViewById(R.id.cb_fav);
-        high = (CheckBox) roulette_popup.findViewById(R.id.cb_high);
-        spin = (Button) roulette_popup.findViewById(R.id.btn_spin);
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                roulette_popup.dismiss();
-            }
-        });
-
-        roulette_popup.show();
-    }
-
     // onClick functions from Home Map
     @Override
     public void onClick(View v) {
@@ -191,14 +156,10 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
             case R.id.btn_profile2:
                 startActivity(new Intent(this, ProfileActivity.class));
                 break;
-            case R.id.btn_roulette2:
-                show_popup(v);
-                break;
             case R.id.btn_favorites2:
                 // change ui
                 tab_favorites.setTextColor(Color.parseColor("#48D8BF"));
                 tab_nearby.setTextColor(Color.parseColor("#333333"));
-
                 // change markers
                 updateMarkers(favorites);
                 break;
@@ -206,7 +167,6 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
                 // change ui
                 tab_nearby.setTextColor(Color.parseColor("#48D8BF"));
                 tab_favorites.setTextColor(Color.parseColor("#333333"));
-
                 // change markers
                 updateMarkers(restaurants);
                 break;

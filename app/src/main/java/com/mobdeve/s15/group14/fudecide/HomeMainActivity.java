@@ -43,18 +43,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
 public class HomeMainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,6 +71,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private String userID;
 
     private ArrayList<RestaurantsModel> restaurants = new ArrayList<>();
+    private ArrayList<RestaurantDist> rouletteArray = new ArrayList<>();
     private ArrayList<RestaurantDist> restaurantDistArray = new ArrayList<>();
     private ArrayList<RestaurantDist> favoriteRestaurants = new ArrayList<>();
     private ArrayList<RestaurantDist> data = new ArrayList<>(); // data being passed to RestaurantsAdapter
@@ -233,17 +235,61 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     // Helper function to show the popup window for the roulette
     public void show_popup(View v) {
         ImageView close;
-        CheckBox nearby, fav, high;
         Button spin;
+
+        // Boolean n_checked, f_checked, h_checked;
 
         roulette_popup.setContentView(R.layout.roulette_popup);
 
         close = (ImageView) roulette_popup.findViewById(R.id.btn_close);
-        nearby = (CheckBox) roulette_popup.findViewById(R.id.cb_nearby);
-        fav = (CheckBox) roulette_popup.findViewById(R.id.cb_fav);
-        high = (CheckBox) roulette_popup.findViewById(R.id.cb_high);
         spin = (Button) roulette_popup.findViewById(R.id.btn_spin);
 
+        roulette_popup.show();
+
+        // show result
+        spin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView restoName;
+                ImageView restoPhoto, close;
+                Button spin_again;
+
+                RestaurantDist randomResto;
+                String randomRestoName, randomRestoPhoto;
+                Random rand = new Random();
+
+                updateRoulette();
+                randomResto = rouletteArray.get(rand.nextInt(rouletteArray.size()));
+                randomRestoName = randomResto.getRestaurant().getRestoName();
+                randomRestoPhoto = randomResto.getRestaurant().getRestoPhoto();
+
+                roulette_popup.setContentView(R.layout.roulette_result);
+
+                restoName = roulette_popup.findViewById(R.id.tv_restoName);
+                restoName.setText(randomRestoName);
+
+                restoPhoto = roulette_popup.findViewById(R.id.iv_restoPhoto);
+                Picasso.get().load(randomRestoPhoto).into(restoPhoto);
+
+                spin_again = roulette_popup.findViewById(R.id.btn_spin_again);
+                spin_again.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        show_popup(v);
+                    }
+                });
+
+                close = roulette_popup.findViewById(R.id.close_result);
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        roulette_popup.dismiss();
+                    }
+                });
+            }
+        });
+
+        // close the popup
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,7 +297,44 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        roulette_popup.show();
+    }
+
+    // fill roulette with restaurants
+    private void updateRoulette() {
+        CheckBox nearby, fav, high;
+        ArrayList<RestaurantDist> nearbyResto = new ArrayList<>();
+        ArrayList<RestaurantDist> highlyRated = new ArrayList<>();
+
+        // checkboxes
+        nearby = (CheckBox) roulette_popup.findViewById(R.id.cb_nearby);
+        nearby.setOnClickListener(this);
+        fav = (CheckBox) roulette_popup.findViewById(R.id.cb_fav);
+        fav.setOnClickListener(this);
+        high = (CheckBox) roulette_popup.findViewById(R.id.cb_high);
+        high.setOnClickListener(this);
+
+        if (nearby.isChecked()) {
+            Log.d("updateRoulette ", "nearby - checked");
+            for (RestaurantDist resto : restaurantDistArray) {
+                if ((resto.getDistance()/1000) <= 500)
+                    nearbyResto.add(resto);
+            }
+            rouletteArray.addAll(nearbyResto);
+        }
+
+        if (fav.isChecked()) {
+            Log.d("updateRoulette ", "fav - checked");
+            rouletteArray.addAll(favoriteRestaurants);
+        }
+
+        if (high.isChecked()) {
+            Log.d("updateRoulette ", "high - checked");
+            for (RestaurantDist resto : restaurantDistArray) {
+                if (Integer.parseInt(resto.getRestaurant().getOverallRating()) >= 4)
+                    highlyRated.add(resto);
+            }
+            rouletteArray.addAll(highlyRated);
+        }
     }
 
     // collects restaurant collection from db
