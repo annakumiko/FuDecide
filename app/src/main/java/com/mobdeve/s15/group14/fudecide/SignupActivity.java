@@ -50,8 +50,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     String userID;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

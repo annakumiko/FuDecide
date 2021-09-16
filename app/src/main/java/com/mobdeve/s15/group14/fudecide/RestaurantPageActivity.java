@@ -48,7 +48,7 @@ import java.util.Map;
         [ ] Compute distance from current location
         [ ] Compute overall rating
         [/] Go back to HomeMain/HomeMap --> necessary?
-        [ ] Add Review button
+        [/] Add Review button
         [ ] See More reviews button
  */
 public class RestaurantPageActivity extends AppCompatActivity implements View.OnClickListener {
@@ -70,9 +70,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     private FirebaseAuth mAuth;
     private FirebaseFirestore fs;
     private String userID;
-    private String restoID;
 
-    private Boolean liked = false;
+    private Boolean liked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +100,13 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
         String restoName = getIntent().getStringExtra("restoNameTv");
 
+        btn_add_review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAddReview(restoName);
+            }
+        });
+
         getIncomingIntent(); // get resto name from selected row
         findRestaurant(restoName); // match resto name from db and collect details
         getRestoReviews(restoName); // get reviews of selected restaurant
@@ -109,9 +115,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_add_review:
-                startActivity(new Intent(this, AddReviewActivity.class));
-                break;
             case R.id.btn_see_more:
                 startActivity(new Intent(this, AllReviewsActivity.class));
                 break;
@@ -124,20 +127,25 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         }
     }
 
+    private void goToAddReview(String restoName){
+        Intent intent = new Intent(this, AddReviewActivity.class);
+        intent.putExtra("rev_restoName", restoName);
+        startActivity(intent);
+    }
+
     private void getIncomingIntent(){
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
 
         if(getIntent().hasExtra("restoNameTv")){
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
+            // fetch data from intent
             String restoNameTv = getIntent().getStringExtra("restoNameTv");
-            setName(restoNameTv);
-        }
-    }
 
-    private void setName(String restoNameTv){
-        TextView restoName = findViewById(R.id.restoNameTv);
-        restoName.setText(restoNameTv);
+            // set text to view
+            TextView restoName = findViewById(R.id.restoNameTv);
+            restoName.setText(restoNameTv);
+        }
     }
 
     private void findRestaurant(String restoName) {
@@ -188,7 +196,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         double rating = document.getDouble("rating");
 
                         reviews.add(new ReviewModel(uname, rName, reviewText, datePosted, rating));
-//                        Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
                     }
                 } else
                     Log.d(TAG, "No reviews");
@@ -199,8 +206,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void setDetails(String rating, String inHours, String description, String photo){
-//        Log.d(TAG, "setDetails: setting restaurant details");
-
         TextView rate = findViewById(R.id.ratingTv);
         rate.setText(rating);
 
@@ -217,15 +222,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         photoIv.setImageBitmap(myBitmap);
 
-//        photoIv.setImageURI(Uri.parse(photo));
-//        photoIv.setImageBitmap(BitmapFactory.decodeFile(photo));
-
         Log.d(TAG, "setDetails: Photo Link path is " + photo );
     }
-
-    // show menu
-
-    // show reviews
 
     private void likeRestaurant() {
 
