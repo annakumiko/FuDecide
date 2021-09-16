@@ -64,14 +64,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/raleway"
         android:text="Favorites"
         android:textColor="#333333"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bio" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_editbio" />
 
     <TextView
         android:id="@+id/tv2"
@@ -87,25 +87,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_favorites" />
 
-    <TextView
-        android:id="@+id/tv_bio"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/karla"
-        android:text="Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-        android:textColor="#333333"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorites"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,11 +102,65 @@
         android:id="@+id/rv_user_reviews"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+    <TextView
+        android:id="@+id/tv_editbio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/karla"
+        android:text="Edit Bio"
+        android:textColor="#00BCD4"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bio" />
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/karla"
+        android:text="Save"
+        android:textColor="#00BCD4"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bio" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/karla"
+        android:text="Cancel"
+        android:textColor="#F44336"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/tv_save"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bio" />
+
+    <TextView
+        android:id="@+id/tv_bio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:ems="10"
+        android:enabled="false"
+        android:fontFamily="@font/karla"
+        android:hint="Enter your bio"
+        android:inputType="textPersonName"
+        android:text="Tell us about yourself."
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

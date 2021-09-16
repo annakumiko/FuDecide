@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1076202257799",
+    "firebase_url": "https://fudecide-default-rtdb.firebaseio.com",
     "project_id": "fudecide",
     "storage_bucket": "fudecide.appspot.com"
   },
@@ -27,7 +28,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1076202257799-nufge4icfbrqemdf5ogcu2mhrvct46hg.apps.googleusercontent.com",
+              "client_id": "1076202257799-08ostnbaibhfo685tvd7ie91gt0sua2b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
