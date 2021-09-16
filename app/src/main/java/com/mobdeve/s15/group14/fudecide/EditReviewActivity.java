@@ -121,8 +121,6 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
-
-
     }
 
     @Override

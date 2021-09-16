@@ -10,7 +10,6 @@ public class RestaurantsModel implements Serializable{
     private ArrayList<MenuModel> menu;
     private String overallRating;
     private String restoDescription, restoName, restoPhoto;
-//    private ArrayList<ReviewsModel> reviews;
 
     public RestaurantsModel() { }
 
@@ -69,9 +68,7 @@ public class RestaurantsModel implements Serializable{
         return restoDescription;
     }
 
-    public void setRestoDescription(String restoDescription) {
-        this.restoDescription = restoDescription;
-    }
+    public void setRestoDescription(String restoDescription) { this.restoDescription = restoDescription; }
 
     public String getRestoName() {
         return restoName;
@@ -89,7 +86,4 @@ public class RestaurantsModel implements Serializable{
         this.restoPhoto = restoPhoto;
     }
 
-//    public ArrayList<ReviewsModel> getReviews(){
-//        return reviews;
-//    }
 }

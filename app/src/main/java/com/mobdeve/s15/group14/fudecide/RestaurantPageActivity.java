@@ -50,18 +50,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-/*
-    TASKS:
-        [/] Pass intent from HomeMainActivity (recycler view item to solo page)
-        [/] Print all restaurant details progeperly
-        [ ] Fetch and print menu items
-        [/] Fetch and print reviews
-        [-] Compute distance from current location
-        [ ] Compute overall rating
-        [/] Go back to HomeMain/HomeMap --> necessary?
-        [/] Add Review button
-        [-] See More reviews button
- */
 public class RestaurantPageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RestaurantPage";
@@ -198,13 +186,13 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
             // fetch data from intent
             String restoNameTv = getIntent().getStringExtra("restoNameTv");
-            setName(restoNameTv);
-        }
-    }
+            TextView restoName = findViewById(R.id.restoNameTv);
+            restoName.setText(restoNameTv);
 
-    private void setName(String restoNameTv){
-        TextView restoName = findViewById(R.id.restoNameTv);
-        restoName.setText(restoNameTv);
+            String distanceTV = getIntent().getStringExtra("distanceTv");
+            TextView distance = findViewById(R.id.distanceTv);
+            distance.setText(distanceTV);
+        }
     }
 
     private void findRestaurant(String restoName) {

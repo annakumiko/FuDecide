@@ -53,7 +53,6 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
 
             resto_item = view.findViewById(R.id.resto_item);
         }
-
     }
 
     // 3 methods
@@ -91,6 +90,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
         holder.resto_item.setOnClickListener(v -> {
             Intent intent = new Intent(this.context, RestaurantPageActivity.class);
             intent.putExtra("restoNameTv", resto_name);
+            intent.putExtra("distanceTv", resto_loc);
             this.context.startActivity(intent);
         });
     }
