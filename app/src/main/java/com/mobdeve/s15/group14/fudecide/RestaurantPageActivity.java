@@ -19,9 +19,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -38,6 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /*
     TASKS:
@@ -70,8 +78,15 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     private FirebaseAuth mAuth;
     private FirebaseFirestore fs;
     private String userID;
+    private FirebaseUser user;
+    private DatabaseReference dbRef;
+    private String userNameVar;
 
     private Boolean liked;
+
+    private int googleSignIn;
+    GoogleSignInClient mGoogleSignInClient;
+    LoginActivity la = new LoginActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +96,30 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         mAuth = FirebaseAuth.getInstance();
         fs = FirebaseFirestore.getInstance();
 
-        userID = mAuth.getCurrentUser().getUid();
+        googleSignIn = la.getGoogleSignIn();
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        dbRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        // OnCreate if Firebase Auth is used
+        if (googleSignIn == 0){
+            userID = mAuth.getCurrentUser().getUid();
+            refreshData();
+
+            // OnCreate if Google Sign In is used
+        } else if (googleSignIn == 1){
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+
+            // Set tv_user to name
+            if (acct != null) {
+                String name = acct.getGivenName();
+                userNameVar = name;
+            }
+        }
 
         menuList = findViewById(R.id.rv_menu);
         reviewList = findViewById(R.id.rv_reviews);
@@ -125,6 +163,26 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                 likeRestaurant();
                 break;
         }
+    }
+
+    private void refreshData() {
+        DocumentReference documentReference = fs.collection("users").document(userID);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String name = document.getString("name");
+                        userNameVar = name;
+                    } else {
+                        Log.d("query-zz", "No such document");
+                    }
+                } else {
+                    Log.d("query-zz", "failed");
+                }
+            }
+        });
     }
 
     private void goToAddReview(String restoName){
@@ -189,13 +247,22 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for(QueryDocumentSnapshot document : task.getResult()){
+                        String reviewID = document.getString("reviewID");
                         String uname = document.getString("name");
                         String rName = document.getString("restoName");
                         String reviewText = document.getString("reviewText");
                         String datePosted = document.getString("datePosted");
                         double rating = document.getDouble("rating");
 
-                        reviews.add(new ReviewModel(uname, rName, reviewText, datePosted, rating));
+//                        // if current username matches name of review, do not hide button
+//                        if(uname == userNameVar) {
+//                            int hide = 1;
+//                        }
+//                        else {
+//                            int hide = 0;
+//                        }
+
+                        reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
                     }
                 } else
                     Log.d(TAG, "No reviews");

@@ -36,6 +36,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class AddReviewActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,16 +50,17 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
     private String userID;
     private DatabaseReference dbRef;
 
-    private String userNameVar, restoNameVar, reviewVar; // to store resto name and review
+    private String reviewID, userNameVar, restoNameVar, reviewVar; // to store resto name and review
     private Float ratingVar; // to store rating value
     private String datePosted;
     private Boolean liked = false;
+    private int dummyInt; // generating random ID
+    private Random dummyRandom; // generating random ID
 
     private Button btn_post_review;
     private ImageView rev_home, rev_like;
     private RatingBar rev_rating;
     private EditText rev_review;
-
 
     private int googleSignIn;
     GoogleSignInClient mGoogleSignInClient;
@@ -76,6 +78,10 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         dbRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        dummyRandom = new Random(System.currentTimeMillis());
+        dummyInt = 10000 + dummyRandom.nextInt(20000);
+        reviewID = "RV" + String.valueOf(dummyInt);
 
         // OnCreate if Firebase Auth is used
         if (googleSignIn == 0){
@@ -111,7 +117,7 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
         btn_post_review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postReview(restoNameVar, userNameVar);
+                postReview(restoNameVar, userNameVar, reviewID);
 //                Log.d(TAG, "onClick: Post will be added for: " + restoNameVar + userNameVar);
             }
         });
@@ -193,7 +199,7 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
     }
 
     // save review to db
-    private void postReview(String restoNameVar, String userNameVar) {
+    private void postReview(String restoNameVar, String userNameVar, String reviewID) {
         // Get values from inputs
         reviewVar = rev_review.getText().toString();
         ratingVar = rev_rating.getRating();
@@ -204,6 +210,7 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
 
         // put data fields into one object
         Map<String, Object> reviewObj = new HashMap<>();
+        reviewObj.put("reviewID", reviewID);
         reviewObj.put("datePosted", datePosted);
         reviewObj.put("name", userNameVar);
         reviewObj.put("rating", ratingVar);

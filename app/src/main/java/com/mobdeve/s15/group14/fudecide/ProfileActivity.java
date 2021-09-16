@@ -262,13 +262,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for(QueryDocumentSnapshot document : task.getResult()){
+                        String reviewID = document.getString("reviewID");
                         String uname = document.getString("name");
                         String rName = document.getString("restoName");
                         String reviewText = document.getString("reviewText");
                         String datePosted = document.getString("datePosted");
                         double rating = document.getDouble("rating");
 
-                        reviews.add(new ReviewModel(uname, rName, reviewText, datePosted, rating));
+                        reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
 //                        Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
                     }
                 } else

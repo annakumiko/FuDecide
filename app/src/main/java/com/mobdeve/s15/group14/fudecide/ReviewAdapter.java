@@ -69,6 +69,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         String restName = reviews.get(position).getRestoName();
         holder.restauName.setText(restName);
 
+        String revID = reviews.get(position).getReviewID();
+
         // show edit button if review is from current user
 
         holder.editReviewBtn.setOnClickListener(v ->{
@@ -77,6 +79,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             intent.putExtra("reviewText", reviewTxt);
             intent.putExtra("rating", rate);
             intent.putExtra("restauName", restName);
+            intent.putExtra("reviewID", revID);
             this.context.startActivity(intent);
         });
     }
