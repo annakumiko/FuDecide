@@ -138,6 +138,7 @@ public class HomeMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
+    // Updates map markers onClick nearby and favorite tabs.
     public void updateMarkers(ArrayList<RestaurantDist> r) {
         mMap.clear();
         data.clear();

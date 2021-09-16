@@ -2,6 +2,7 @@ package com.mobdeve.s15.group14.fudecide;
 
 import java.io.Serializable;
 
+
 public class RestaurantDist implements Serializable {
     float distance;
     RestaurantsModel restaurant;

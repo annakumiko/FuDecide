@@ -94,12 +94,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    // Main register function.
     private void registerUser() {
         String name = et_name.getText().toString().trim();
         String email = et_signup_email.getText().toString().trim();
         String password = et_signup_password.getText().toString().trim();
         String password2 = et_signup_password2.getText().toString().trim();
 
+        // Basic input checking.
         if (name.isEmpty()) {
             et_name.setError("Please enter a name.");
             et_name.requestFocus();
@@ -139,6 +141,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             et_signup_password2.setError("Passwords don't match.");
             et_signup_password2.requestFocus();
         }
+
+        // Creates entry in Firestore DB.
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
@@ -197,6 +201,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    // Integrates Google Account with custom email in FirebaseAuth
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)

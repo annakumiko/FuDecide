@@ -124,6 +124,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    // Refreshes user data
     private void refreshData() {
         DocumentReference documentReference = fs.collection("users").document(userID);
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -201,6 +202,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    // Updates user bio.
     private void updateBio() {
         EditText et_bio = bio_popup.findViewById(R.id.et_bio);
         String newBio = et_bio.getText().toString().trim();
@@ -250,6 +252,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    // Gets and displays all reviews of the user.
     private void getRestoReviews(String name){
         Log.d("TAG", "Name: " + name);
         reviews.clear();

@@ -150,6 +150,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    // Turns on GPS on first run. (Called in getCurrentLocation)
     private void turnOnGPS() {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
@@ -189,6 +190,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    // Checks if GPS is enabled. (Called in getCurrentLocation)
     private boolean isGPSEnabled() {
         LocationManager locationManager = null;
         boolean isEnabled = false;
@@ -201,7 +203,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         return isEnabled;
     }
 
-    // gets current location of the user's device
+    // Gets current location of the user's device
     @SuppressLint("MissingPermission")
     private void getCurrentLocation(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -239,7 +241,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    // Computes distance of current location to the restaurants
+    // Computes distance between current location and restaurants.
     public void computeDist(RestaurantsModel restaurant) {
         float[] results = new float[1];
         Log.d("LATLNG", "lat = " + latitude + ", long = " + longitude);
@@ -352,9 +354,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    // collects restaurant collection from db
+    // Collects restaurant collection from Firestore DB
     private void setRestaurantData() {
-        // Get restaurants from Firestore db
+        // Get restaurants from Firestore DB
         db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -407,7 +409,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    // gets the user's favorites
+    // Gets the user's favorites and puts it into favoriteRestaurants Arraylist<RestaurantsModel>.
     private void getActualFavorites(ArrayList<String> favorites) {
         favoriteRestaurants.clear();
         for (int i = 0; i < favorites.size(); i++) {
@@ -446,6 +448,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    // Gets names of favorite restaurants and puts it into ArrayList<String> favorites
     private void getStringFavorites() {
         userID = mAuth.getCurrentUser().getUid();
 

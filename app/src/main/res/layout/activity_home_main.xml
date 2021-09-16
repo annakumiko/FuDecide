@@ -33,16 +33,18 @@
 
         <ImageView
             android:id="@+id/btn_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="34dp"
+            android:layout_height="32dp"
             app:srcCompat="@drawable/profile" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:height="32dp"
             android:fontFamily="@font/raleway"
             android:gravity="center"
+            android:paddingRight="32dp"
             android:text="Home"
             android:textColor="#48D8BF"
             android:textSize="18dp"
@@ -63,15 +65,15 @@
         <SearchView
             android:id="@+id/sv_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="32dp"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="#FFFFFF" />
 
         <ImageView
             android:id="@+id/btn_map_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/map_view" />
 
     </LinearLayout>
@@ -103,7 +105,8 @@
             android:fontFamily="@font/karla"
             android:gravity="center"
             android:text="NEARBY"
-            android:textColor="#48D8BF" />
+            android:textColor="#48D8BF"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/btn_favorites"
@@ -113,7 +116,8 @@
             android:fontFamily="@font/karla"
             android:gravity="center"
             android:text="FAVORITES"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <View
@@ -142,10 +146,14 @@
         android:background="#FFFFFF"
         android:backgroundTint="#48D8BF"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_rotate"
+        android:src="@drawable/wheel"
+        android:tint="@color/white"
+        android:tintMode="multiply"
         app:backgroundTint="#48D8BF"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="38dp"
+        app:rippleColor="#C14D4D" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
