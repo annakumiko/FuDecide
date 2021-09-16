@@ -47,13 +47,9 @@ public class RestaurantsModel implements Serializable{
         this.longitude = longitude;
     }
 
-    public ArrayList<MenuModel> getMenu() {
-        return menu;
-    }
+    public ArrayList<MenuModel> getMenu() { return menu; }
 
-    public void setMenu(ArrayList<MenuModel> menu) {
-        this.menu = menu;
-    }
+    public void setMenu(ArrayList<MenuModel> menu) { this.menu = menu; }
 
     public String getOverallRating() {
         return overallRating;

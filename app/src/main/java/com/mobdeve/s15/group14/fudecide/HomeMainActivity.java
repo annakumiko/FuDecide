@@ -313,7 +313,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 roulette_popup.dismiss();
             }
         });
-
     }
 
     // fill roulette with restaurants
@@ -469,6 +468,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
             }
         });
     }
+
     // onClick functions from Home Main
     @Override
     public void onClick(View v) {

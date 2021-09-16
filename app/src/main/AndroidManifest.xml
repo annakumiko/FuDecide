@@ -18,10 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FuDecide">
         <!-- AddRestaurant activity will be deleted afterwards -->
-        <activity android:name=".AddRestaurant"></activity>
         <activity android:name=".EditReviewActivity" />
         <activity android:name=".AddReviewActivity" />
-        <activity android:name=".AllReviewsActivity" />
         <activity android:name=".RestaurantPageActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

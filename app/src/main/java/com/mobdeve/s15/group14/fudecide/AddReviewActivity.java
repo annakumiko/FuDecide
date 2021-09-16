@@ -224,8 +224,9 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()){
                             Log.d(TAG, "Review posted!");
-                            Toast.makeText(AddReviewActivity.this, "Review posted", Toast.LENGTH_LONG).show();
+
                             finish();
+                            Toast.makeText(AddReviewActivity.this, "Review posted", Toast.LENGTH_LONG).show();
                         }
                         else Log.d(TAG, "Posting of review failed.");
                     }

@@ -60,7 +60,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
     private RecyclerView menuList, reviewList;
     private ImageView iv_home, iv_liked;
-    private Button btn_see_more, btn_add_review;
+    private Button btn_add_review;
     private String overallRate;
 
     private static ArrayList<MenuModel> menu = new ArrayList<>();
@@ -215,6 +215,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
                         setDetails(inHours, description, photo);
 
+                        // pass menu items to arraylist
                         for(MenuModel menuItem : resto.getMenu()) {
                             menu.add(menuItem);
                             Log.d(TAG, "onComplete: " + resto.getMenu().size());
@@ -264,8 +265,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void setDetails(String inHours, String description, String photo){
-        TextView rate = findViewById(R.id.ratingTv);
-
         TextView openHours = findViewById(R.id.openHoursTv);
         openHours.setText(inHours);
 

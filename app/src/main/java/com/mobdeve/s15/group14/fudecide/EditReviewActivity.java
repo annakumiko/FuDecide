@@ -3,6 +3,7 @@ package com.mobdeve.s15.group14.fudecide;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -114,6 +115,7 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
                                     }
                                 });
 
+                        finish();
                         Toast.makeText(EditReviewActivity.this, "Review updated", Toast.LENGTH_LONG).show();
                     }
                 } else
