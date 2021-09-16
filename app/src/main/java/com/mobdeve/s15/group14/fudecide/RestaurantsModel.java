@@ -1,64 +1,95 @@
 package com.mobdeve.s15.group14.fudecide;
 
-import com.google.type.DateTime;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 
-public class RestaurantsModel {
-    private DateTime closeHour;
-    private int latitude, longitude;
+public class RestaurantsModel implements Serializable{
+    private String openHours;
+    private double latitude, longitude;
     private ArrayList<MenuModel> menu;
-    private DateTime openHour;
-    private int overallRating;
+    private String overallRating;
     private String restoDescription, restoName, restoPhoto;
+//    private ArrayList<ReviewsModel> reviews;
 
-    private RestaurantsModel() {}
+    public RestaurantsModel() { }
 
-    public RestaurantsModel(DateTime closeHour, int latitude, int longitude, ArrayList menu, DateTime openHour, int overallRating, String restoDescription, String restoName, String restoPhoto) {
-        this.closeHour = closeHour;
+    public RestaurantsModel(String openHours, double latitude, double longitude, String overallRating, String restoDescription, String restoName, String restoPhoto) {
+        this.openHours = openHours;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.menu = menu;
-        this.openHour = openHour;
+//        this.menu = menu;
         this.overallRating = overallRating;
         this.restoDescription = restoDescription;
         this.restoName = restoName;
         this.restoPhoto = restoPhoto;
     }
 
-    public DateTime getCloseHour() {
-        return closeHour;
+    public String getOpenHours() {
+        return openHours;
     }
 
-    public int getLatitude() {
+    public void setOpenHours(String openHours) {
+        this.openHours = openHours;
+    }
+
+    public double getLatitude() {
         return latitude;
     }
 
-    public int getLongitude() {
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
         return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public ArrayList<MenuModel> getMenu() {
         return menu;
     }
 
-    public DateTime getOpenHour() {
-        return openHour;
+    public void setMenu(ArrayList<MenuModel> menu) {
+        this.menu = menu;
     }
 
-    public int getOverallRating() {
+    public String getOverallRating() {
         return overallRating;
+    }
+
+    public void setOverallRating(String overallRating) {
+        this.overallRating = overallRating;
     }
 
     public String getRestoDescription() {
         return restoDescription;
     }
 
+    public void setRestoDescription(String restoDescription) {
+        this.restoDescription = restoDescription;
+    }
+
     public String getRestoName() {
         return restoName;
+    }
+
+    public void setRestoName(String restoName) {
+        this.restoName = restoName;
     }
 
     public String getRestoPhoto() {
         return restoPhoto;
     }
+
+    public void setRestoPhoto(String restoPhoto) {
+        this.restoPhoto = restoPhoto;
+    }
+
+//    public ArrayList<ReviewsModel> getReviews(){
+//        return reviews;
+//    }
 }

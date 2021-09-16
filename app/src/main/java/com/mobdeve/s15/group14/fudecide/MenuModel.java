@@ -4,17 +4,12 @@ public class MenuModel {
     private String itemDescription, itemName, itemPhoto;
     private int itemPrice;
 
-    private MenuModel() {}
+    public MenuModel() {}
 
-    public MenuModel(String itemDescription, String itemName, String itemPhoto, int itemPrice) {
-        this.itemDescription = itemDescription;
+    public MenuModel(String itemName, String itemPhoto, int itemPrice) {
         this.itemName = itemName;
         this.itemPhoto = itemPhoto;
         this.itemPrice = itemPrice;
-    }
-
-    public String getItemDescription() {
-        return itemDescription;
     }
 
     public String getItemName() {
