@@ -70,7 +70,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     private FirebaseAuth mAuth;
     private FirebaseFirestore fs;
     private String userID;
-    private String restoID;
 
     private Boolean liked = false;
 
@@ -101,6 +100,13 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
         String restoName = getIntent().getStringExtra("restoNameTv");
 
+        btn_add_review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAddReview(restoName);
+            }
+        });
+
         getIncomingIntent(); // get resto name from selected row
         findRestaurant(restoName); // match resto name from db and collect details
         getRestoReviews(restoName); // get reviews of selected restaurant
@@ -109,9 +115,11 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_add_review:
-                startActivity(new Intent(this, AddReviewActivity.class));
-                break;
+//            case R.id.btn_add_review:
+//                Intent intent = new Intent(this, AddReviewActivity.class);
+//                intent.putExtra("rev_restoName", restoName);
+//                startActivity(intent);
+//                break;
             case R.id.btn_see_more:
                 startActivity(new Intent(this, AllReviewsActivity.class));
                 break;
@@ -124,20 +132,25 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         }
     }
 
+    private void goToAddReview(String restoName){
+            Intent intent = new Intent(this, AddReviewActivity.class);
+            intent.putExtra("rev_restoName", restoName);
+            startActivity(intent);
+    }
+
     private void getIncomingIntent(){
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
 
         if(getIntent().hasExtra("restoNameTv")){
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
+            // fetch data from intent
             String restoNameTv = getIntent().getStringExtra("restoNameTv");
-            setName(restoNameTv);
-        }
-    }
 
-    private void setName(String restoNameTv){
-        TextView restoName = findViewById(R.id.restoNameTv);
-        restoName.setText(restoNameTv);
+            // set text to view
+            TextView restoName = findViewById(R.id.restoNameTv);
+            restoName.setText(restoNameTv);
+        }
     }
 
     private void findRestaurant(String restoName) {

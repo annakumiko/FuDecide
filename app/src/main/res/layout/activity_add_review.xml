@@ -41,7 +41,7 @@
         app:iconTint="#333333"
         app:iconTintMode="multiply"
         app:layout_constraintStart_toEndOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/rev_review" />
 
     <TextView
         android:id="@+id/textView18"
@@ -70,7 +70,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/rev_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -80,7 +80,7 @@
         app:srcCompat="@drawable/home" />
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/rev_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -152,7 +152,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/rev_restoName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -163,21 +163,30 @@
         app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
+    <TextView
+        android:id="@+id/rev_userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/karla"
+        android:text="Restaurant Name"
+        android:textColor="#00333333"
+        tools:layout_editor_absoluteX="281dp"
+        tools:layout_editor_absoluteY="699dp" />
+
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/rev_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/rev_restoName" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/rev_review"
         android:layout_width="0dp"
         android:layout_height="128dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:fontFamily="@font/karla"
@@ -187,6 +196,7 @@
         android:singleLine="false"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+        app:layout_constraintTop_toBottomOf="@+id/rev_rating" />
 </androidx.constraintlayout.widget.ConstraintLayout>
