@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView14" />
 
     <TextView
-        android:id="@+id/textView26"
+        android:id="@+id/update_restoName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/update_reviewText"
         android:layout_width="0dp"
         android:layout_height="128dp"
         android:layout_marginStart="44dp"
@@ -103,7 +103,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView27"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar3" />
+        app:layout_constraintTop_toBottomOf="@+id/update_rating" />
 
     <TextView
         android:id="@+id/textView27"
@@ -166,7 +166,7 @@
         app:iconTint="#333333"
         app:iconTintMode="multiply"
         app:layout_constraintStart_toEndOf="@+id/textView29"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/update_reviewText" />
 
     <TextView
         android:id="@+id/textView28"
@@ -182,11 +182,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
     <RatingBar
-        android:id="@+id/ratingBar3"
+        android:id="@+id/update_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/textView28"
-        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+        app:layout_constraintTop_toBottomOf="@+id/update_restoName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

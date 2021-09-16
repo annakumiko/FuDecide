@@ -1,9 +1,11 @@
 package com.mobdeve.s15.group14.fudecide;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +28,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private LinearLayout review_item;
-        private TextView userName, reviewText, rating;
+        private TextView userName, reviewText, rating, restauName;
+        private ImageView editReviewBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -34,6 +37,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             userName = itemView.findViewById(R.id.userName);
             reviewText = itemView.findViewById(R.id.reviewText);
             rating = itemView.findViewById(R.id.rating);
+            restauName = itemView.findViewById(R.id.restauName);
+            editReviewBtn = itemView.findViewById(R.id.editReviewBtn);
 
             review_item = itemView.findViewById(R.id.review_item);
         }
@@ -61,6 +66,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         Double rate = reviews.get(position).getRating();
         holder.rating.setText(String.valueOf(rate));
 
+        String restName = reviews.get(position).getRestoName();
+        holder.restauName.setText(restName);
+
+        // show edit button if review is from current user
+
+        holder.editReviewBtn.setOnClickListener(v ->{
+            Intent intent = new Intent(this.context, EditReviewActivity.class);
+            intent.putExtra("name", uname);
+            intent.putExtra("reviewText", reviewTxt);
+            intent.putExtra("rating", rate);
+            intent.putExtra("restauName", restName);
+            this.context.startActivity(intent);
+        });
     }
 
     @Override

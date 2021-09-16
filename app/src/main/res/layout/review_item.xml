@@ -22,15 +22,23 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imageView12"
+            android:id="@+id/editReviewBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/edit" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/restauName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/karla"
+        android:textStyle="italic" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
@@ -55,6 +63,7 @@
         android:id="@+id/reviewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/karla"
         android:textColor="#333333" />
 
