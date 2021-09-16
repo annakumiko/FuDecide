@@ -17,7 +17,6 @@ public class RestaurantsModel implements Serializable{
         this.openHours = openHours;
         this.latitude = latitude;
         this.longitude = longitude;
-//        this.menu = menu;
         this.overallRating = overallRating;
         this.restoDescription = restoDescription;
         this.restoName = restoName;

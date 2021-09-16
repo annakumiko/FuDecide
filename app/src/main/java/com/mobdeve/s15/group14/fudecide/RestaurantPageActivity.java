@@ -43,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,8 +65,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
     private static ArrayList<MenuModel> menu = new ArrayList<>();
     private static ArrayList<ReviewModel> reviews = new ArrayList<>();
-
-//    private static Object currResto;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore fs;
@@ -204,6 +203,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for(QueryDocumentSnapshot document : task.getResult()){
+                        RestaurantsModel resto = document.toObject(RestaurantsModel.class);
+
                         String inHours = document.getString("openHours");
                         double latitude = document.getDouble("latitude");
                         double longitude = document.getDouble("longitude");
@@ -212,12 +213,12 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         String name = document.getString("restoName");
                         String photo = document.getString("restoPhoto");
 
-                        //collect menu
-//                        List<menu> menu = [];
-
                         setDetails(inHours, description, photo);
 
-//                        currResto = new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo);
+                        for(MenuModel menuItem : resto.getMenu()) {
+                            menu.add(menuItem);
+                            Log.d(TAG, "onComplete: " + resto.getMenu().size());
+                        }
                     }
                 }
                 else Log.d(TAG, "Restaurant not found");
@@ -267,8 +268,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
         TextView openHours = findViewById(R.id.openHoursTv);
         openHours.setText(inHours);
-
-        // location
 
         TextView desc = findViewById(R.id.descTv);
         desc.setText(description);

@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
@@ -41,7 +43,6 @@ class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
             menu_item = itemView.findViewById(R.id.menuItem);
         }
-
     }
 
     @NonNull
@@ -60,8 +61,11 @@ class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         String itemName = menuItems.get(position).getItemName();
         holder.itemName.setText(itemName);
 
-        int itemPrice = menuItems.get(position).getItemPrice();
+        String itemPrice = menuItems.get(position).getItemPrice();
         holder.itemPrice.setText("P " + itemPrice);
+
+        String photo_url = menuItems.get(position).getItemPhoto();
+        Picasso.get().load(photo_url).into(holder.itemPhoto);
     }
 
     @Override
