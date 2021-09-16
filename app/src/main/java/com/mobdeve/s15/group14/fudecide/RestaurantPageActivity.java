@@ -48,7 +48,7 @@ import java.util.Map;
         [ ] Compute distance from current location
         [ ] Compute overall rating
         [/] Go back to HomeMain/HomeMap --> necessary?
-        [ ] Add Review button
+        [/] Add Review button
         [ ] See More reviews button
  */
 public class RestaurantPageActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,7 +71,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     private FirebaseFirestore fs;
     private String userID;
 
-    private Boolean liked = false;
+    private Boolean liked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,11 +115,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.btn_add_review:
-//                Intent intent = new Intent(this, AddReviewActivity.class);
-//                intent.putExtra("rev_restoName", restoName);
-//                startActivity(intent);
-//                break;
             case R.id.btn_see_more:
                 startActivity(new Intent(this, AllReviewsActivity.class));
                 break;
@@ -133,9 +128,9 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void goToAddReview(String restoName){
-            Intent intent = new Intent(this, AddReviewActivity.class);
-            intent.putExtra("rev_restoName", restoName);
-            startActivity(intent);
+        Intent intent = new Intent(this, AddReviewActivity.class);
+        intent.putExtra("rev_restoName", restoName);
+        startActivity(intent);
     }
 
     private void getIncomingIntent(){
@@ -201,7 +196,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         double rating = document.getDouble("rating");
 
                         reviews.add(new ReviewModel(uname, rName, reviewText, datePosted, rating));
-//                        Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
                     }
                 } else
                     Log.d(TAG, "No reviews");
@@ -212,8 +206,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     private void setDetails(String rating, String inHours, String description, String photo){
-//        Log.d(TAG, "setDetails: setting restaurant details");
-
         TextView rate = findViewById(R.id.ratingTv);
         rate.setText(rating);
 
@@ -230,15 +222,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         photoIv.setImageBitmap(myBitmap);
 
-//        photoIv.setImageURI(Uri.parse(photo));
-//        photoIv.setImageBitmap(BitmapFactory.decodeFile(photo));
-
         Log.d(TAG, "setDetails: Photo Link path is " + photo );
     }
-
-    // show menu
-
-    // show reviews
 
     private void likeRestaurant() {
 
