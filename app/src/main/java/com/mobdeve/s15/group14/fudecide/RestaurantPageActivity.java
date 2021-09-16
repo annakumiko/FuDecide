@@ -18,12 +18,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.File;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,11 +56,11 @@ import java.util.UUID;
         [/] Print all restaurant details progeperly
         [ ] Fetch and print menu items
         [/] Fetch and print reviews
-        [ ] Compute distance from current location
+        [-] Compute distance from current location
         [ ] Compute overall rating
         [/] Go back to HomeMain/HomeMap --> necessary?
         [/] Add Review button
-        [ ] See More reviews button
+        [-] See More reviews button
  */
 public class RestaurantPageActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -69,6 +72,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     private RecyclerView menuList, reviewList;
     private ImageView iv_home, iv_liked;
     private Button btn_see_more, btn_add_review;
+    private String overallRate;
 
     private static ArrayList<MenuModel> menu = new ArrayList<>();
     private static ArrayList<ReviewModel> reviews = new ArrayList<>();
@@ -226,7 +230,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         //collect menu
 //                        List<menu> menu = [];
 
-                        setDetails(rating, inHours, description, photo);
+                        setDetails(inHours, description, photo);
 
 //                        currResto = new RestaurantsModel(inHours, latitude, longitude, rating, description, name, photo);
                     }
@@ -246,6 +250,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
+                    double dummyRating = 0;
+                    int i = 0;
                     for(QueryDocumentSnapshot document : task.getResult()){
                         String reviewID = document.getString("reviewID");
                         String uname = document.getString("name");
@@ -254,16 +260,15 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         String datePosted = document.getString("datePosted");
                         double rating = document.getDouble("rating");
 
-//                        // if current username matches name of review, do not hide button
-//                        if(uname == userNameVar) {
-//                            int hide = 1;
-//                        }
-//                        else {
-//                            int hide = 0;
-//                        }
-
+                        dummyRating += rating;
+                        i++;
                         reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
                     }
+
+                    String restoName = getIntent().getStringExtra("restoNameTv");
+                    DecimalFormat df = new DecimalFormat("##.##");
+                    overallRate = String.valueOf(df.format(dummyRating/i));
+                    setOverallRate(overallRate, restoName);
                 } else
                     Log.d(TAG, "No reviews");
 
@@ -272,9 +277,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         });
     }
 
-    private void setDetails(String rating, String inHours, String description, String photo){
+    private void setDetails(String inHours, String description, String photo){
         TextView rate = findViewById(R.id.ratingTv);
-        rate.setText(rating);
 
         TextView openHours = findViewById(R.id.openHoursTv);
         openHours.setText(inHours);
@@ -290,6 +294,32 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         photoIv.setImageBitmap(myBitmap);
 
         Log.d(TAG, "setDetails: Photo Link path is " + photo );
+    }
+
+    public void setOverallRate(String rate, String restoName){
+        TextView rateTv = findViewById(R.id.ratingTv);
+        rateTv.setText(rate);
+
+        db.collection("restaurants").whereEqualTo("restoName", restoName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for(QueryDocumentSnapshot doc : task.getResult()){
+                        String docID = doc.getId();
+                        Log.d(TAG, "Updating" +rate+ " of doc: " + docID);
+
+                        DocumentReference docRef = db.collection("restaurants").document(docID);
+                        docRef.update("overallRating", rate)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.d(TAG, "onSuccess: Overall rating updated: " + rate);
+                                    }
+                                });
+                    }
+                }
+            }
+        });
     }
 
     private void likeRestaurant() {
