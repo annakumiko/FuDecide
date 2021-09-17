@@ -78,7 +78,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
        String resto_time = restaurants.get(position).getRestaurant().getOpenHours();
        holder.resto_time.setText(resto_time);
 
-       String resto_url = restaurants.get(position).getRestaurant().getRestoPhoto();
+       String resto_url = restaurants.get(position).getRestaurant().getRestoIcon();
        Picasso.get().load(resto_url).into(holder.resto_photo);
 
        Float dist = restaurants.get(position).getDistance(); // get distance

@@ -28,7 +28,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private LinearLayout review_item;
-        private TextView userName, reviewText, rating, restauName;
+        private TextView userName, reviewText, rating, restauName, datePosted;
         private ImageView editReviewBtn;
 
         public ViewHolder(@NonNull View itemView) {
@@ -38,6 +38,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             reviewText = itemView.findViewById(R.id.reviewText);
             rating = itemView.findViewById(R.id.rating);
             restauName = itemView.findViewById(R.id.restauName);
+            datePosted = itemView.findViewById(R.id.datePosted);
             editReviewBtn = itemView.findViewById(R.id.editReviewBtn);
 
             review_item = itemView.findViewById(R.id.review_item);
@@ -68,6 +69,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         String restName = reviews.get(position).getRestoName();
         holder.restauName.setText(restName);
+
+        String revDate = "(" + reviews.get(position).getDatePosted() + ")";
+        holder.datePosted.setText(revDate);
 
         String revID = reviews.get(position).getReviewID();
 

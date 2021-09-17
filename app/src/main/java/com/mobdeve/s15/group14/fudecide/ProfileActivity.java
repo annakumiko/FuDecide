@@ -75,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         fs = FirebaseFirestore.getInstance();
 
         googleSignIn = la.getGoogleSignIn();
-        Toast.makeText(ProfileActivity.this, "googleSignIn = " + googleSignIn, Toast.LENGTH_LONG).show();
+//        Toast.makeText(ProfileActivity.this, "googleSignIn = " + googleSignIn, Toast.LENGTH_LONG).show();
 
         home = (ImageView) findViewById(R.id.btn_home);
         home.setOnClickListener(this);
@@ -219,6 +219,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("query-zz", "Successfully updated!");
+                        Toast.makeText(ProfileActivity.this, "Updated bio", Toast.LENGTH_LONG).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

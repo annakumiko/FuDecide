@@ -40,6 +40,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.InputStream;
@@ -212,6 +213,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         String description = document.getString("restoDescription");
                         String name = document.getString("restoName");
                         String photo = document.getString("restoPhoto");
+                        String icon = document.getString("restoIcon");
 
                         setDetails(inHours, description, photo);
 
@@ -250,7 +252,10 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         dummyRating += rating;
                         i++;
                         reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
+
                     }
+
+//                    reviews.sort();
 
                     String restoName = getIntent().getStringExtra("restoNameTv");
                     DecimalFormat df = new DecimalFormat("##.##");
@@ -272,11 +277,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         desc.setText(description);
 
         ImageView photoIv = findViewById(R.id.restoImg);
-        File imgFile = new File(photo);
-        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        photoIv.setImageBitmap(myBitmap);
-
-        Log.d(TAG, "setDetails: Photo Link path is " + photo );
+        Picasso.get().load(photo).into(photoIv);
     }
 
     public void setOverallRate(String rate, String restoName){

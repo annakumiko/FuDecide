@@ -5,15 +5,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RestaurantsModel implements Serializable{
-    private String openHours;
     private double latitude, longitude;
     private ArrayList<MenuModel> menu;
     private String overallRating;
-    private String restoDescription, restoName, restoPhoto;
+    private String restoDescription, restoName, openHours, restoPhoto, restoIcon;
 
     public RestaurantsModel() { }
 
-    public RestaurantsModel(String openHours, double latitude, double longitude, String overallRating, String restoDescription, String restoName, String restoPhoto) {
+    public RestaurantsModel(String openHours, double latitude, double longitude, String overallRating, String restoDescription, String restoName, String restoPhoto, String restoIcon) {
         this.openHours = openHours;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -21,6 +20,7 @@ public class RestaurantsModel implements Serializable{
         this.restoDescription = restoDescription;
         this.restoName = restoName;
         this.restoPhoto = restoPhoto;
+        this.restoIcon = restoIcon;
     }
 
     public String getOpenHours() {
@@ -73,9 +73,16 @@ public class RestaurantsModel implements Serializable{
         this.restoName = restoName;
     }
 
-    public String getRestoPhoto() {
-        return restoPhoto;
+    public String getRestoPhoto() { return restoPhoto; }
+
+    public String getRestoIcon() {
+        return restoIcon;
     }
+
+    public void setRestoIcon(String restoIcon) {
+        this.restoPhoto = restoIcon;
+    }
+
 
     public void setRestoPhoto(String restoPhoto) {
         this.restoPhoto = restoPhoto;

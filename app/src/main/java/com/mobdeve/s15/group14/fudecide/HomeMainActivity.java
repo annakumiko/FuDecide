@@ -278,7 +278,7 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 updateRoulette();
                 randomResto = rouletteArray.get(rand.nextInt(rouletteArray.size()));
                 randomRestoName = randomResto.getRestaurant().getRestoName();
-                randomRestoPhoto = randomResto.getRestaurant().getRestoPhoto();
+                randomRestoPhoto = randomResto.getRestaurant().getRestoIcon();
 
                 roulette_popup.setContentView(R.layout.roulette_result);
 
@@ -373,9 +373,10 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                         String description = document.getString("restoDescription");
                         String name = document.getString("restoName");
                         String photo = document.getString("restoPhoto");
+                        String icon = document.getString("restoIcon");
 
                         // add each restaurant to restaurants array
-                        restaurants.add(new RestaurantsModel(inHours, restoLat, restoLong, rating, description, name, photo));
+                        restaurants.add(new RestaurantsModel(inHours, restoLat, restoLong, rating, description, name, photo, icon));
                         Log.d("query-not-sorted", "Restaurants: " + name);
                     }
 
@@ -428,8 +429,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                             String description = document.getString("restoDescription");
                             String name = document.getString("restoName");
                             String photo = document.getString("restoPhoto");
+                            String icon = document.getString("restoIcon");
 
-                            RestaurantsModel resto = new RestaurantsModel(inHours, restoLat, restoLong, rating, description, name, photo); // get resto
+                            RestaurantsModel resto = new RestaurantsModel(inHours, restoLat, restoLong, rating, description, name, photo, icon); // get resto
 
                             float[] results = new float[1];
                             Location.distanceBetween(resto.getLatitude(), resto.getLongitude(), latitude, longitude, results); // get distance
