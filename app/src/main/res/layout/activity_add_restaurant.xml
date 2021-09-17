@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".AddRestaurantActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway"
+                android:text="Restaurant Background"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/restoName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/karla"
+                android:hint="Name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/restoDescription"
+                android:layout_width="match_parent"
+                android:layout_height="86dp"
+                android:ems="10"
+                android:fontFamily="@font/karla"
+                android:gravity="start|top"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:textColorHint="#00FFFFFF" />
+
+            <EditText
+                android:id="@+id/openHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/karla"
+                android:hint="Time"
+                android:inputType="textPersonName" />
+
+            <View
+                android:id="@+id/divider8"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="0dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway"
+                android:text="Menu Items"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:id="@+id/menuItem0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/itemName0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 0"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/itemPrice0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 0"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:id="@+id/menuItem1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/itemName1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 1"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/itemPrice1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 1"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:id="@+id/menuItem2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/itemName2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 2"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/itemPrice2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 2"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:id="@+id/menuItem3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/itemName3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 3"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/itemPrice3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 3"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuItem4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/itemName4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 4"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/itemPrice4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 4"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+<!--            <View-->
+<!--                android:id="@+id/divider11"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="?android:attr/listDivider" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/menuItem5"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="10dp">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemName5"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Name 5"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemPrice5"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Price 5"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <View-->
+<!--                android:id="@+id/divider12"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="?android:attr/listDivider" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/menuItem6"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="10dp">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemName6"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Name 6"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemPrice6"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Price 6"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <View-->
+<!--                android:id="@+id/divider14"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="?android:attr/listDivider" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/menuItem7"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="10dp">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemName7"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Name 7"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemPrice7"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Price 7"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <View-->
+<!--                android:id="@+id/divider13"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="?android:attr/listDivider" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/menuItem8"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="10dp">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemName8"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Name 8"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemPrice8"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Price 8"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <View-->
+<!--                android:id="@+id/divider15"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="?android:attr/listDivider" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/menuItem9"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="10dp">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemName9"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Name 9"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/itemPrice9"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:ems="10"-->
+<!--                    android:fontFamily="@font/karla"-->
+<!--                    android:hint="Price 9"-->
+<!--                    android:inputType="textPersonName" />-->
+
+<!--            </LinearLayout>-->
+
+            <Button
+                android:id="@+id/saveRestoBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#48D8BF"
+                android:fontFamily="@font/karla"
+                android:text="SAVE RESTAURANT"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

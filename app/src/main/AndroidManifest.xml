@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FuDecide">
         <!-- AddRestaurant activity will be deleted afterwards -->
+        <activity android:name=".AddRestaurantActivity" />
         <activity android:name=".EditReviewActivity" />
         <activity android:name=".AddReviewActivity" />
         <activity android:name=".RestaurantPageActivity" />

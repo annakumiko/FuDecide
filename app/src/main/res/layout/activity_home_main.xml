@@ -156,4 +156,14 @@
         app:maxImageSize="38dp"
         app:rippleColor="#C14D4D" />
 
+    <Button
+        android:id="@+id/addRestoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ Restaurant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_list" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,6 +91,8 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private boolean firstRun;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
+    private Button addRestoBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,19 +137,23 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
             firstRun = true;
         }
 
-        // search
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+        // get addRestoBtn
+        addRestoBtn = findViewById(R.id.addRestoBtn);
+        addRestoBtn.setOnClickListener(this);
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+        // search
+//        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                adapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
     }
 
     // Turns on GPS on first run. (Called in getCurrentLocation)
@@ -504,6 +510,9 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 tab_favorites.setTextColor(Color.parseColor("#333333"));
                 // change list
                 updateAdapterNearby();
+                break;
+            case R.id.addRestoBtn:
+                startActivity(new Intent(this, AddRestaurantActivity.class));
                 break;
         }
     }
