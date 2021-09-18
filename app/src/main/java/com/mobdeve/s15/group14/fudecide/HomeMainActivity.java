@@ -91,8 +91,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
     private boolean firstRun;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    private Button addRestoBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,10 +134,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
         } else {
             firstRun = true;
         }
-
-        // get addRestoBtn
-        addRestoBtn = findViewById(R.id.addRestoBtn);
-        addRestoBtn.setOnClickListener(this);
 
         // search
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -510,9 +504,6 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
                 tab_favorites.setTextColor(Color.parseColor("#333333"));
                 // change list
                 updateAdapterNearby();
-                break;
-            case R.id.addRestoBtn:
-                startActivity(new Intent(this, AddRestaurantActivity.class));
                 break;
         }
     }
