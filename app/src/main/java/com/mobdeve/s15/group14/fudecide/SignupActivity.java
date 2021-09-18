@@ -225,11 +225,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                             if(task.isSuccessful()){
                                 progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(SignupActivity.this, "User registered.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SignupActivity.this, "User registered", Toast.LENGTH_LONG).show();
                                 finish();
                             }else{
                                 progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(SignupActivity.this, "Failed to register.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SignupActivity.this, "Failed to register", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

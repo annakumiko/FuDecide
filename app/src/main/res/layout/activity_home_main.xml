@@ -47,8 +47,7 @@
             android:paddingRight="32dp"
             android:text="Home"
             android:textColor="#48D8BF"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            android:textSize="18dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -102,21 +101,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/karla"
             android:gravity="center"
             android:text="NEARBY"
             android:textColor="#48D8BF"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/btn_favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/karla"
             android:gravity="center"
             android:text="FAVORITES"
-            android:textColor="#333333"
+            android:textColor="#99333333"
             android:textSize="16sp" />
     </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -494,14 +495,20 @@ public class HomeMainActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_favorites:
                 // change ui
                 tab_favorites.setTextColor(Color.parseColor("#48D8BF"));
-                tab_nearby.setTextColor(Color.parseColor("#333333"));
+                tab_favorites.setTypeface(null, Typeface.BOLD);
+                tab_nearby.setTextColor(Color.parseColor("#99333333"));
+                tab_nearby.setTypeface(null, Typeface.NORMAL);
+
                 // change list
                 updateAdapterFavorites();
                 break;
             case R.id.btn_nearby:
                 // change ui
                 tab_nearby.setTextColor(Color.parseColor("#48D8BF"));
-                tab_favorites.setTextColor(Color.parseColor("#333333"));
+                tab_nearby.setTypeface(null, Typeface.BOLD);
+                tab_favorites.setTextColor(Color.parseColor("#99333333"));
+                tab_favorites.setTypeface(null, Typeface.NORMAL);
+
                 // change list
                 updateAdapterNearby();
                 break;

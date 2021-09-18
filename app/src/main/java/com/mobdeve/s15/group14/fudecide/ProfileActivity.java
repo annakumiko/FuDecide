@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             // Set tv_user to name
             if (acct != null) {
                 String name = acct.getGivenName();
-                userNameTextView.setText("Hello, " + name);
+                userNameTextView.setText("Hello, " + name + "!");
                 getRestoReviews(name); // get reviews of current user
             }
         }
