@@ -258,8 +258,18 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 //                    reviews.sort();
 
                     String restoName = getIntent().getStringExtra("restoNameTv");
-                    DecimalFormat df = new DecimalFormat("##.##");
-                    overallRate = String.valueOf(df.format(dummyRating/i));
+                    Log.d(TAG, "Overall Rating: " + overallRate);
+
+                    // set overallRating = 0 if there are no reviews
+                    if(Double.isNaN(dummyRating/i)){
+                        overallRate = "0";
+                    }
+                    else{
+                        DecimalFormat df = new DecimalFormat("##.##");
+                        overallRate = String.valueOf(df.format(dummyRating/i));
+                    }
+
+                    Log.d(TAG, "New overall Rating: " + overallRate);
                     setOverallRate(overallRate, restoName);
                 } else
                     Log.d(TAG, "No reviews");
@@ -335,7 +345,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     // Set adapters
     private void setMenuAdapter(){
         MenuAdapter adapter = new MenuAdapter(this, menu);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         menuList.setLayoutManager(layoutManager);
         menuList.setItemAnimator(new DefaultItemAnimator());
         menuList.setAdapter(adapter);
