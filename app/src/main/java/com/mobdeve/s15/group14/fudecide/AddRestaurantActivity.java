@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ import java.util.Map;
     Sample function to avoid manually inputting restaurants in the db
     TASKS:
         [/] Add restaurant details
-        [ ] Add multiple menu items
+        [/] Add multiple menu items
  */
 public class AddRestaurantActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -38,11 +39,11 @@ public class AddRestaurantActivity extends AppCompatActivity implements View.OnC
     private EditText itemName2, itemPrice2;
     private EditText itemName3, itemPrice3;
     private EditText itemName4, itemPrice4;
-//    private EditText itemName5, itemPrice5;
-//    private EditText itemName6, itemPrice6;
-//    private EditText itemName7, itemPrice7;
-//    private EditText itemName8, itemPrice8;
-//    private EditText itemName9, itemPrice9;
+    private EditText itemName5, itemPrice5;
+    private EditText itemName6, itemPrice6;
+    private EditText itemName7, itemPrice7;
+    private EditText itemName8, itemPrice8;
+    private EditText itemName9, itemPrice9;
 
     private Button saveRestoBtn;
 
@@ -56,40 +57,40 @@ public class AddRestaurantActivity extends AppCompatActivity implements View.OnC
         openHours = findViewById(R.id.openHours);
 
         itemName0 = findViewById(R.id.itemName0);
-        itemPrice0 = findViewById(R.id.itemName0);
+        itemPrice0 = findViewById(R.id.itemPrice0);
 
         itemName1 = findViewById(R.id.itemName1);
-        itemPrice1 = findViewById(R.id.itemName1);
+        itemPrice1 = findViewById(R.id.itemPrice1);
 
         itemName2 = findViewById(R.id.itemName2);
-        itemPrice2 = findViewById(R.id.itemName2);
+        itemPrice2 = findViewById(R.id.itemPrice2);
 
         itemName3 = findViewById(R.id.itemName3);
-        itemPrice3 = findViewById(R.id.itemName3);
+        itemPrice3 = findViewById(R.id.itemPrice3);
 
         itemName4 = findViewById(R.id.itemName4);
-        itemPrice4 = findViewById(R.id.itemName4);
+        itemPrice4 = findViewById(R.id.itemPrice4);
 
-//        itemName5 = findViewById(R.id.itemName5);
-//        itemPrice5 = findViewById(R.id.itemName5);
-//
-//        itemName6 = findViewById(R.id.itemName6);
-//        itemPrice6 = findViewById(R.id.itemName6);
-//
-//        itemName7 = findViewById(R.id.itemName7);
-//        itemPrice7 = findViewById(R.id.itemName7);
-//
-//        itemName8 = findViewById(R.id.itemName8);
-//        itemPrice8 = findViewById(R.id.itemName8);
-//
-//        itemName9 = findViewById(R.id.itemName9);
-//        itemPrice9 = findViewById(R.id.itemName9);
+        itemName5 = findViewById(R.id.itemName5);
+        itemPrice5 = findViewById(R.id.itemPrice5);
+
+        itemName6 = findViewById(R.id.itemName6);
+        itemPrice6 = findViewById(R.id.itemPrice6);
+
+        itemName7 = findViewById(R.id.itemName7);
+        itemPrice7 = findViewById(R.id.itemPrice7);
+
+        itemName8 = findViewById(R.id.itemName8);
+        itemPrice8 = findViewById(R.id.itemPrice8);
+
+        itemName9 = findViewById(R.id.itemName9);
+        itemPrice9 = findViewById(R.id.itemPrice9);
 
         saveRestoBtn = findViewById(R.id.saveRestoBtn);
         saveRestoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveRestaurant();
+                saveRestaurant(); // get values and save to db
             }
         });
     }
@@ -120,20 +121,20 @@ public class AddRestaurantActivity extends AppCompatActivity implements View.OnC
         String menuItem4 = itemName4.getText().toString();
         String menuPrice4 = itemPrice4.getText().toString();
 
-//        String menuItem5 = itemName5.getText().toString();
-//        String menuPrice5 = itemPrice5.getText().toString();
-//
-//        String menuItem6 = itemName6.getText().toString();
-//        String menuPrice6 = itemPrice6.getText().toString();
-//
-//        String menuItem7 = itemName7.getText().toString();
-//        String menuPrice7 = itemPrice7.getText().toString();
-//
-//        String menuItem8 = itemName8.getText().toString();
-//        String menuPrice8 = itemPrice8.getText().toString();
-//
-//        String menuItem9 = itemName9.getText().toString();
-//        String menuPrice9 = itemPrice9.getText().toString();
+        String menuItem5 = itemName5.getText().toString();
+        String menuPrice5 = itemPrice5.getText().toString();
+
+        String menuItem6 = itemName6.getText().toString();
+        String menuPrice6 = itemPrice6.getText().toString();
+
+        String menuItem7 = itemName7.getText().toString();
+        String menuPrice7 = itemPrice7.getText().toString();
+
+        String menuItem8 = itemName8.getText().toString();
+        String menuPrice8 = itemPrice8.getText().toString();
+
+        String menuItem9 = itemName9.getText().toString();
+        String menuPrice9 = itemPrice9.getText().toString();
 
         // save to db (restaurants collection)
         CollectionReference restoDB = db.collection("restaurants");
@@ -142,50 +143,60 @@ public class AddRestaurantActivity extends AppCompatActivity implements View.OnC
         Map<String, Object> menu0 = new HashMap<>();
         menu0.put("itemName", menuItem0);
         menu0.put("itemPrice", menuPrice0);
+        menu0.put("itemPhoto", "");
 
         Map<String, Object> menu1 = new HashMap<>();
         menu1.put("itemName", menuItem1);
         menu1.put("itemPrice", menuPrice1);
+        menu1.put("itemPhoto", "");
 
         Map<String, Object> menu2 = new HashMap<>();
         menu2.put("itemName", menuItem2);
         menu2.put("itemPrice", menuPrice2);
+        menu2.put("itemPhoto", "");
 
         Map<String, Object> menu3 = new HashMap<>();
         menu3.put("itemName", menuItem3);
         menu3.put("itemPrice", menuPrice3);
+        menu3.put("itemPhoto", "");
 
         Map<String, Object> menu4 = new HashMap<>();
         menu4.put("itemName", menuItem4);
         menu4.put("itemPrice", menuPrice4);
+        menu4.put("itemPhoto", "");
 
-//        Map<String, Object> menu5 = new HashMap<>();
-//        menu5.put("itemName", menuItem5);
-//        menu5.put("itemPrice", menuPrice5);
-//
-//        Map<String, Object> menu6 = new HashMap<>();
-//        menu6.put("itemName", menuItem6);
-//        menu6.put("itemPrice", menuPrice6);
-//
-//        Map<String, Object> menu7 = new HashMap<>();
-//        menu7.put("itemName", menuItem7);
-//        menu7.put("itemPrice", menuPrice7);
-//
-//        Map<String, Object> menu8 = new HashMap<>();
-//        menu8.put("itemName", menuItem8);
-//        menu8.put("itemPrice", menuPrice8);
-//
-//        Map<String, Object> menu9 = new HashMap<>();
-//        menu9.put("itemName", menuItem9);
-//        menu9.put("itemPrice", menuPrice9);
+        Map<String, Object> menu5 = new HashMap<>();
+        menu5.put("itemName", menuItem5);
+        menu5.put("itemPrice", menuPrice5);
+        menu5.put("itemPhoto", "");
+
+        Map<String, Object> menu6 = new HashMap<>();
+        menu6.put("itemName", menuItem6);
+        menu6.put("itemPrice", menuPrice6);
+        menu6.put("itemPhoto", "");
+
+        Map<String, Object> menu7 = new HashMap<>();
+        menu7.put("itemName", menuItem7);
+        menu7.put("itemPrice", menuPrice7);
+        menu7.put("itemPhoto", "");
+
+        Map<String, Object> menu8 = new HashMap<>();
+        menu8.put("itemName", menuItem8);
+        menu8.put("itemPrice", menuPrice8);
+        menu8.put("itemPhoto", "");
+
+        Map<String, Object> menu9 = new HashMap<>();
+        menu9.put("itemName", menuItem9);
+        menu9.put("itemPrice", menuPrice9);
+        menu9.put("itemPhoto", "");
 
         // put objects into an array
-        Map<Integer, Object> menuObj = new HashMap<>();
-        menuObj.put(0, menu0);
-        menuObj.put(1, menu1);
-        menuObj.put(2, menu2);
-        menuObj.put(3, menu3);
-        menuObj.put(4, menu4);
+//        Map<Integer, Object> menuObj = new HashMap<>();
+//        menuObj.put(0, menu0);
+//        menuObj.put(1, menu1);
+//        menuObj.put(2, menu2);
+//        menuObj.put(3, menu3);
+//        menuObj.put(4, menu4);
 //        menuObj.put(5, menu5);
 //        menuObj.put(6, menu6);
 //        menuObj.put(7, menu7);
@@ -197,12 +208,12 @@ public class AddRestaurantActivity extends AppCompatActivity implements View.OnC
         restoObj.put("openHours", time);
         restoObj.put("latitude", 14);
         restoObj.put("longitude", 120);
-        restoObj.put("overallRating", 0);
+        restoObj.put("overallRating", "0");
         restoObj.put("restoDescription", rDesc);
         restoObj.put("restoName", rName);
         restoObj.put("restoPhoto", "");
         restoObj.put("restoIcon", "");
-        restoObj.put("menu", menuObj);
+        restoObj.put("menu", Arrays.asList(menu0, menu1, menu2, menu3, menu4, menu5, menu6, menu7, menu8, menu9));
 
         // add object to restaurants collection
         restoDB.add(restoObj)

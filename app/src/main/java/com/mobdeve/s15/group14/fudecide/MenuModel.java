@@ -1,6 +1,8 @@
 package com.mobdeve.s15.group14.fudecide;
 
-public class MenuModel {
+import java.io.Serializable;
+
+public class MenuModel implements Serializable {
     private String itemName, itemPhoto, itemPrice;
 
     public MenuModel() { }

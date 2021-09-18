@@ -1,6 +1,8 @@
 package com.mobdeve.s15.group14.fudecide;
 
-public class ReviewModel {
+import java.io.Serializable;
+
+public class ReviewModel implements Serializable {
     private String reviewID, name, restoName, reviewText, datePosted;
     private double rating;
 

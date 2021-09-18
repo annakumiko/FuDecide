@@ -224,170 +224,170 @@
 
             </LinearLayout>
 
-<!--            <View-->
-<!--                android:id="@+id/divider11"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="?android:attr/listDivider" />-->
+            <View
+                android:id="@+id/divider11"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/menuItem5"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="10dp">-->
+            <LinearLayout
+                android:id="@+id/menuItem5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemName5"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Name 5"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemName5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 5"
+                    android:inputType="textPersonName" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemPrice5"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Price 5"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemPrice5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 5"
+                    android:inputType="textPersonName" />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
-<!--            <View-->
-<!--                android:id="@+id/divider12"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="?android:attr/listDivider" />-->
+            <View
+                android:id="@+id/divider12"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/menuItem6"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="10dp">-->
+            <LinearLayout
+                android:id="@+id/menuItem6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemName6"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Name 6"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemName6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 6"
+                    android:inputType="textPersonName" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemPrice6"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Price 6"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemPrice6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 6"
+                    android:inputType="textPersonName" />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
-<!--            <View-->
-<!--                android:id="@+id/divider14"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="?android:attr/listDivider" />-->
+            <View
+                android:id="@+id/divider14"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/menuItem7"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="10dp">-->
+            <LinearLayout
+                android:id="@+id/menuItem7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemName7"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Name 7"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemName7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 7"
+                    android:inputType="textPersonName" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemPrice7"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Price 7"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemPrice7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 7"
+                    android:inputType="textPersonName" />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
-<!--            <View-->
-<!--                android:id="@+id/divider13"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="?android:attr/listDivider" />-->
+            <View
+                android:id="@+id/divider13"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/menuItem8"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="10dp">-->
+            <LinearLayout
+                android:id="@+id/menuItem8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemName8"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Name 8"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemName8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 8"
+                    android:inputType="textPersonName" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemPrice8"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Price 8"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemPrice8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 8"
+                    android:inputType="textPersonName" />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
-<!--            <View-->
-<!--                android:id="@+id/divider15"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="?android:attr/listDivider" />-->
+            <View
+                android:id="@+id/divider15"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/menuItem9"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="10dp">-->
+            <LinearLayout
+                android:id="@+id/menuItem9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemName9"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Name 9"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemName9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Name 9"
+                    android:inputType="textPersonName" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/itemPrice9"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:ems="10"-->
-<!--                    android:fontFamily="@font/karla"-->
-<!--                    android:hint="Price 9"-->
-<!--                    android:inputType="textPersonName" />-->
+                <EditText
+                    android:id="@+id/itemPrice9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/karla"
+                    android:hint="Price 9"
+                    android:inputType="textPersonName" />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
             <Button
                 android:id="@+id/saveRestoBtn"
