@@ -5,40 +5,34 @@
     android:id="@+id/menuItem"
     android:layout_width="130dp"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="6dp"
-    android:layout_marginTop="2dp"
-    android:layout_marginRight="6dp"
-    android:layout_marginBottom="2dp"
-    android:padding="3dp">
+    android:layout_marginLeft="4dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginBottom="7dp"
+    android:background="@drawable/rounded_corner"
+    android:elevation="4dp"
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/itemPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:adjustViewBounds="true"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/itemName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/rounded_corner"
-        android:elevation="4dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/karla"
+        android:textColor="#333333"
+        android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/itemPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:adjustViewBounds="true"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/itemName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/karla"
-            android:textColor="#333333"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/itemPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/itemPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

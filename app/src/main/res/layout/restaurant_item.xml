@@ -70,7 +70,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/karla"
-            android:text="10 AM to 11 PM"
+            android:text="Time"
             android:textColor="#333333"
             app:layout_constraintStart_toEndOf="@+id/imageView17"
             app:layout_constraintTop_toBottomOf="@+id/resto_rating" />
