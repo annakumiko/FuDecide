@@ -260,7 +260,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         reviews.clear();
 
         // Collect resto reviews
-//        fs.collection("reviews").whereEqualTo("name", name).orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
         fs.collection("reviews").orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -274,7 +273,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         double rating = document.getDouble("rating");
 
                         // only store reviews to array if it matches current user name
-                        if(name == uname){
+                        if(name.matches(uname)){
                             reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
                             Log.d("TAG", "Review: " + uname + rName + reviewText + datePosted + rating);
                         }

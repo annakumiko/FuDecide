@@ -236,7 +236,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         reviews.clear();
 
         // Collect resto reviews
-//      db.collection("reviews").whereEqualTo("restoName", restoName).orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
         db.collection("reviews").orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -252,7 +251,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         double rating = document.getDouble("rating");
 
                         // only store reviews to array if it matches selected restoName
-                        if(restoName == rName){
+                        if(restoName.matches(rName)){
                             dummyRating += rating;
                             i++;
                             reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
