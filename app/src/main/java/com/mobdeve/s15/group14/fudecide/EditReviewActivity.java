@@ -8,19 +8,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Random;
 
 public class EditReviewActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -31,11 +40,13 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
 
     private TextView update_restoName, update_ReviewText;
     private RatingBar update_rating;
+    private ImageView reve_home;
 
     private Button btn_update_review;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference reviews;
+
+    private Boolean liked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +66,10 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
                 updateReview(reviewID);
             }
         });
+
+        this.reve_home = findViewById(R.id.reve_home);
+        reve_home.setOnClickListener(this);
+
     }
 
     private void getIncomingIntent(){
@@ -103,7 +118,7 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Log.d(TAG, "onSuccess: Updated review text.");
+                                        Log.d(TAG, "onSuccess: Updated review text");
                                     }
                                 });
 
@@ -111,7 +126,7 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Log.d(TAG, "onSuccess: Updated review text.");
+                                        Log.d(TAG, "onSuccess: Updated review rating");
                                     }
                                 });
 
@@ -127,6 +142,11 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.rev_home:
+                startActivity(new Intent(this, HomeMainActivity.class));
+                break;
+        }
     }
+
 }

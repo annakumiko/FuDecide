@@ -76,7 +76,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         fs = FirebaseFirestore.getInstance();
 
         googleSignIn = la.getGoogleSignIn();
-//        Toast.makeText(ProfileActivity.this, "googleSignIn = " + googleSignIn, Toast.LENGTH_LONG).show();
 
         home = (ImageView) findViewById(R.id.btn_home);
         home.setOnClickListener(this);
@@ -134,7 +133,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        userNameTextView.setText("Hello, " + document.getString("name"));
+                        userNameTextView.setText("Hello, " + document.getString("name") + "!");
                         userBio.setText(document.getString("bio"));
 
                         getRestoReviews(document.getString("name")); // get reviews of current user

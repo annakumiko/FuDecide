@@ -17,27 +17,19 @@ public class ReviewModel implements Serializable {
         this.rating = rating;
     }
 
-    public String getName() { return name; }
-
-    public void setName(String name) { this.name = name; }
-
+    // getters
     public String getReviewID() { return reviewID; }
-
-    public void setReviewID(String reviewID) { this.reviewID = reviewID; }
-
+    public String getName() { return name; }
     public String getRestoName() { return restoName; }
-
-    public void setRestoName(String restoName) { this.restoName = restoName; }
-
     public String getReviewText() { return reviewText; }
-
-    public void setReviewText(String reviewText) { this.reviewText = reviewText; }
-
     public String getDatePosted() { return datePosted; }
-
-    public void setDatePosted(String datePosted) { this.datePosted = datePosted; }
-
     public double getRating() { return rating; }
 
+    // setters
+    public void setReviewID(String reviewID) { this.reviewID = reviewID; }
+    public void setName(String name) { this.name = name; }
+    public void setRestoName(String restoName) { this.restoName = restoName; }
+    public void setReviewText(String reviewText) { this.reviewText = reviewText; }
+    public void setDatePosted(String datePosted) { this.datePosted = datePosted; }
     public void setRating(int rating) { this.rating = rating; }
 }

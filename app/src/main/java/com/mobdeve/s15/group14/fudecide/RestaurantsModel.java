@@ -23,69 +23,43 @@ public class RestaurantsModel implements Serializable{
         this.restoIcon = restoIcon;
     }
 
-    public String getOpenHours() {
-        return openHours;
-    }
-
-    public void setOpenHours(String openHours) {
-        this.openHours = openHours;
-    }
-
+    // getters
+    public String getOpenHours() { return openHours; }
     public double getLatitude() {
         return latitude;
     }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLongitude() {
         return longitude;
     }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public ArrayList<MenuModel> getMenu() { return menu; }
-
-    public void setMenu(ArrayList<MenuModel> menu) { this.menu = menu; }
-
     public String getOverallRating() {
         return overallRating;
     }
-
-    public void setOverallRating(String overallRating) {
-        this.overallRating = overallRating;
-    }
-
-    public String getRestoDescription() {
-        return restoDescription;
-    }
-
-    public void setRestoDescription(String restoDescription) { this.restoDescription = restoDescription; }
-
+    public String getRestoDescription() { return restoDescription; }
     public String getRestoName() {
         return restoName;
     }
-
-    public void setRestoName(String restoName) {
-        this.restoName = restoName;
-    }
-
     public String getRestoPhoto() { return restoPhoto; }
 
     public String getRestoIcon() {
         return restoIcon;
     }
+    public ArrayList<MenuModel> getMenu() { return menu; }
 
-    public void setRestoIcon(String restoIcon) {
-        this.restoPhoto = restoIcon;
+    // setters
+    public void setOpenHours(String openHours) { this.openHours = openHours; }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
+    public void setOverallRating(String overallRating) { this.overallRating = overallRating; }
+    public void setRestoDescription(String restoDescription) { this.restoDescription = restoDescription; }
+    public void setRestoName(String restoName) {
+        this.restoName = restoName;
     }
-
-
     public void setRestoPhoto(String restoPhoto) {
         this.restoPhoto = restoPhoto;
     }
 
+    public void setRestoIcon(String restoIcon) {
+        this.restoPhoto = restoIcon;
+    }
+    public void setMenu(ArrayList<MenuModel> menu) { this.menu = menu; }
 }

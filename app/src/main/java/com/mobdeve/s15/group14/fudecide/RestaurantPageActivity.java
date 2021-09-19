@@ -74,7 +74,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     private FirebaseUser user;
     private DatabaseReference dbRef;
     private String userNameVar;
-    private String restoID;
 
     private Boolean liked = false;
 
@@ -115,6 +114,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
             }
         }
 
+        // instantiate views
         menuList = findViewById(R.id.rv_menu);
         reviewList = findViewById(R.id.rv_reviews);
 
@@ -199,6 +199,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     private void findRestaurant(String restoName) {
         menu.clear();
         reviews.clear();
+
         // Get remaining restaurant data from db
         db.collection("restaurants").whereEqualTo("restoName", restoName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -252,12 +253,14 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
                         // only store reviews to array if it matches selected restoName
                         if(restoName.matches(rName)){
+                            // compute for overall rating (average of all ratings)
                             dummyRating += rating;
                             i++;
+
+                            // add to array of reviews
                             reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
                             Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
                         }
-
                     }
 
                     String restoName = getIntent().getStringExtra("restoNameTv");
@@ -267,7 +270,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                     if(Double.isNaN(dummyRating/i)){
                         overallRate = "0";
                     }
-                    else{
+                    else{ // convert double to string
                         DecimalFormat df = new DecimalFormat("##.##");
                         overallRate = String.valueOf(df.format(dummyRating/i));
                     }
@@ -282,6 +285,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         });
     }
 
+    // update restaurant text and image details
     private void setDetails(String inHours, String description, String photo){
         TextView openHours = findViewById(R.id.openHoursTv);
         openHours.setText(inHours);
@@ -293,6 +297,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         Picasso.get().load(photo).into(photoIv);
     }
 
+    // update overall rating after collecting all reviews for selected restaurant
     public void setOverallRate(String rate, String restoName){
         TextView rateTv = findViewById(R.id.ratingTv);
         rateTv.setText(rate);
@@ -319,6 +324,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         });
     }
 
+    // add restaurant to user favorites
     private void likeRestaurant() {
 
         if(liked == false){
@@ -329,6 +335,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
             DocumentReference documentReference = fs.collection("users").document(userID);
             documentReference.update("favorites", FieldValue.arrayUnion(restoName));
 
+            Toast.makeText(RestaurantPageActivity.this, "Added to Favorites", Toast.LENGTH_LONG).show();
             Log.d("query-zz", "Adding " + restoName + "into favorites of " + userID);
             liked = true;
         }
@@ -340,6 +347,7 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
             DocumentReference documentReference = fs.collection("users").document(userID);
             documentReference.update("favorites", FieldValue.arrayRemove(restoName));
 
+            Toast.makeText(RestaurantPageActivity.this, "Removed from Favorites", Toast.LENGTH_LONG).show();
             Log.d("query-zz", "Removing " + restoName + "from favorites of " + userID);
             liked = false;
         }
@@ -348,7 +356,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     // Set adapters
     private void setMenuAdapter(){
         MenuAdapter adapter = new MenuAdapter(this, menu);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         menuList.setLayoutManager(layoutManager);
         menuList.setItemAnimator(new DefaultItemAnimator());
@@ -364,6 +371,5 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
     }
 
     public static ArrayList<MenuModel> getMenu() { return menu; }
-
     public static ArrayList<ReviewModel> getReviews() { return reviews; }
 }

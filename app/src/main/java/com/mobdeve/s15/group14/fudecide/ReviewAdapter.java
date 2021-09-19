@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
 
-    private static final String TAG = "ReviewAdapter";
-
     private ArrayList<ReviewModel> reviews;
     private Context context;
 
@@ -77,6 +75,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         // show edit button if review is from current user
 
+        // pass data when edit button is clicked
         holder.editReviewBtn.setOnClickListener(v ->{
             Intent intent = new Intent(this.context, EditReviewActivity.class);
             intent.putExtra("name", uname);

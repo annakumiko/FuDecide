@@ -47,7 +47,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
             resto_item = view.findViewById(R.id.resto_item);
         }
-
     }
 
     // 3 methods
@@ -76,7 +75,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         String resto_url = restaurants.get(position).getRestaurant().getRestoIcon();
         Picasso.get().load(resto_url).into(holder.resto_photo);
 
-        //location
+        // location
         Float dist = restaurants.get(position).getDistance(); // get distance
         DecimalFormat df2 = new DecimalFormat("#.##"); // limit decimal places to 2
         String resto_loc = df2.format(dist) + "m";

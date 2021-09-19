@@ -50,12 +50,15 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
     private String userID;
     private DatabaseReference dbRef;
 
-    private String reviewID, userNameVar, restoNameVar, reviewVar; // to store resto name and review
-    private Float ratingVar; // to store rating value
+    // temporary variables to store resto name and review details
+    private String reviewID, userNameVar, restoNameVar, reviewVar;
+    private Float ratingVar;
     private String datePosted;
     private Boolean liked = false;
-    private int dummyInt; // generating random ID
-    private Random dummyRandom; // generating random ID
+
+    // dummy variables for generating reviewID
+    private int dummyInt;
+    private Random dummyRandom;
 
     private Button btn_post_review;
     private ImageView rev_home, rev_like;
@@ -79,6 +82,7 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
         user = FirebaseAuth.getInstance().getCurrentUser();
         dbRef = FirebaseDatabase.getInstance().getReference("Users");
 
+        // generate random ID for reviews
         dummyRandom = new Random(System.currentTimeMillis());
         dummyInt = 10000 + dummyRandom.nextInt(20000);
         reviewID = "RV" + String.valueOf(dummyInt);
@@ -166,6 +170,7 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
             DocumentReference documentReference = fs.collection("users").document(userID);
             documentReference.update("favorites", FieldValue.arrayUnion(restoName));
 
+            Toast.makeText(AddReviewActivity.this, "Added to Favorites", Toast.LENGTH_LONG).show();
             Log.d("query-zz", "Adding " + restoName + "into favorites of " + userID);
             liked = true;
         }
@@ -177,6 +182,7 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
             DocumentReference documentReference = fs.collection("users").document(userID);
             documentReference.update("favorites", FieldValue.arrayRemove(restoName));
 
+            Toast.makeText(AddReviewActivity.this, "Removed from Favorites", Toast.LENGTH_LONG).show();
             Log.d("query-zz", "Removing " + restoName + "from favorites of " + userID);
             liked = false;
         }

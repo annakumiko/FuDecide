@@ -86,7 +86,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHol
        String resto_loc = df2.format(dist) + "m";
        holder.resto_loc.setText(resto_loc);
 
-        //pass data of restaurant item to restaurant page
+        // pass data of restaurant item to restaurant page
         holder.resto_item.setOnClickListener(v -> {
             Intent intent = new Intent(this.context, RestaurantPageActivity.class);
             intent.putExtra("restoNameTv", resto_name);

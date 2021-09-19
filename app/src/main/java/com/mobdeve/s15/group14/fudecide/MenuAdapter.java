@@ -18,8 +18,6 @@ import java.util.ArrayList;
 
 class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
-    private static final String TAG = "MenuAdapter";
-
     private ArrayList<MenuModel> menuItems;
     private Context context;
 
