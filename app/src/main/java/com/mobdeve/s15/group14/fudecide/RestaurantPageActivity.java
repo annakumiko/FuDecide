@@ -255,8 +255,6 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
 
                     }
 
-//                    reviews.sort();
-
                     String restoName = getIntent().getStringExtra("restoNameTv");
                     Log.d(TAG, "Overall Rating: " + overallRate);
 
