@@ -232,13 +232,12 @@ public class AddReviewActivity extends AppCompatActivity implements View.OnClick
                             Log.d(TAG, "Review posted!");
 
                             finish();
+//                            startActivity(new Intent(AddReviewActivity.this, RestaurantPageActivity.class));
                             Toast.makeText(AddReviewActivity.this, "Review posted", Toast.LENGTH_LONG).show();
                         }
                         else Log.d(TAG, "Posting of review failed.");
                     }
                 });
-
-//        Log.d(TAG, "postReview Values: " + restoNameVar + userNameVar + reviewVar + ratingVar + datePosted);
     }
 
     // get current date and time

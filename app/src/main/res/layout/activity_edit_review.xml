@@ -121,16 +121,33 @@
 
     <Button
         android:id="@+id/btn_update_review"
-        android:layout_width="220dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
+        android:layout_marginStart="65dp"
         android:layout_marginTop="60dp"
         android:backgroundTint="#48D8BF"
+        android:elevation="2dp"
         android:fontFamily="@font/karla"
         android:text="Update"
         android:textAllCaps="false"
         app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_reviewText" />
+
+    <Button
+        android:id="@+id/btn_delete_review"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="65dp"
+        android:backgroundTint="#FFFFFF"
+        android:elevation="2dp"
+        android:fontFamily="@font/karla"
+        android:text="Delete"
+        android:textAllCaps="false"
+        android:textColor="#2E2E2E"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update_reviewText" />
 
     <TextView

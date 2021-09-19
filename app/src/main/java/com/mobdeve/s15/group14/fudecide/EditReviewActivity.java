@@ -42,7 +42,7 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
     private RatingBar update_rating;
     private ImageView reve_home;
 
-    private Button btn_update_review;
+    private Button btn_update_review, btn_delete_review;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -69,6 +69,14 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
 
         this.reve_home = findViewById(R.id.reve_home);
         reve_home.setOnClickListener(this);
+
+        this.btn_delete_review = findViewById(R.id.btn_delete_review);
+        btn_delete_review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteReview(reviewID);
+            }
+        });
 
     }
 
@@ -132,6 +140,34 @@ public class EditReviewActivity extends AppCompatActivity implements View.OnClic
 
                         finish();
                         Toast.makeText(EditReviewActivity.this, "Review updated", Toast.LENGTH_LONG).show();
+                    }
+                } else
+                    Log.d(TAG, "No review found");
+
+            }
+        });
+    }
+
+    // delete review
+    private void deleteReview(String reviewID){
+        // get values from inputs
+        revText = update_ReviewText.getText().toString();
+        rate = update_rating.getRating();
+
+        Log.d(TAG, "getIncomingIntent: " + revText + rate);
+
+        db.collection("reviews").whereEqualTo("reviewID", reviewID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        String docID = document.getId();
+
+                        DocumentReference docRef = db.collection("reviews").document(docID);
+                        docRef.delete();
+
+                        finish();
+                        Toast.makeText(EditReviewActivity.this, "Review deleted", Toast.LENGTH_LONG).show();
                     }
                 } else
                     Log.d(TAG, "No review found");
