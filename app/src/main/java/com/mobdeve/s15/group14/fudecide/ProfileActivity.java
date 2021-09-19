@@ -36,6 +36,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -202,7 +203,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    // Updates user bio.
+    // Updates user bio
     private void updateBio() {
         EditText et_bio = bio_popup.findViewById(R.id.et_bio);
         String newBio = et_bio.getText().toString().trim();
@@ -259,7 +260,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         reviews.clear();
 
         // Collect resto reviews
-        fs.collection("reviews").whereEqualTo("name", name).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//        fs.collection("reviews").whereEqualTo("name", name).orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        fs.collection("reviews").orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
@@ -271,8 +273,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         String datePosted = document.getString("datePosted");
                         double rating = document.getDouble("rating");
 
-                        reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
-//                        Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
+                        // only store reviews to array if it matches current user name
+                        if(name == uname){
+                            reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
+                            Log.d("TAG", "Review: " + uname + rName + reviewText + datePosted + rating);
+                        }
                     }
                 } else
                     Log.d("TAG", "No reviews");

@@ -37,6 +37,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -235,7 +236,8 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
         reviews.clear();
 
         // Collect resto reviews
-        db.collection("reviews").whereEqualTo("restoName", restoName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//      db.collection("reviews").whereEqualTo("restoName", restoName).orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("reviews").orderBy("datePosted", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
@@ -249,9 +251,13 @@ public class RestaurantPageActivity extends AppCompatActivity implements View.On
                         String datePosted = document.getString("datePosted");
                         double rating = document.getDouble("rating");
 
-                        dummyRating += rating;
-                        i++;
-                        reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
+                        // only store reviews to array if it matches selected restoName
+                        if(restoName == rName){
+                            dummyRating += rating;
+                            i++;
+                            reviews.add(new ReviewModel(reviewID, uname, rName, reviewText, datePosted, rating));
+                            Log.d(TAG, "Review: " + uname + rName + reviewText + datePosted + rating);
+                        }
 
                     }
 
