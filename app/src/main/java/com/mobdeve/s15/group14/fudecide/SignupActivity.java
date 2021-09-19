@@ -219,6 +219,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     user.put("name", name);
                     user.put("email", email);
                     user.put("bio", "Add your bio here!");
+                    user.put("favorites", Arrays.asList("x"));
+                    user.put("favorites", FieldValue.arrayRemove("x"));
                     documentReference.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
